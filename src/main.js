@@ -2,8 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import firebase from 'firebase'
+import firebaseui from 'firebaseui'
 require('./assets/js/firebaseConfig.js')
+import router from './router'
 
 Vue.config.productionTip = false
 
