@@ -1,20 +1,58 @@
+$background-black: rgba(22, 22, 22, 1);
+$white: rgba(222,222,222,1);
+
 * {
   box-sizing: inherit;
 }
 
 html {
   font-size: 15px;
+  background: $background-black;
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100vw;
 }
 
-.login {
+body {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+#app {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+#login {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 20rem;
+  align-items: center;
+  width: 250px;
+  height: 250px;
 
   input {
     font-size: 1rem;
     height: 2rem;
     width: 20rem;
+    padding: 0;
+    margin-bottom: 1em;
+  }
+
+  button {
+    width: 20rem;
+    padding: 1em;
   }
 }
