@@ -7,6 +7,7 @@ import firebaseui from 'firebaseui'
 import Login from '@/components/Login'
 import Signup from '@/components/Signup'
 import Character from '@/components/Character'
+import Admin from '@/components/Admin'
 
 Vue.use(Router)
 
@@ -33,16 +34,15 @@ let router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
+      meta: {
+        requiresAuth: true
+      }
     }
-    // {
-    //   path: '/dungeonmaster',
-    //   name: 'DungeonMaster',
-    //   component: DugneonMaster,
-    //   meta: {
-    //     requiresAuth: true,
-    //     requiresDM: true
-    //   }
-    // }
   ]
 })
 

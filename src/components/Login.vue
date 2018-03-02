@@ -22,7 +22,7 @@ export default {
     redirect() {
       if (this.type == 'Player') {
         this.$router.replace('Character')
-      } else if (this.type == 'DM') {
+      } else if (this.type == 'Admin') {
         this.$router.replace('Admin')
       }
     },
@@ -34,9 +34,10 @@ export default {
           this.type = data.val().type
 
           this.redirect();
+          // console.log(this.type);
         });
       })
-    }
+    },
   }
 }
 </script>

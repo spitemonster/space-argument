@@ -1,19 +1,13 @@
 <template>
   <div class="character">
-    <p>
-      {{ character }}
-    </p>
-    <p>
-      {{ race }}
-    </p>
-    <p>
-      {{ crap }}
-    </p>
+    <p>ADMIN PAGE, BITCH</p>
     <!-- <button type="button" name="button" @click="getUser">butts</button> -->
   </div>
 </template>
 
 <script>
+
+
 export default {
   name: 'Character',
   data () {
@@ -24,28 +18,20 @@ export default {
     }
   },
   computed: {
-    // character: firebase.database().ref('players/' + current).on('value', (data) => {
-    //   return data.val().name
-    // })
   },
   methods: {
-    addDataListener() {
-      firebase.database().ref('players/' + firebase.auth().currentUser.uid).on('value', (data) => {
-        let info = data.val();
-
-        this.character = info.name;
-    });
-    }
+    
   },
   created: function() {
       firebase.database().ref('players/' + firebase.auth().currentUser.uid).once('value', (data) => {
         let info = data.val();
 
-        this.character = info.name;
+        this.character = info.character;
+        this.race = info.race;
+        this.crap = info.crap;
+
+        addDataListener();
     });
-  },
-  mounted: function() {
-    addDataListener();
   }
 }
 </script>
