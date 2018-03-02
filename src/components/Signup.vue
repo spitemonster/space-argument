@@ -29,17 +29,17 @@ export default {
     }
   },
   methods: {
-    createUser () {
-
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-      .then( e => {
-          let playerID = firebase.auth().currentUser.uid
-          firebase.database().ref('players/' + playerID).set(this.character);
-          this.$router.replace('login');
-      }, (err) => {
-          alert('Oops ' + err.message);
-      });
-    },
+    // createUser () {
+    //
+    //   firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+    //   .then( e => {
+    //       let playerID = firebase.auth().currentUser.uid
+    //       firebase.database().ref('players/' + playerID).set(this.character);
+    //       this.$router.replace('login');
+    //   }, (err) => {
+    //       alert('Oops ' + err.message);
+    //   });
+    // },
   }
 }
 </script>

@@ -14,38 +14,32 @@
 </template>
 
 <script>
+import db from '../assets/js/firebaseConfig.js'
+
 export default {
   name: 'Character',
   data () {
     return {
       character: '',
       race: '',
-      crap: ''
+      crap: '',
+      current:  firebase.auth().currentUser.uid
     }
   },
   computed: {
-    // character: firebase.database().ref('players/' + current).on('value', (data) => {
-    //   return data.val().name
-    // })
-  },
-  methods: {
-    addDataListener() {
-      firebase.database().ref('players/' + firebase.auth().currentUser.uid).on('value', (data) => {
-        let info = data.val();
 
-        this.character = info.name;
-    });
+  },
+  watch: {
+    thing: function() {
+      db.ref('players/' + this.current).on('value', (data) => {
+        return data.val();
+      })
     }
   },
-  created: function() {
-      firebase.database().ref('players/' + firebase.auth().currentUser.uid).once('value', (data) => {
-        let info = data.val();
-
-        this.character = info.name;
-    });
+  methods: {
   },
   mounted: function() {
-    addDataListener();
+    console.log(this.thing)
   }
 }
 </script>

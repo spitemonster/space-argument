@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import db from '../assets/js/firebaseConfig.js'
+
 export default {
   name: 'Login',
   data () {
@@ -30,7 +32,7 @@ export default {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(e => {
         let current = firebase.auth().currentUser.uid;
 
-        firebase.database().ref('players/' + current).once('value', (data) => {
+        db.ref('players/' + current).once('value', (data) => {
           this.type = data.val().type
 
           this.redirect();
@@ -38,6 +40,10 @@ export default {
         });
       })
     },
+  },
+  mounted: function() {
+    console.log(this.type);
+    console.log('butts');
   }
 }
 </script>
