@@ -4,9 +4,8 @@
       {{ players.name }}
     </p>
     <p>
-      {{ players.skills.astrogation }}
+      {{ currentHealth }}
     </p>
-    <!-- <button type="button" name="button" @click="test">poop</button> -->
   </div>
 </template>
 
@@ -26,6 +25,11 @@ export default {
         source: db.ref('players/' + this.current),
         asObject: true
       }
+    }
+  },
+  computed: {
+    currentHealth() {
+      return this.players.skills.astrogation - this.players.skills.athletics;
     }
   },
   methods: {

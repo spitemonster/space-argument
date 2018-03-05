@@ -10,6 +10,8 @@ require('./assets/js/character.js')
 
 Vue.use(VueFire)
 
+Vue.component('nav-menu', './components/templates/nav-menu');
+
 let app = new Vue({
   el: '#app',
   data: {
@@ -21,7 +23,7 @@ let app = new Vue({
       }
   },
   router,
-  components: { App },
+  components: { App, },
   template: '<App/>',
   mounted: function() {
       db.ref('players/0v6I9fk4Nlgp1iU9Qz62S2ck11z1').once('value', (data) => {

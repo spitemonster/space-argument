@@ -1,6 +1,11 @@
 <template>
   <div>
-    
+    <ul>
+      <li>test</li>
+      <li>test</li>
+      <li>test</li>
+      <li>test</li>
+    </ul>
   </div>
 </template>
 
@@ -14,3 +19,7 @@ export default {
   }
 }
 </script>
+
+<style lang="SCSS">
+
+</style>
