@@ -4,8 +4,9 @@
       {{ players.name }}
     </p>
     <p>
-      {{ players.strainThresh }}
+      {{ players.skills.astrogation }}
     </p>
+    <!-- <button type="button" name="button" @click="test">poop</button> -->
   </div>
 </template>
 
@@ -16,17 +17,18 @@ export default {
   name: 'Character',
   data () {
     return {
-      current: ''
+      current: firebase.auth().currentUser.uid
     }
   },
-  firebase: {
-    players: {
-      source: db.ref('players/' + firebase.auth().currentUser.uid),
-      asObject: true
+  firebase: function() {
+    return {
+      players: {
+        source: db.ref('players/' + this.current),
+        asObject: true
+      }
     }
   },
-  mounted: function() {
-    // this.current = firebase.auth().currentUser.uid;
+  methods: {
   }
 }
 </script>

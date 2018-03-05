@@ -13,16 +13,7 @@
       return {
         players: {}
       }
-    },
-
-    firebase: {
-      players: {
-        source: db.ref('players'),
-        cancelCallback(err) {
-        console.error(err);
-      }
     }
-  }
 }
 </script>
 
