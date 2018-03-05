@@ -42,7 +42,6 @@ export default {
     },
   },
   mounted: function() {
-    console.log(this.type);
     console.log('butts');
   }
 }

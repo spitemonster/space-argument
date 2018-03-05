@@ -5,9 +5,25 @@
 </template>
 
 <script>
+  import db from './assets/js/firebaseConfig.js'
+
   export default {
-    name: 'App'
+    name: 'App',
+    data() {
+      return {
+        players: {}
+      }
+    },
+
+    firebase: {
+      players: {
+        source: db.ref('players'),
+        cancelCallback(err) {
+        console.error(err);
+      }
+    }
   }
+}
 </script>
 
 <style lang="scss">

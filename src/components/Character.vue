@@ -1,15 +1,11 @@
 <template>
   <div class="character">
     <p>
-      {{ character }}
+      {{ players.name }}
     </p>
     <p>
-      {{ race }}
+      {{ players.strainThresh }}
     </p>
-    <p>
-      {{ crap }}
-    </p>
-    <!-- <button type="button" name="button" @click="getUser">butts</button> -->
   </div>
 </template>
 
@@ -20,31 +16,21 @@ export default {
   name: 'Character',
   data () {
     return {
-      character: '',
-      race: '',
-      crap: '',
-      current:  firebase.auth().currentUser.uid
+      current: ''
     }
   },
-  computed: {
-
-  },
-  watch: {
-    thing: function() {
-      db.ref('players/' + this.current).on('value', (data) => {
-        return data.val();
-      })
+  firebase: {
+    players: {
+      source: db.ref('players/' + firebase.auth().currentUser.uid),
+      asObject: true
     }
-  },
-  methods: {
   },
   mounted: function() {
-    console.log(this.thing)
+    // this.current = firebase.auth().currentUser.uid;
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 
 </style>
