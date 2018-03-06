@@ -16,7 +16,7 @@ I'm less worried about _creation_ as this is just a personal project; really don
 
 I'm familiar enough with Firebase auth to implement account verification and auth.
 
-The one roadblock I'm aware of is associating an auth account with a user in the database. I did it when I was testing out some of this functionality in a closed project, but I'm still not 100% on it so this will probably be an area of concern.
+~~~The one roadblock I'm aware of is associating an auth account with a user in the database. I did it when I was testing out some of this functionality in a closed project, but I'm still not 100% on it so this will probably be an area of concern.~~~
 
 ### Admin/DM Account
 
