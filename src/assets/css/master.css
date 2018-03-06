@@ -1,3 +1,26 @@
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+h1 {
+  font-size: calc($h2 * 1.2);
+}
+
+h2 {
+  font-size: calc($h3 * 1.2);
+}
+
+h3 {
+  font-size: calc($h4 * 1.2);
+}
+
+h4 {
+  font-size: calc(15px * 1.2);
+}
+
 * {
   box-sizing: inherit;
 }

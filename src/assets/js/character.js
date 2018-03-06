@@ -16,6 +16,7 @@ export default class Character {
   woundCurrent = 0;
   strainThresh = 0;
   strainCurrent = 0;
+  hasForce = false;
   forceAvail = 0;
   forceCommit = 0;
 
@@ -74,6 +75,10 @@ export default class Character {
   //inventory
   inventory = {
     weapons: {
+      'Blaster Rifle': {
+        class: 'Ranged Heavy',
+        damage: 13
+      }
     },
 
     armor: {
