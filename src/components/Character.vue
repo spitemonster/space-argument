@@ -11,42 +11,42 @@
     </div>
 
     <div id="characteristics">
-      <div class="charCard" @click="showBrawn">
+      <div class="charCard" @click="brawn = !brawn">
         <h4>brawn</h4>
         <div class="charRank">
           {{ players.brawn }}
         </div>
       </div>
 
-      <div class="charCard" @click="showAgility">
+      <div class="charCard" @click="agility = !agility">
         <h4>agility</h4>
         <div class="charRank">
           {{ players.agility }}
         </div>
       </div>
 
-      <div class="charCard" @click="showInt">
+      <div class="charCard" @click="int = !int">
         <h4>intellect</h4>
         <div class="charRank">
           {{ players.intellect }}
         </div>
       </div>
 
-      <div class="charCard" @click="showCun">
+      <div class="charCard" @click="cun = !cun">
         <h4>cunning</h4>
         <div class="charRank">
           {{ players.cunning }}
         </div>
       </div>
 
-      <div class="charCard" @click="showWill">
+      <div class="charCard" @click="will = !will">
         <h4>willpower</h4>
         <div class="charRank">
           {{ players.willpower }}
         </div>
       </div>
 
-      <div class="charCard" @click="showPres">
+      <div class="charCard" @click="pres = !pres">
         <h4>presence</h4>
         <div class="charRank">
           {{ players.presence }}
@@ -59,6 +59,10 @@
           {{ players.forceRank }}
         </div>
       </div>
+    </div>
+
+    <div id="invButton" @click="inventory = !inventory">
+      <h3>INVENTORY</h3>
     </div>
 
     <div class="statSection" v-if="brawn">
@@ -122,9 +126,29 @@
         <h3>Negotiation: <span>{{ players.skills.negotiation }}</span></h3>
       </div>
     </div>
-    <!-- <div class="statSection" v-if="inv">
-      <p>{{ invWeapons }}</p>
-    </div> -->
+
+    <div id="inv" v-if="inventory">
+      <ul>
+        <li v-for="shooster in this.shoosters">
+          {{ shooster.name }}
+          <ul>
+            <li>{{ shooster.damage }}</li>
+            <li>{{ shooster.crit }}</li>
+            <li>{{ shooster.encumberance}}</li>
+          </ul>
+        </li>
+      </ul>
+      <ul>
+        <li v-for="arm in this.armor">
+          {{ arm.name }}
+          <ul>
+            <li>{{ arm.defense }}</li>
+            <li>{{ arm.soak }}</li>
+            <li>{{ arm.encumberance }}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -148,7 +172,8 @@ export default {
       cun: false,
       will: false,
       pres: false,
-      force: false
+      force: false,
+      inventory: false
     }
   },
   firebase: function() {
@@ -157,10 +182,8 @@ export default {
         source: db.ref('players/' + this.current),
         asObject: true
       },
-      weapons: {
-        source: db.ref('players/' + this.current + '/inventory/weapons'),
-        asObject: true
-      }
+      weapons: db.ref('players/' + this.current + '/inventory/weapons'),
+      armorInv: db.ref('players/' + this.current + '/inventory/armor'),
     }
   },
   computed: {
@@ -169,87 +192,40 @@ export default {
     },
     hasForce() {
       return this.players.hasForce;
+    },
+    shoosters() {
+      let arr = [];
+
+      for (let i = 0; i < this.weapons.length; i++) {
+        arr.push(this.weapons[i]);
+      };
+
+      return arr;
+    },
+    armor() {
+      let arr = [];
+
+      for (let i = 0; i < this.armorInv.length; i++) {
+        arr.push(this.armorInv[i]);
+      };
+
+      return arr;
     }
   },
   methods: {
-    showBrawn() {
-      if (this.brawn) {
-        this.brawn = false;
-      } else if (!this.brawn) {
-        this.brawn = true;
-      }
-      this.agility = false;
-      this.int = false;
-      this.cun = false;
-      this.will = false;
-      this.pres = false;
+    updateWeapon() {
+      this.$firebaseRefs.armor.push({
+        name: 'Heavy Battle Armor',
+        defense: '1',
+        soak: '2',
+        encumberance: '6',
+        hardpoints: '4',
+        attachments: null
+      });
+    }
+  },
+  mounted() {
 
-    },
-    showAgility() {
-      if (this.agility) {
-        this.agility = false;
-      } else if (!this.agility) {
-        this.agility = true;
-      }
-      this.brawn = false;
-      this.int = false;
-      this.cun = false;
-      this.will = false;
-      this.pres = false;
-
-    },
-    showInt() {
-      if (this.int) {
-        this.int = false;
-      } else if (!this.int) {
-        this.int = true;
-      }
-      this.agility = false;
-      this.brawn = false;
-      this.cun = false;
-      this.will = false;
-      this.pres = false;
-
-    },
-    showCun() {
-      if (this.cun) {
-        this.cun = false;
-      } else if (!this.cun) {
-        this.cun = true;
-      }
-      this.agility = false;
-      this.int = false;
-      this.brawn = false;
-      this.will = false;
-      this.pres = false;
-
-    },
-    showWill() {
-      if (this.will) {
-        this.will = false;
-      } else if (!this.will) {
-        this.will = true;
-      }
-      this.agility = false;
-      this.int = false;
-      this.brawn = false;
-      this.cun = false;
-      this.pres = false;
-
-    },
-    showPres() {
-      if (this.pres) {
-        this.pres = false;
-      } else if (!this.pres) {
-        this.pres = true;
-      }
-      this.agility = false;
-      this.int = false;
-      this.brawn = false;
-      this.cun = false;
-      this.will = false;
-
-    },
   }
 }
 </script>
@@ -361,6 +337,17 @@ export default {
     }
   }
 
+  #invButton {
+    width: 100%;
+    height: 40px;
+    border: 1px solid $white;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
   #skills {
     width: 100%;
     display: flex;
@@ -429,5 +416,12 @@ export default {
         align-content: flex-end;
       }
     }
+  }
+
+  #inv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
   }
 </style>

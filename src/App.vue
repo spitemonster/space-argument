@@ -1,21 +1,18 @@
 <template>
   <div id="app">
     <nav-menu></nav-menu>
-    <characteristics-row></characteristics-row>
     <router-view/>
   </div>
 </template>
 
 <script>
   import navMenu from './components/templates/nav-menu.vue'
-  import Char from './components/templates/characteristics.vue'
   import db from './assets/js/firebaseConfig.js'
 
   export default {
     name: 'App',
     components: {
       navMenu,
-      Char,
     },
     data() {
       return {
