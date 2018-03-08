@@ -36,7 +36,6 @@ export default {
           this.type = data.val().type
 
           this.redirect();
-          // console.log(this.type);
         });
       })
     },

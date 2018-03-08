@@ -4,7 +4,7 @@ export default class Character {
   species = '';
   career = '';
   specializations = '';
-
+  type = 'Player';
   //stats
   soakThresh = 0;
   soakCurrent = 0;

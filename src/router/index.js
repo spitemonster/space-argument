@@ -15,7 +15,7 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/character'
     },
     {
       path: '/login',

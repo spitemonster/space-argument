@@ -1,5 +1,11 @@
 $background-black: rgba(22, 22, 22, 1);
 $white: rgba(222,222,222,1);
+$healthRed: #a50000;
+$forceBlue: #004ecc;
+$encGreen: #0c6013;
+$white: rgba(222,222,222,1);
+$black: rgba(22,22,22,1);
+$gray: rgba(89,89,89,1);
 
 $h4: calc(15px * 1.2);
 $h3: calc($h4 * 1.2);
@@ -30,13 +36,15 @@ h4 {
 }
 
 * {
-  box-sizing: inherit;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
 }
 
 html {
   font-size: 15px;
   background: $background-black;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   height: 100vh;
   width: 100vw;
   // font-family: 'Roboto';
@@ -60,16 +68,31 @@ body {
   position: relative;
   height: 100%;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .login-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 250px;
   height: 250px;
 
@@ -84,5 +107,87 @@ body {
   button {
     width: 20rem;
     padding: 1em;
+  }
+}
+
+#characteristics {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+
+  .charCard {
+    background: $gray;
+    height: 100px;
+    text-align: center;
+    // border: 1px solid $white;
+    cursor: pointer;
+
+    @media (min-width: 1024px) {
+      width: 14%;
+      min-width: 100px;
+    }
+
+    @media (max-width: 1023px) {
+      width: 14%;
+      min-width: 80px;
+    }
+
+    @media (min-width: 520px) {
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 519px) {
+      margin-top: 1rem;
+    }
+
+    h4 {
+      text-transform: uppercase;
+      background: $black;
+      width: 100%;
+      height: 20px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+
+      @media (min-width: 1024px) {
+        font-size: .9rem;
+      }
+
+      @media (max-width: 1023px) {
+        font-size: .8rem;
+      }
+    }
+  }
+
+  .charRank {
+    height: 80px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: end;
+        -ms-flex-align: end;
+            align-items: flex-end;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    font-size: 64px;
   }
 }

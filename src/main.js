@@ -11,12 +11,14 @@ require('./assets/js/character.js')
 Vue.use(VueFire)
 
 Vue.component('nav-menu', './components/templates/nav-menu');
-Vue.component('characteristics-row', './components/templates/characteristics')
+Vue.component('player-characteristics', './components/templates/poop.vue');
 
 let app = new Vue({
   el: '#app',
   data: {
     info: null,
+  },
+  components: {
   },
   firebase: function() {
       return {
