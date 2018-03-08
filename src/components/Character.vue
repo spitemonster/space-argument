@@ -45,6 +45,7 @@
         </li>
       </ul>
     </div>
+    <button type="button" name="button" @click="logOut">Log Out</button>
   </div>
 </template>
 
@@ -137,6 +138,11 @@ export default {
         hardpoints: '4',
         attachments: null
       });
+    },
+    logOut() {
+      firebase.auth().signOut().then(e => {
+        this.$router.replace('login');
+      })
     }
   },
   mounted() {

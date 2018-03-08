@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <nav-menu></nav-menu>
+    <!-- <nav-menu v-if="logged"></nav-menu> -->
     <router-view/>
+    <button type="button" name="button" @click="test">poop</button>
   </div>
 </template>
 
@@ -16,9 +17,20 @@
     },
     data() {
       return {
-        players: {}
+        players: {},
       }
+    },
+    computed: {
+      logged() {
+        // return firebase.auth().currentUser;
+        return firebase.auth().currentUser != null;
     }
+  },
+  methods: {
+    test() {
+      console.log(firebase.auth().currentUser == true);
+    }
+  }
 }
 </script>
 
