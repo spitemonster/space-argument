@@ -101,7 +101,7 @@ export default {
     background: none;
     border: none;
     border-bottom: 1px solid rgba(99,99,99,1);
-    color: rgba(222,222,222,1);
+    color: rgba(99,99,99,1);
     transition: all 250ms linear;
     font-weight: 100;
 
@@ -126,7 +126,7 @@ export default {
     }
 
     &:focus {
-      color: rgba(222,222,222,1);
+      color: rgba(99,99,99,1);
 
       &::placeholder {
         opacity: 0;
@@ -137,7 +137,6 @@ export default {
   .animated-border{
     position: absolute;
     bottom: 0;
-    // height: 1px;
     width: 0%;
     left: 50%;
     transition: all 100ms linear;
@@ -151,6 +150,6 @@ export default {
   input:valid + .animated-border {
     width: 100%;
     left: 0;
-    border-top: 1px solid rgba(222,222,222,1);
+    border-top: 1px solid rgba(99,99,99,1);
   }
 </style>

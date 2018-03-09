@@ -19,7 +19,7 @@
         <h3>Gunnery: <span>{{ players.skills.gunnery }}</span></h3>
       </div>
     </div>
-    <div class="statSection" v-if="int">
+    <div class="statSection" v-if="intellect">
       <div class="statsGrid">
         <h3>Astrogation: <span>{{ players.skills.astrogation }}</span></h3>
         <h3>Computers: <span>{{ players.skills.computers }}</span></h3>
@@ -37,7 +37,7 @@
         <h3>Xenology: <span>{{ players.skills.xenology }}</span></h3>
       </div>
     </div>
-    <div class="statSection" v-if="cun">
+    <div class="statSection" v-if="cunning">
       <div class="statsGrid">
         <h3>Deception: <span>{{ players.skills.deception }}</span></h3>
         <h3>Perception: <span>{{ players.skills.perception }}</span></h3>
@@ -46,14 +46,14 @@
         <h3>Survival: <span>{{ players.skills.survival }}</span></h3>
       </div>
     </div>
-    <div class="statSection" v-if="will">
+    <div class="statSection" v-if="willpower">
       <div class="statsGrid">
         <h3>Coercion: <span>{{ players.skills.coercion }}</span></h3>
         <h3>Discipline: <span>{{ players.skills.discipline }}</span></h3>
         <h3>Vigilance: <span>{{ players.skills.skulduggery }}</span></h3>
       </div>
     </div>
-    <div class="statSection" v-if="pres">
+    <div class="statSection" v-if="presence">
       <div class="statsGrid">
         <h3>Charm: <span>{{ players.skills.charm }}</span></h3>
         <h3>Cool: <span>{{ players.skills.cool }}</span></h3>
@@ -66,13 +66,21 @@
 
 <script>
 import db from '../../assets/js/firebaseConfig.js'
-import { Bus } from '../../bus.js'
+import { bus } from '../../bus.js'
 
 export default {
   name: 'player-stats',
   data () {
     return {
       current: firebase.auth().currentUser.uid,
+      brawn: true,
+      agility: false,
+      intellect: false,
+      cunning: false,
+      willpower: false,
+      presence: false,
+      force: false,
+      inventory: false
     }
   },
   firebase: function() {
@@ -89,6 +97,33 @@ export default {
     hasForce() {
       return this.players.hasForce;
     },
+  },
+  created() {
+    bus.$on('showChar', (data) => {
+      if (this[data]) {
+        this.brawn = false,
+        this.agility = false,
+        this.intellect = false,
+        this.cunning = false,
+        this.willpower = false,
+        this.presence = false,
+        this.force = false,
+        this.inventory = false
+        this[data] = false;
+        console.log(this[data]);
+      } else if (!this[data]) {
+        this.brawn = false,
+        this.agility = false,
+        this.intellect = false,
+        this.cunning = false,
+        this.willpower = false,
+        this.presence = false,
+        this.force = false,
+        this.inventory = false
+        this[data] = true;
+        console.log(this[data]);
+      }
+    })
   }
 }
 </script>

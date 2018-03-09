@@ -60,9 +60,20 @@ body {
 }
 
 #app {
+  background: rgb(222,222,222);
   position: relative;
   height: 100%;
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
+
+  @media (min-width: 960px) {
+    min-width: 960px;
+  }
+
+  @media (max-width: 959px) {
+    min-width: none;
+    width: 100%;
+  }
 }
 
 #login {
@@ -75,9 +86,8 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
 }
 
 .login-form {
@@ -96,6 +106,8 @@ body {
           align-items: center;
   width: 20rem;
   height: 250px;
+  position: relative;
+  top: 20vh;
 
   input {
     position: relative;
@@ -109,7 +121,7 @@ body {
   }
 
   button {
-    width: 20rem;
+    width: 100%;
     padding: 1em;
   }
 }

@@ -1,41 +1,41 @@
 <template>
   <div id="characteristics">
-    <div class="charCard" @click="brawn = !brawn">
+    <div class="charCard" @click="showThis">
       <h4>brawn</h4>
       <div class="charRank">
         {{ players.brawn }}
       </div>
     </div>
 
-    <div class="charCard" @click="agility = !agility">
+    <div class="charCard" @click="showThis">
       <h4>agility</h4>
       <div class="charRank">
         {{ players.agility }}
       </div>
     </div>
 
-    <div class="charCard" @click="int = !int">
+    <div class="charCard" @click="showThis">
       <h4>intellect</h4>
       <div class="charRank">
         {{ players.intellect }}
       </div>
     </div>
 
-    <div class="charCard" @click="cun = !cun">
+    <div class="charCard" @click="showThis">
       <h4>cunning</h4>
       <div class="charRank">
         {{ players.cunning }}
       </div>
     </div>
 
-    <div class="charCard" @click="will = !will">
+    <div class="charCard" @click="showThis">
       <h4>willpower</h4>
       <div class="charRank">
         {{ players.willpower }}
       </div>
     </div>
 
-    <div class="charCard" @click="pres = !pres">
+    <div class="charCard" @click="showThis">
       <h4>presence</h4>
       <div class="charRank">
         {{ players.presence }}
@@ -53,7 +53,7 @@
 
 <script>
 import db from '../../assets/js/firebaseConfig.js'
-import { Bus } from '../../bus.js'
+import { bus } from '../../bus.js'
 
 export default {
   name: 'player-characteristics',
@@ -64,7 +64,7 @@ export default {
       agility: false,
       int: false,
       cun: false,
-      will: false,
+      willpower: false,
       pres: false
     }
   },
@@ -84,8 +84,12 @@ export default {
     }
   },
   methods: {
-    hideShow() {
-      
+    showThis(e) {
+      if (e.target.tagName == 'H4') {
+        bus.$emit('showChar', e.target.innerHTML);
+      } else if (e.target.parentNode.childNodes[0].tagName == 'H4') {
+        bus.$emit('showChar', e.target.parentNode.childNodes[0].innerHTML);
+      }
     }
   }
 }

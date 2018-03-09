@@ -51,7 +51,7 @@
 
 <script>
 import db from '../assets/js/firebaseConfig.js'
-import { Bus } from '../bus.js'
+import { bus } from '../bus.js'
 import playerCharacteristics from './templates/player-characteristics.vue'
 import playerStats from './templates/player-stats.vue'
 
@@ -63,10 +63,10 @@ export default {
       current: firebase.auth().currentUser.uid,
       brawn: false,
       agility: false,
-      int: false,
-      cun: false,
-      will: false,
-      pres: false,
+      intellect: false,
+      cunning: false,
+      willpower: false,
+      presence: false,
       force: false,
       inventory: false
     }
@@ -156,8 +156,8 @@ export default {
   $forceBlue: #004ecc;
   $encGreen: #0c6013;
   $white: rgba(222,222,222,1);
-  $black: rgba(22,22,22,1);
-  $gray: rgba(89,89,89,1);
+  $black: rgba(99,99,99,1);
+  $gray: rgba(155,155,155,1);
 
   .character {
     max-width: 800px;
@@ -174,10 +174,11 @@ export default {
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 2rem;
+    color: $black;
   }
 
   .bar {
-    border-radius: 2px;
+    // border-radius: 2px;
     padding-left: 10px;
     display: flex;
     flex-direction: row;
@@ -206,16 +207,43 @@ export default {
   }
 
   #invButton {
+    box-sizing: border-box;
     width: 100%;
     height: 40px;
-    border: 1px solid $white;
     margin-top: 1rem;
+    background: none;
+    border: 1px solid rgba(99,99,99,1);
+    color: rgba(99,99,99,1);
+    text-transform: uppercase;
+    position: relative;
+    cursor: pointer;
+    z-index: 99;
+    transition: all 100ms linear;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-  }
+
+      &:hover {
+        color: rgba(222,222,222,1);
+
+        &::before {
+          left: 0;
+          width: 100%;
+        }
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 0%;
+        height: 100%;
+        transition: all 100ms ease-out;
+        background: rgba(99,99,99,1);
+        z-index: -1;
+      }
+    }
 
   #skills {
     width: 100%;
