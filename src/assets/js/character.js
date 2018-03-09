@@ -21,13 +21,15 @@ export default class Character {
   forceCommit = 0;
 
   //characteristics
-  brawn = 0;
-  agility = 0;
-  intellect = 0;
-  cunning = 0;
-  willpower = 0;
-  presence = 0;
-  forceRank = 0;
+  characteristics = {
+    brawn: 0,
+    agility: 0,
+    intellect: 0,
+    cunning: 0,
+    willpower: 0,
+    presence: 0,
+    forceRank: 0
+  }
 
   //skills
   skills = {

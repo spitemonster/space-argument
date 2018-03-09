@@ -2,7 +2,7 @@
   <div id="login">
     <form class="login-form">
       <div class="form-group">
-        <input type="text" placeholder="email" v-model="email" required></input>
+        <input type="text" placeholder="username" v-model="email" required></input>
         <span class="animated-border"></span>
       </div>
       <div class="form-group">
@@ -26,6 +26,7 @@ export default {
       type: ''
     }
   },
+
   methods: {
     redirect() {
       if (this.type == 'Player') {
@@ -34,8 +35,11 @@ export default {
         this.$router.replace('Admin')
       }
     },
+
     login() {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(e => {
+      let username = this.email + '@spaceargument.com';
+
+      firebase.auth().signInWithEmailAndPassword(username, this.password).then(e => {
         let current = firebase.auth().currentUser.uid;
 
         db.ref('players/' + current).once('value', (data) => {
@@ -45,8 +49,6 @@ export default {
         });
       })
     },
-  },
-  mounted: function() {
   }
 }
 </script>

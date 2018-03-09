@@ -73,7 +73,7 @@ export default {
   data () {
     return {
       current: firebase.auth().currentUser.uid,
-      brawn: true,
+      brawn: false,
       agility: false,
       intellect: false,
       cunning: false,
@@ -110,7 +110,6 @@ export default {
         this.force = false,
         this.inventory = false
         this[data] = false;
-        console.log(this[data]);
       } else if (!this[data]) {
         this.brawn = false,
         this.agility = false,
@@ -121,7 +120,6 @@ export default {
         this.force = false,
         this.inventory = false
         this[data] = true;
-        console.log(this[data]);
       }
     })
   }

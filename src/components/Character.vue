@@ -61,20 +61,14 @@ export default {
   data () {
     return {
       current: firebase.auth().currentUser.uid,
-      brawn: false,
-      agility: false,
-      intellect: false,
-      cunning: false,
-      willpower: false,
-      presence: false,
-      force: false,
-      inventory: false
     }
   },
+
   components: {
     playerCharacteristics,
     playerStats
   },
+
   firebase: function() {
     return {
       players: {
@@ -85,13 +79,16 @@ export default {
       armorInv: db.ref('players/' + this.current + '/inventory/armor'),
     }
   },
+
   computed: {
     currentHealth() {
       return this.players.skills.astrogation - this.players.skills.athletics;
     },
+
     hasForce() {
       return this.players.hasForce;
     },
+
     shoosters() {
       let arr = [];
 
@@ -101,6 +98,7 @@ export default {
 
       return arr;
     },
+
     armor() {
       let arr = [];
 
@@ -110,6 +108,7 @@ export default {
 
       return arr;
     },
+
     encumberance() {
       let total = 0;
 
@@ -128,6 +127,7 @@ export default {
       return total;
     }
   },
+
   methods: {
     updateWeapon() {
       this.$firebaseRefs.armor.push({
@@ -139,12 +139,14 @@ export default {
         attachments: null
       });
     },
+
     logOut() {
       firebase.auth().signOut().then(e => {
         this.$router.replace('login');
       })
     }
   },
+  
   mounted() {
 
   }

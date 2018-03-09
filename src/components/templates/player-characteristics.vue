@@ -57,6 +57,7 @@ import { bus } from '../../bus.js'
 
 export default {
   name: 'player-characteristics',
+
   data () {
     return {
       current: firebase.auth().currentUser.uid,
@@ -68,6 +69,7 @@ export default {
       pres: false
     }
   },
+
   firebase: function() {
     return {
       players: {
@@ -78,11 +80,13 @@ export default {
       armorInv: db.ref('players/' + this.current + '/inventory/armor'),
     }
   },
+  
   computed: {
     hasForce() {
       return this.players.hasForce;
     }
   },
+
   methods: {
     showThis(e) {
       if (e.target.tagName == 'H4') {
