@@ -70,7 +70,7 @@ import { bus } from '../../bus.js'
 
 export default {
   name: 'player-stats',
-  data () {
+  data() {
     return {
       current: firebase.auth().currentUser.uid,
       brawn: false,
@@ -90,36 +90,36 @@ export default {
         asObject: true
       },
       weapons: db.ref('players/' + this.current + '/inventory/weapons'),
-      armorInv: db.ref('players/' + this.current + '/inventory/armor'),
+      armorInv: db.ref('players/' + this.current + '/inventory/armor')
     }
   },
   computed: {
     hasForce() {
-      return this.players.hasForce;
-    },
+      return this.players.hasForce
+    }
   },
   created() {
-    bus.$on('showChar', (data) => {
+    bus.$on('showChar', data => {
       if (this[data]) {
-        this.brawn = false,
-        this.agility = false,
-        this.intellect = false,
-        this.cunning = false,
-        this.willpower = false,
-        this.presence = false,
-        this.force = false,
-        this.inventory = false
-        this[data] = false;
+        ;(this.brawn = false),
+          (this.agility = false),
+          (this.intellect = false),
+          (this.cunning = false),
+          (this.willpower = false),
+          (this.presence = false),
+          (this.force = false),
+          (this.inventory = false)
+        this[data] = false
       } else if (!this[data]) {
-        this.brawn = false,
-        this.agility = false,
-        this.intellect = false,
-        this.cunning = false,
-        this.willpower = false,
-        this.presence = false,
-        this.force = false,
-        this.inventory = false
-        this[data] = true;
+        ;(this.brawn = false),
+          (this.agility = false),
+          (this.intellect = false),
+          (this.cunning = false),
+          (this.willpower = false),
+          (this.presence = false),
+          (this.force = false),
+          (this.inventory = false)
+        this[data] = true
       }
     })
   }
@@ -127,5 +127,13 @@ export default {
 </script>
 
 <style>
+#stats {
+  color: rgb(99, 99, 99);
+  font-weight: 100;
+  text-transform: uppercase;
+}
 
+#stats h3 {
+  font-weight: 100;
+}
 </style>

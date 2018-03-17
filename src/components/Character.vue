@@ -58,9 +58,10 @@ import playerStats from './templates/player-stats.vue'
 export default {
   name: 'Character',
 
-  data () {
+  data() {
     return {
       current: firebase.auth().currentUser.uid,
+      inventory: false
     }
   },
 
@@ -76,55 +77,55 @@ export default {
         asObject: true
       },
       weapons: db.ref('players/' + this.current + '/inventory/weapons'),
-      armorInv: db.ref('players/' + this.current + '/inventory/armor'),
+      armorInv: db.ref('players/' + this.current + '/inventory/armor')
     }
   },
 
   computed: {
     currentHealth() {
-      return this.players.skills.astrogation - this.players.skills.athletics;
+      return this.players.skills.astrogation - this.players.skills.athletics
     },
 
     hasForce() {
-      return this.players.hasForce;
+      return this.players.hasForce
     },
 
     shoosters() {
-      let arr = [];
+      let arr = []
 
       for (let i = 0; i < this.weapons.length; i++) {
-        arr.push(this.weapons[i]);
-      };
+        arr.push(this.weapons[i])
+      }
 
-      return arr;
+      return arr
     },
 
     armor() {
-      let arr = [];
+      let arr = []
 
       for (let i = 0; i < this.armorInv.length; i++) {
-        arr.push(this.armorInv[i]);
-      };
+        arr.push(this.armorInv[i])
+      }
 
-      return arr;
+      return arr
     },
 
     encumberance() {
-      let total = 0;
+      let total = 0
 
       for (let i = 0; i < this.weapons.length; i++) {
         if (this.weapons[i].encumberance) {
-          total += parseInt(this.weapons[i].encumberance);
+          total += parseInt(this.weapons[i].encumberance)
         }
       }
 
       for (let i = 0; i < this.armor.length; i++) {
         if (this.armor[i].encumberance) {
-          total += parseInt(this.armor[i].encumberance);
+          total += parseInt(this.armor[i].encumberance)
         }
       }
 
-      return total;
+      return total
     }
   },
 
@@ -137,190 +138,190 @@ export default {
         encumberance: '6',
         hardpoints: '4',
         attachments: null
-      });
+      })
     },
 
     logOut() {
-      firebase.auth().signOut().then(e => {
-        this.$router.replace('login');
-      })
+      firebase
+        .auth()
+        .signOut()
+        .then(e => {
+          this.$router.replace('login')
+        })
     }
   },
-  
-  mounted() {
 
-  }
+  mounted() {}
 }
 </script>
 
 <style lang="scss">
-  $healthRed: #a50000;
-  $forceBlue: #004ecc;
-  $encGreen: #0c6013;
-  $white: rgba(222,222,222,1);
-  $black: rgba(99,99,99,1);
-  $gray: rgba(155,155,155,1);
+$healthRed: #a50000;
+$forceBlue: #004ecc;
+$encGreen: #0c6013;
+$white: rgba(222, 222, 222, 1);
+$black: rgba(99, 99, 99, 1);
+$gray: rgba(155, 155, 155, 1);
 
-  .character {
-    max-width: 800px;
-    min-height: 100%;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
+.character {
+  max-width: 800px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
 
-  #characterName {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    color: $black;
-  }
+#characterName {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: $black;
+}
 
-  .bar {
-    // border-radius: 2px;
-    padding-left: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-content: center;
-    align-items: center;
-    width: 100%;
-    font-family: 'Open Mono', monospace;
-  }
+.bar {
+  // border-radius: 2px;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  font-family: 'Open Mono', monospace;
+}
 
-  #healthBar {
-    height: 40px;
-    background: $healthRed;
-  }
+#healthBar {
+  height: 40px;
+  background: $healthRed;
+}
 
-  #forceBar {
-    height: 20px;
-    background: $forceBlue;
-    margin-top: .5rem;
-  }
+#forceBar {
+  height: 20px;
+  background: $forceBlue;
+  margin-top: 0.5rem;
+}
 
-  #encBar {
-    height: 20px;
-    background: $encGreen;
-    margin-top: .5rem;
-  }
+#encBar {
+  height: 20px;
+  background: $encGreen;
+  margin-top: 0.5rem;
+}
 
-  #invButton {
-    box-sizing: border-box;
-    width: 100%;
-    height: 40px;
-    margin-top: 1rem;
-    background: none;
-    border: 1px solid rgba(99,99,99,1);
-    color: rgba(99,99,99,1);
-    text-transform: uppercase;
-    position: relative;
-    cursor: pointer;
-    z-index: 99;
-    transition: all 100ms linear;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#invButton {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  margin-top: 1rem;
+  background: none;
+  border: 1px solid rgba(99, 99, 99, 1);
+  color: rgba(99, 99, 99, 1);
+  text-transform: uppercase;
+  position: relative;
+  cursor: pointer;
+  z-index: 99;
+  transition: all 100ms linear;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-      &:hover {
-        color: rgba(222,222,222,1);
+  &:hover {
+    color: rgba(222, 222, 222, 1);
 
-        &::before {
-          left: 0;
-          width: 100%;
-        }
-      }
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 0%;
-        height: 100%;
-        transition: all 100ms ease-out;
-        background: rgba(99,99,99,1);
-        z-index: -1;
-      }
-    }
-
-  #skills {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: .5rem;
-  }
-
-  .statSection {
-    margin-top: 1rem;
-  }
-
-  .skillSelector {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    border: 1px solid $white;
-    margin: .5rem 0;
-    cursor: pointer;
-
-    @media (min-width: 1024px) {
-      width: calc(25% - .5rem);
-      height: 120px;
-      font-size: 1.2rem;
-    }
-
-    @media (max-width: 1023px) {
-      width: calc(50% - .5rem);
-      height: 80px;
-      font-size: 1rem;
-    }
-
-    @media (max-width: 480px) {
-      height: 65px;
-      font-size: .8rem;
-    }
-  }
-
-  .statsGrid {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-    h2 {
+    &::before {
+      left: 0;
       width: 100%;
-      border-bottom: 1px solid $white;
-      padding-bottom: .25rem;
-      margin: 1rem 0;
-    }
-
-    h3 {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      padding-right: 2rem;
-      margin: .25rem 0;
-
-      span {
-        font-weight: 100;
-        align-self: flex-end;
-        align-content: flex-end;
-      }
     }
   }
 
-  #inv {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0%;
+    height: 100%;
+    transition: all 100ms ease-out;
+    background: rgba(99, 99, 99, 1);
+    z-index: -1;
+  }
+}
+
+#skills {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.statSection {
+  margin-top: 1rem;
+}
+
+.skillSelector {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  border: 1px solid $white;
+  margin: 0.5rem 0;
+  cursor: pointer;
+
+  @media (min-width: 1024px) {
+    width: calc(25% - 0.5rem);
+    height: 120px;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 1023px) {
+    width: calc(50% - 0.5rem);
+    height: 80px;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    height: 65px;
+    font-size: 0.8rem;
+  }
+}
+
+.statsGrid {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  h2 {
+    width: 100%;
+    border-bottom: 1px solid $white;
+    padding-bottom: 0.25rem;
+    margin: 1rem 0;
+  }
+
+  h3 {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 2rem;
+    margin: 0.25rem 0;
 
+    span {
+      font-weight: 100;
+      align-self: flex-end;
+      align-content: flex-end;
+    }
   }
+}
+
+#inv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 </style>
