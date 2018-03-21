@@ -1,23 +1,23 @@
 <template>
   <div class="admin">
-    <section class="party">
-      <h3>Party</h3>
-      <ul>
-        <li v-for="player in players">{{ player.name }}</li>
-      </ul>
-    </section>
+    <brief-editor></brief-editor>
   </div>
 </template>
 
 <script>
 import db from '../../assets/js/firebaseConfig.js'
 import { bus } from '../../bus.js'
+import briefEditor from './admin/brief-editor.vue'
 
 export default {
   name: 'admin-view',
   data () {
     return {
     }
+  },
+
+  components: {
+    briefEditor,
   },
 
   firebase: function() {
@@ -40,6 +40,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+.admin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .party {
   color: black;
 }

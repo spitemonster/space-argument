@@ -1,5 +1,6 @@
 <template>
   <div class="character">
+
     <div id="characterName">
       <h1>{{ players.name }}</h1><h3>{{ players.species }}</h3>
     </div>
@@ -45,6 +46,9 @@
         </li>
       </ul>
     </div>
+
+    <single-brief></single-brief>
+
   </div>
 </template>
 
@@ -53,6 +57,7 @@ import db from '../../assets/js/firebaseConfig.js'
 import { bus } from '../../bus.js'
 import playerCharacteristics from './player/player-characteristics.vue'
 import playerStats from './player/player-stats.vue'
+import singleBrief from './player/single-brief.vue'
 
 export default {
   name: 'player-view',
@@ -66,7 +71,8 @@ export default {
 
   components: {
     playerCharacteristics,
-    playerStats
+    playerStats,
+    singleBrief
   },
 
   firebase: function() {
@@ -168,11 +174,11 @@ $gray: rgba(155, 155, 155, 1);
   text-transform: uppercase;
   font-weight: 700;
   margin-bottom: 2rem;
-  color: $black;
 }
 
 .bar {
   // border-radius: 2px;
+  color: $white;
   padding-left: 10px;
   display: flex;
   flex-direction: row;

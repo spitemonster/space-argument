@@ -128,7 +128,6 @@ export default {
 
 <style>
 #stats {
-  color: rgb(99, 99, 99);
   font-weight: 100;
   text-transform: uppercase;
 }

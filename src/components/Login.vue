@@ -30,7 +30,7 @@ export default {
   methods: {
     redirect() {
         this.$router.replace('Dashboard');
-      },
+    },
 
     login() {
       let username = this.email + '@spaceargument.com'
@@ -61,39 +61,6 @@ export default {
   width: 100%;
   height: 2rem;
   margin-bottom: 1rem;
-}
-
-.login-form button {
-  background: none;
-  border: 1px solid rgba(99, 99, 99, 1);
-  color: rgba(99, 99, 99, 1);
-  text-transform: uppercase;
-  position: relative;
-  cursor: pointer;
-  z-index: 99;
-  transition: all 100ms linear;
-
-  &:hover {
-    border-color: rgb(222, 222, 222);
-    color: rgba(222, 222, 222, 1);
-
-    &::before {
-      left: 0;
-      width: 100%;
-    }
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 0%;
-    height: 100%;
-    transition: all 100ms ease-out;
-    background: rgba(99, 99, 99, 1);
-    z-index: -1;
-  }
 }
 
 input {
@@ -128,6 +95,7 @@ input {
 
   &:focus {
     color: rgba(99, 99, 99, 1);
+    opacity: 1;
 
     &::placeholder {
       opacity: 0;

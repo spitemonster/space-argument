@@ -3,10 +3,10 @@
     <form>
       <input type="text" placeholder="email" v-model="email"></input>
       <input type="password" placeholder="password" v-model="password"></input>
-      <input required type="text" placeholder="Character Name" v-model="character.name"></input>
-      <input required type="text" placeholder="Species" v-model="character.species"></input>
-      <input required type="text" placeholder="Career" v-model="character.career"></input>
-      <input required type="text" placeholder="Specialization" v-model="character.specialization"></input>
+      <input type="text" placeholder="Character Name" v-model="character.name"></input>
+      <input type="text" placeholder="Species" v-model="character.species"></input>
+      <input type="text" placeholder="Career" v-model="character.career"></input>
+      <input type="text" placeholder="Specialization" v-model="character.specialization"></input>
       <button type="button" @click="createUser">Sign Up</button>
     </form>
   </div>
