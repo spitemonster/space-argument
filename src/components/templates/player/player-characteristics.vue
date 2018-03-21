@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import db from '../../assets/js/firebaseConfig.js'
-import { bus } from '../../bus.js'
+import db from '../../../assets/js/firebaseConfig.js'
+import { bus } from '../../../bus.js'
 
 export default {
   name: 'player-characteristics',
@@ -80,7 +80,7 @@ export default {
       armorInv: db.ref('players/' + this.current + '/inventory/armor'),
     }
   },
-  
+
   computed: {
     hasForce() {
       return this.players.hasForce;

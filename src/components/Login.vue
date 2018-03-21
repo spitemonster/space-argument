@@ -29,12 +29,8 @@ export default {
 
   methods: {
     redirect() {
-      if (this.type == 'Player') {
-        this.$router.replace('Character')
-      } else if (this.type == 'Admin') {
-        this.$router.replace('Admin')
-      }
-    },
+        this.$router.replace('Dashboard');
+      },
 
     login() {
       let username = this.email + '@spaceargument.com'
@@ -54,10 +50,6 @@ export default {
     }
   },
   beforeCreate() {
-    if (firebase.auth().currentUser != null && this.$route.name == 'Login') {
-      this.$router.replace('character')
-      console.log('SHOULD BE')
-    }
   }
 }
 </script>

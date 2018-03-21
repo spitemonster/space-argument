@@ -6,12 +6,8 @@ import VueFire from 'vuefire'
 import App from './App'
 import db from './assets/js/firebaseConfig.js'
 import router from './router'
-require('./assets/js/character.js')
 
 Vue.use(VueFire)
-
-Vue.component('nav-menu', './components/templates/nav-menu');
-Vue.component('player-characteristics', './components/templates/poop.vue');
 
 let app = new Vue({
   el: '#app',
@@ -20,17 +16,12 @@ let app = new Vue({
   },
   components: {
   },
-  firebase: function() {
-      return {
-        players: db.ref('players/')
-      }
+  firebase() {
+
   },
   router,
   components: { App },
   template: '<App/>',
-  mounted: function() {
-      db.ref('players/0v6I9fk4Nlgp1iU9Qz62S2ck11z1').once('value', (data) => {
-        this.info = data.val();
-      })
-    }
+  mounted() {
+  }
 });

@@ -45,18 +45,17 @@
         </li>
       </ul>
     </div>
-    <button type="button" name="button" @click="logOut">Log Out</button>
   </div>
 </template>
 
 <script>
-import db from '../assets/js/firebaseConfig.js'
-import { bus } from '../bus.js'
-import playerCharacteristics from './templates/player-characteristics.vue'
-import playerStats from './templates/player-stats.vue'
+import db from '../../assets/js/firebaseConfig.js'
+import { bus } from '../../bus.js'
+import playerCharacteristics from './player/player-characteristics.vue'
+import playerStats from './player/player-stats.vue'
 
 export default {
-  name: 'Character',
+  name: 'player-view',
 
   data() {
     return {
@@ -140,15 +139,6 @@ export default {
         attachments: null
       })
     },
-
-    logOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(e => {
-          this.$router.replace('login')
-        })
-    }
   },
 
   mounted() {}

@@ -6,8 +6,7 @@ import firebaseui from 'firebaseui'
 
 import Login from '@/components/Login'
 import Signup from '@/components/Signup'
-import Character from '@/components/Character'
-import Admin from '@/components/Admin'
+import Dashboard from '@/components/Dashboard'
 
 Vue.use(Router)
 
@@ -15,7 +14,7 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/character'
+      redirect: '/dashboard'
     },
     {
       path: '/login',
@@ -28,9 +27,9 @@ let router = new Router({
       component: Signup
     },
     {
-      path: '/character',
-      name: 'Character',
-      component: Character,
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
       meta: {
         requiresAuth: true
       }
@@ -43,7 +42,7 @@ router.beforeEach((to, from, next) => {
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (requiresAuth && !currentUser) next('login')
-  else if (!requiresAuth && currentUser) next('character')
+  else if (!requiresAuth && currentUser) next('dashboard')
   else next()
 })
 

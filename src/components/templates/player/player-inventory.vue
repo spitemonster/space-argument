@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import db from '../../assets/js/firebaseConfig.js'
-import { bus } from '../../bus.js'
+import db from '../../../assets/js/firebaseConfig.js'
+import { bus } from '../../../bus.js'
 
 export default {
   name: 'player-stats',
