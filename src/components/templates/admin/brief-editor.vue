@@ -1,5 +1,11 @@
 <template lang="html">
   <div class="editorContainer">
+    <div class="error" id="title" v-if="titleError">
+      You need to enter a title for your post.
+    </div>
+    <div class="error" id="content" v-if="contentError">
+      You need to enter content for your post.
+    </div>
     <div class="briefEditor" v-if="!posted">
       <input id="briefTitle" type="text" placeholder="title" v-model="title" required>
       <div id="editor">
@@ -25,7 +31,9 @@ export default {
     return {
       posted: false,
       title: '',
-      content: ''
+      content: '',
+      titleError: false,
+      contentError: false
     }
   },
 
@@ -54,9 +62,17 @@ export default {
       document.getElementById('briefTitle').classList.add('invalid');
       document.getElementById('editor').classList.add('invalid');
 
+      if (this.content == '') {
+        this.contentError = true;
+      } else if (this.title == '') {
+        this.titleError = true;
+      }
+
       setTimeout(() => {
         document.getElementById('briefTitle').classList.remove('invalid');
         document.getElementById('editor').classList.remove('invalid');
+        this.titleError = false;
+        this.contentError = false;
       }, 3000)
     },
 
@@ -113,6 +129,8 @@ export default {
 .editorContainer {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .briefEditor {
@@ -153,6 +171,14 @@ export default {
   animation-name: shake;
   // transform: translateX(-25%);
   transition: all 100ms linear;
+}
+
+.error {
+  width: 400px;
+  text-align: center;
+  align-self: center;
+  border: 1px solid red;
+  padding: 1rem;
 }
 
 @keyframes shake {
