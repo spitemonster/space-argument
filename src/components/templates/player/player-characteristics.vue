@@ -100,5 +100,6 @@ export default {
 </script>
 
 <style>
+@import '../../../assets/css/_variables.scss';
 
 </style>

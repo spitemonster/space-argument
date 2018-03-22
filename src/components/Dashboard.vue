@@ -97,6 +97,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../assets/css/_variables.scss';
   .dashboard {
     height: 100%;
   }

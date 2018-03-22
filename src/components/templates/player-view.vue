@@ -158,12 +158,7 @@ export default {
 </script>
 
 <style lang="scss">
-$healthRed: #a50000;
-$forceBlue: #004ecc;
-$encGreen: #0c6013;
-$white: rgba(222, 222, 222, 1);
-$black: rgba(99, 99, 99, 1);
-$gray: rgba(155, 155, 155, 1);
+@import '../../assets/css/_variables.scss';
 
 .character {
   max-width: 800px;

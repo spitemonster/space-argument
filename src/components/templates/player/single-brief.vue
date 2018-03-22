@@ -43,10 +43,6 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-  .single-brief {
-    position: relative;
-    color: black !important;
-    margin-top: 5rem;
-  }
+<style lang="scss">
+@import '../../../assets/css/_variables.scss';
 </style>

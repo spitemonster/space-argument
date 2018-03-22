@@ -127,6 +127,7 @@ export default {
 </script>
 
 <style>
+@import '../../../assets/css/_variables.scss';
 #stats {
   font-weight: 100;
   text-transform: uppercase;

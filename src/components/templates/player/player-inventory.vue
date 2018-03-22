@@ -60,6 +60,7 @@ export default {
 </script>
 
 <style>
+@import '../../../assets/css/_variables.scss';
 #stats {
   color: rgb(99, 99, 99);
   font-weight: 100;

@@ -95,6 +95,7 @@ export default {
 
 <style lang="scss">
   @import '../../../../node_modules/pell/src/pell';
+  @import '../../../assets/css/_variables.scss';
 
   .editorContainer {
     width: 100%;
