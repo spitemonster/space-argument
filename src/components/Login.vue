@@ -57,51 +57,30 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import '../assets/css/_variables.scss';
+#login {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.login-form {
+  margin: 0 auto;
+  width: 50%;
+  height: 250px;
+  position: relative;
+  top: 20vh;
+
+  button {
+    width: 100%;
+    padding: 1em;
+  }
+}
+
 .form-group {
   position: relative;
   width: 100%;
   height: 2rem;
   margin-bottom: 1rem;
-}
-
-input {
-  position: relative;
-  width: 20rem;
-  height: 2rem;
-  background: none;
-  border: none;
-  border-bottom: 1px solid rgba(99, 99, 99, 1);
-  color: rgba(99, 99, 99, 1);
-  transition: all 250ms linear;
-  font-weight: 100;
-
-  @media (min-width: 767px) {
-    opacity: 0.7;
-  }
-
-  @media (max-width: 766px) {
-    opacity: 1;
-  }
-
-  &::placeholder {
-    text-transform: uppercase;
-    transition: all 1s linear;
-  }
-
-  &:hover {
-    opacity: 1;
-    &::placeholder {
-    }
-  }
-
-  &:focus {
-    color: rgba(99, 99, 99, 1);
-    opacity: 1;
-
-    &::placeholder {
-      opacity: 0;
-    }
-  }
 }
 
 .animated-border {
@@ -110,16 +89,5 @@ input {
   width: 0%;
   left: 50%;
   transition: all 100ms linear;
-}
-
-input:invalid {
-  box-shadow: none;
-}
-
-input:focus + .animated-border,
-input:valid + .animated-border {
-  width: 100%;
-  left: 0;
-  border-top: 1px solid rgba(99, 99, 99, 1);
 }
 </style>

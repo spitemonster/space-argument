@@ -1,0 +1,56 @@
+@import 'variables';
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+h1 {
+  font-size: $h1;
+}
+
+h2 {
+  font-size: $h2;
+}
+
+h3 {
+  font-size: $h3;
+}
+
+h4 {
+  font-size: $h4;
+}
+
+:root {
+  font-size: $p;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  font-family: 'Roboto';
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+* {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}

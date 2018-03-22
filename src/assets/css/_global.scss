@@ -1,0 +1,127 @@
+button {
+  background: none;
+  border: 1px solid rgba(99, 99, 99, 1);
+  color: rgba(99, 99, 99, 1);
+  text-transform: uppercase;
+  position: relative;
+  cursor: pointer;
+  z-index: 99;
+  -webkit-transition: all 100ms linear;
+  transition: all 100ms linear;
+
+  &:hover {
+    border-color: rgb(222, 222, 222);
+    color: rgba(222, 222, 222, 1);
+
+    &::before {
+      left: 0;
+      width: 100%;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0%;
+    height: 100%;
+    -webkit-transition: all 100ms ease-out;
+    transition: all 100ms ease-out;
+    background: rgba(99, 99, 99, 1);
+    z-index: -1;
+  }
+}
+
+input {
+  font-size: 1rem;
+  position: relative;
+  width: 100%;
+  height: 2rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(99, 99, 99, 1);
+  color: rgba(99, 99, 99, 1);
+  -webkit-transition: all 250ms linear;
+  transition: all 250ms linear;
+  font-weight: 100;
+
+  @media (min-width: 767px) {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 766px) {
+    opacity: 1;
+  }
+
+  &::-webkit-input-placeholder {
+    text-transform: uppercase;
+    -webkit-transition: all 1s linear;
+    transition: all 1s linear;
+  }
+
+  &:-ms-input-placeholder {
+    text-transform: uppercase;
+    -webkit-transition: all 1s linear;
+    transition: all 1s linear;
+  }
+
+  &::-ms-input-placeholder {
+    text-transform: uppercase;
+    -webkit-transition: all 1s linear;
+    transition: all 1s linear;
+  }
+
+  &::placeholder {
+    text-transform: uppercase;
+    -webkit-transition: all 1s linear;
+    transition: all 1s linear;
+    opacity: .7;
+  }
+
+  &:hover {
+    opacity: 1;
+    &::-webkit-input-placeholder {
+    }
+    &:-ms-input-placeholder {
+    }
+    &::-ms-input-placeholder {
+    }
+    &::placeholder {
+    }
+  }
+
+  &:focus,
+  &:valid {
+    color: rgba(99, 99, 99, 1);
+    opacity: 1;
+
+    &::-webkit-input-placeholder {
+      opacity: 0;
+    }
+
+    &:-ms-input-placeholder {
+      opacity: 0;
+    }
+
+    &::-ms-input-placeholder {
+      opacity: 0;
+    }
+
+    &::placeholder {
+      opacity: 0;
+    }
+  }
+}
+
+input:invalid {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+input:focus + .animated-border,
+input:valid + .animated-border {
+  width: 100%;
+  left: 0;
+  border-top: 1px solid rgba(99, 99, 99, 1);
+}
