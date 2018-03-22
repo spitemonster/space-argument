@@ -1,7 +1,16 @@
 <template>
   <div class="dashboard">
-    <player-view v-if="type == 'Player'"></player-view>
-    <admin-view v-if="type == 'Admin'"></admin-view>
+    <nav-menu></nav-menu>
+    <player-view
+      v-if="type == 'Player'"
+      :dashboard="viewDashboard"
+      :brief="viewBriefs"
+      :party="viewParty" ></player-view>
+    <admin-view
+      v-if="type == 'Admin'"
+      :dashboard="viewDashboard"
+      :brief="writeBrief"
+      :party="viewParty" ></admin-view>
     <button type="button" name="button" @click="logOut">Log Out</button>
   </div>
 </template>
@@ -10,6 +19,7 @@
 import db from '../assets/js/firebaseConfig.js'
 import { bus } from '../bus.js'
 
+import navMenu from './templates/nav-menu.vue'
 import playerView from './templates/player-view.vue'
 import adminView from './templates/admin-view.vue'
 
@@ -19,10 +29,15 @@ export default {
   data() {
     return {
       current: firebase.auth().currentUser.uid,
+      viewDashboard: false,
+      writeBrief: false,
+      viewBriefs: false,
+      viewParty: false,
     }
   },
 
   components: {
+    navMenu,
     playerView,
     adminView
   },
@@ -43,12 +58,6 @@ export default {
   },
 
   methods: {
-    ping() {
-      if (this.type == 'Player') {
-        console.log('Yep');
-      }
-    },
-
     logOut() {
       firebase
         .auth()
@@ -59,9 +68,36 @@ export default {
     }
   },
 
-  mounted() {}
+  created() {
+    bus.$on('setFocus', (data) => {
+      if (data == 'dashboard') {
+        this.viewDashboard = true;
+        this.writeBrief = false;
+        this.viewBriefs = false;
+        this.viewParty = false;
+      } else if (data == 'write brief') {
+        this.viewDashboard = false;
+        this.writeBrief = true;
+        this.viewBriefs = false;
+        this.viewParty = false;
+      } else if (data == 'briefs') {
+        this.viewDashboard = false;
+        this.writeBrief = false;
+        this.viewBriefs = true;
+        this.viewParty = false;
+      } else if (data == 'party') {
+        this.viewDashboard = false;
+        this.writeBrief = false;
+        this.viewBriefs = false;
+        this.viewParty = true;
+      }
+    });
+  }
 }
 </script>
 
 <style lang="scss">
+  .dashboard {
+    height: 100%;
+  }
 </style>

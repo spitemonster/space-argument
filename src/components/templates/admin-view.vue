@@ -1,6 +1,6 @@
 <template>
   <div class="admin">
-    <brief-editor></brief-editor>
+    <brief-editor v-if="brief"></brief-editor>
   </div>
 </template>
 
@@ -14,6 +14,12 @@ export default {
   data () {
     return {
     }
+  },
+
+  props: {
+    dashboard: false,
+    brief: false,
+    party: false
   },
 
   components: {
@@ -33,18 +39,18 @@ export default {
   },
 
   created() {
-
+    console.log(this.dashboard);
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 .admin {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 .party {
   color: black;

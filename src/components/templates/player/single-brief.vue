@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="single-brief">
     <h3>{{ latestBrief.title }}</h3>
-    <p>{{ latestBrief.content }}</p>
+    <div v-html="latestBrief.content"></div>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
 
   data () {
     return {
-
+      brief: {}
     }
   },
 
@@ -27,19 +27,10 @@ export default {
   },
 
   computed: {
-    whichBrief() {
-      return this.briefs.length - 1;
-    },
-
     latestBrief() {
-      let latest = this.briefs[this.whichBrief];
+      let latest = this.briefs[this.briefs.length - 1];
 
-      let brief = {
-        title: latest.title,
-        content: latest.content
-      }
-
-      return brief;
+      return latest;
     }
   },
 
@@ -47,9 +38,7 @@ export default {
 
   },
 
-  mounted() {
-
-    // console.log(brief);
+  created() {
   }
 }
 </script>

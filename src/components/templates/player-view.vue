@@ -1,5 +1,5 @@
 <template>
-  <div class="character">
+  <div class="character" >
 
     <div id="characterName">
       <h1>{{ players.name }}</h1><h3>{{ players.species }}</h3>
@@ -47,8 +47,7 @@
       </ul>
     </div>
 
-    <single-brief></single-brief>
-
+    <single-brief v-if="brief"></single-brief>
   </div>
 </template>
 
@@ -65,8 +64,14 @@ export default {
   data() {
     return {
       current: firebase.auth().currentUser.uid,
-      inventory: false
+      inventory: false,
     }
+  },
+
+  props: {
+    dashboard: false,
+    brief: false,
+    party: false
   },
 
   components: {
@@ -147,7 +152,8 @@ export default {
     },
   },
 
-  mounted() {}
+  mounted() {
+  }
 }
 </script>
 

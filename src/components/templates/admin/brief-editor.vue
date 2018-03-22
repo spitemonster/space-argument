@@ -1,9 +1,10 @@
 <template lang="html">
-  <div>
-    <div class="editor" v-if="!posted">
-      <input type="text" placeholder="Title" v-model="title" />
-      <textarea id="brief__content" placeholder="Content" v-model="content" />
-      <button type="button" name="post" @click="post">POST</button>
+  <div class="editorContainer">
+    <div class="briefEditor" v-if="!posted">
+      <input id="briefTitle" type="text" placeholder="title" v-model="title">
+      <div id="editor">
+      </div>
+      <button type="button" name="post" id="postButton" @click="post">POST</button>
     </div>
     <div class="success" v-if="posted">
       <h3>Success</h3>
@@ -15,6 +16,7 @@
 <script>
 import db from '../../../assets/js/firebaseConfig.js'
 import { bus } from '../../../bus.js'
+import pell from 'pell'
 
 export default {
   name: 'brief-editor',
@@ -41,84 +43,93 @@ export default {
   methods: {
     success() {
       this.posted = true;
+
+      setTimeout(() => {
+        bus.$emit('writeBrief');
+        this.posted = false;
+      }, 3000)
     },
 
     post() {
-      let brief = {
+      this.$firebaseRefs.briefs.push({
         title: this.title,
         content: this.content
-      }
-
-      let briefId = this.briefs.length;
-      db.ref('briefs/' + briefId).set(brief);
+      });
 
       this.success()
+    },
+
+    editorFunctions() {
     }
+  },
+  mounted() {
+    // Initialize pell on an HTMLElement
+    pell.init({
+      // <HTMLElement>, required
+      element: document.getElementById('editor'),
+      onChange: html => {
+        this.content = html;
+      },
+      defaultParagraphSeparator: 'p',
+      styleWithCSS: false,
+      actions: [
+        'bold',
+        {
+          name: 'custom',
+          icon: 'C',
+          title: 'Custom Action',
+          result: () => console.log('Do something!')
+        },
+        'underline'
+      ],
+      classes: {
+        actionbar: 'pell-actionbar',
+        button: 'pell-button',
+        content: 'pell-content',
+        selected: 'pell-button-selected'
+        }
+    })
   }
 }
 </script>
 
 <style lang="scss">
-  div {
+  @import '../../../../node_modules/pell/src/pell';
+
+  .editorContainer {
     width: 100%;
+    height: 100%;
   }
 
-  .editor {
-    height: 600px;
-    width: 50%;
-    margin: 0 auto;
+  .briefEditor {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    margin: 0 auto;
+    height: 100%;
 
-    input,
-    textarea {
-      width: 100%;
-      font-size: 1rem;
-      font-weight: 100;
-
-      &::placeholder {
-        text-transform: uppercase;
-      }
-
-      &:focus {
-        opacity: 1;
-
-        &::placeholder {
-          opacity: 0;
-        }
-      }
+    @media (min-width: 960px) {
+      width: 50%;
     }
 
-    textarea {
-      height: 1.5rem;
-      background: none;
-      margin-top: 3rem;
-      border: none;
-      border-bottom: 1px solid black;
-      transition: all 250ms linear;
-      resize: none;
-      opacity: .5;
-
-      &:focus,
-      &:valid {
-        height: 400px;
-        border: 1px solid black;
-      }
-
-      &:invalid {
-        height: 1.5rem;
-      }
+    @media (max-width: 959px) {
+      width: 80%;
     }
+  }
 
-    button {
-      width: 100px;
-      height: 40px;
-      font-size: 1rem;
-      margin-top: 1rem;
-      align-self: flex-start;
-    }
+  #briefTitle {
+    width: 100%;
+    margin: 2rem auto 0;
+    font-size: 1rem;
+  }
+
+  #editor {
+    margin: 2rem auto;
+    border: 1px solid black;
+    height: 300px
+  }
+
+  #postButton {
+    height: 40px;
+    width: 120px;
+    font-size: 1rem;
   }
 </style>

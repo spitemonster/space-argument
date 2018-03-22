@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <nav-menu v-if="logged"></nav-menu>
     <router-view/>
     <!-- <button type="button" name="button" @click="test">poop</button> -->
   </div>
@@ -21,13 +20,8 @@ export default {
     }
   },
   computed: {
-    logged() {
-      if (firebase.auth().currentUser != null && this.$route.name != 'Login') {
-        return true
-      }
-    }
   },
-  methods: {}
+  methods: {},
 }
 </script>
 
