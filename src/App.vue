@@ -39,7 +39,7 @@ body {
   background: $white;
   position: relative;
   top: 0;
-  height: 100vh;
+  min-height: 100%;
   width: 80%;
   margin: 0 auto;
 

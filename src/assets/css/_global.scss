@@ -1,7 +1,20 @@
 button {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background: none;
-  border: 1px solid rgba(99, 99, 99, 1);
-  color: rgba(99, 99, 99, 1);
+  border: 1px solid $black;
+  color: $black;
   text-transform: uppercase;
   position: relative;
   cursor: pointer;
@@ -10,8 +23,8 @@ button {
   transition: all 100ms linear;
 
   &:hover {
-    border-color: rgb(222, 222, 222);
-    color: rgba(222, 222, 222, 1);
+    border-color: $black;
+    color: $white;
 
     &::before {
       left: 0;
@@ -28,7 +41,7 @@ button {
     height: 100%;
     -webkit-transition: all 100ms ease-out;
     transition: all 100ms ease-out;
-    background: rgba(99, 99, 99, 1);
+    background: $black;
     z-index: -1;
   }
 }

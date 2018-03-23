@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import db from '../../assets/js/firebaseConfig.js'
 import { bus } from '../../bus.js'
 import briefEditor from './admin/brief-editor.vue'
 
@@ -26,12 +25,6 @@ export default {
     briefEditor,
   },
 
-  firebase: function() {
-    return {
-      players: db.ref('players/')
-    }
-  },
-
   computed: {
   },
 
@@ -39,7 +32,6 @@ export default {
   },
 
   created() {
-    console.log(this.dashboard);
   }
 }
 </script>

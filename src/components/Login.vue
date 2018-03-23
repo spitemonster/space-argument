@@ -28,6 +28,7 @@ export default {
   },
 
   methods: {
+    //jump to dashboard if logged in
     redirect() {
         this.$router.replace('Dashboard');
     },
@@ -49,7 +50,7 @@ export default {
         })
     }
   },
-  beforeCreate() {
+  created() {
   }
 }
 </script>

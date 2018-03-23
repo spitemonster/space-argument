@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <nav-menu></nav-menu>
+    <nav-menu :type="type"></nav-menu>
     <player-view
       v-if="type == 'Player'"
       :dashboard="viewDashboard"
@@ -11,30 +11,21 @@
       :dashboard="viewDashboard"
       :brief="writeBrief"
       :party="viewParty" ></admin-view>
-    <button type="button" name="button" @click="logOut">Log Out</button>
+    <button type="button" name="button" @click="logOut" class="log-out">Log Out</button>
   </div>
 </template>
 
 <script>
+//firebase config
 import db from '../assets/js/firebaseConfig.js'
+//should be obvious
 import { bus } from '../bus.js'
-
 import navMenu from './templates/nav-menu.vue'
 import playerView from './templates/player-view.vue'
 import adminView from './templates/admin-view.vue'
 
 export default {
   name: 'Dashboard',
-
-  data() {
-    return {
-      current: firebase.auth().currentUser.uid,
-      viewDashboard: false,
-      writeBrief: false,
-      viewBriefs: false,
-      viewParty: false,
-    }
-  },
 
   components: {
     navMenu,
@@ -51,9 +42,23 @@ export default {
     }
   },
 
+  data() {
+    return {
+      viewDashboard: false,
+      writeBrief: false,
+      viewBriefs: false,
+      viewParty: false,
+      userType: this.type,
+      // current: firebase.auth().currentUser.uid
+    }
+  },
+
   computed: {
     type() {
       return this.player.type;
+    },
+    current() {
+      return firebase.auth().currentUser.uid;
     }
   },
 
@@ -69,6 +74,7 @@ export default {
   },
 
   created() {
+    //will probably comeback and try to rewrite this. sets which view will be active, whether it's player or admin
     bus.$on('setFocus', (data) => {
       if (data == 'dashboard') {
         this.viewDashboard = true;
@@ -100,5 +106,9 @@ export default {
 @import '../assets/css/_variables.scss';
   .dashboard {
     height: 100%;
+  }
+
+  .log-out {
+    padding: 1rem;
   }
 </style>

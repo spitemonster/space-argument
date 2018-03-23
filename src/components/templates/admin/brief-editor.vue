@@ -53,7 +53,7 @@ export default {
       this.posted = true;
 
       setTimeout(() => {
-        bus.$emit('writeBrief');
+        bus.$emit('setFocus', 'dashboard');
         this.posted = false;
       }, 3000)
     },
