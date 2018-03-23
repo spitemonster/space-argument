@@ -19,6 +19,7 @@ import db from '../assets/js/firebaseConfig.js'
 
 export default {
   name: 'Login',
+  
   data() {
     return {
       email: '',
@@ -33,6 +34,7 @@ export default {
         this.$router.replace('Dashboard');
     },
 
+    //sign in
     login() {
       let username = this.email + '@spaceargument.com'
 
@@ -55,7 +57,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import '../assets/css/_variables.scss';
 #login {

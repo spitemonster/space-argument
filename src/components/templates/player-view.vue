@@ -1,3 +1,4 @@
+<!-- What players see -->
 <template>
   <div class="character" >
 
@@ -16,47 +17,31 @@
       {{ this.encumberance }} / {{ players.encThresh }}
     </div>
 
-    <playerCharacteristics></playerCharacteristics>
+    <player-characteristics :characteristics="players"></player-characteristics>
 
     <div id="invButton" @click="inventory = !inventory">
       <h3>INVENTORY</h3>
     </div>
 
-    <playerStats></playerStats>
+    <player-stats :skills="players.skills"></player-stats>
 
-    <div id="inv" v-if="inventory">
-      <ul>
-        <li v-for="shooster in this.shoosters">
-          {{ shooster.name }}
-          <ul>
-            <li>{{ shooster.damage }}</li>
-            <li>{{ shooster.crit }}</li>
-            <li>{{ shooster.encumberance }}</li>
-          </ul>
-        </li>
-      </ul>
-      <ul>
-        <li v-for="arm in this.armor">
-          {{ arm.name }}
-          <ul>
-            <li>{{ arm.defense }}</li>
-            <li>{{ arm.soak }}</li>
-            <li>{{ arm.encumberance }}</li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <player-inventory v-if="inventory"
+                      :shoosters="weapons"
+                      :armor="armorInv"></player-inventory>
 
-    <single-brief v-if="brief"></single-brief>
+    <single-brief v-if="brief" :briefs="briefs"></single-brief>
   </div>
 </template>
 
 <script>
 import db from '../../assets/js/firebaseConfig.js'
 import { bus } from '../../bus.js'
+
+//import components
 import playerCharacteristics from './player/player-characteristics.vue'
 import playerStats from './player/player-stats.vue'
 import singleBrief from './player/single-brief.vue'
+import playerInventory from './player/player-inventory.vue'
 
 export default {
   name: 'player-view',
@@ -77,7 +62,8 @@ export default {
   components: {
     playerCharacteristics,
     playerStats,
-    singleBrief
+    singleBrief,
+    playerInventory
   },
 
   firebase: function() {
@@ -87,7 +73,10 @@ export default {
         asObject: true
       },
       weapons: db.ref('players/' + this.current + '/inventory/weapons'),
-      armorInv: db.ref('players/' + this.current + '/inventory/armor')
+      armorInv: db.ref('players/' + this.current + '/inventory/armor'),
+      briefs: {
+        source: db.ref('briefs/')
+      }
     }
   },
 
@@ -140,16 +129,6 @@ export default {
   },
 
   methods: {
-    updateWeapon() {
-      this.$firebaseRefs.armor.push({
-        name: 'Heavy Battle Armor',
-        defense: '1',
-        soak: '2',
-        encumberance: '6',
-        hardpoints: '4',
-        attachments: null
-      })
-    },
   },
 }
 </script>
@@ -311,11 +290,5 @@ export default {
       align-content: flex-end;
     }
   }
-}
-
-#inv {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
 }
 </style>

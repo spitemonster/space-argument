@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import db from '../../../assets/js/firebaseConfig.js'
 import { bus } from '../../../bus.js'
 import pell from 'pell'
 
@@ -37,12 +36,9 @@ export default {
     }
   },
 
-  firebase: function() {
-    return {
-      briefs: {
-        source: db.ref('briefs/')
-      }
-    }
+  props: {
+    briefs: {},
+    refs: {}
   },
 
   computed: {
@@ -78,7 +74,7 @@ export default {
 
     post() {
       if (this.content != '' && this.title != '') {
-        this.$firebaseRefs.briefs.push({
+        this.refs.briefs.push({
           title: this.title,
           content: this.content
         });

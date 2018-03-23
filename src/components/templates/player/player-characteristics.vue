@@ -3,56 +3,55 @@
     <div class="charCard" @click="showThis">
       <h4>brawn</h4>
       <div class="charRank">
-        {{ players.brawn }}
+        {{ characteristics.brawn }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>agility</h4>
       <div class="charRank">
-        {{ players.agility }}
+        {{ characteristics.agility }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>intellect</h4>
       <div class="charRank">
-        {{ players.intellect }}
+        {{ characteristics.intellect }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>cunning</h4>
       <div class="charRank">
-        {{ players.cunning }}
+        {{ characteristics.cunning }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>willpower</h4>
       <div class="charRank">
-        {{ players.willpower }}
+        {{ characteristics.willpower }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>presence</h4>
       <div class="charRank">
-        {{ players.presence }}
+        {{ characteristics.presence }}
       </div>
     </div>
 
     <div v-if="hasForce" class="charCard">
       <h4>force</h4>
       <div class="charRank">
-        {{ players.forceRank }}
+        {{ characteristics.forceRank }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import db from '../../../assets/js/firebaseConfig.js'
 import { bus } from '../../../bus.js'
 
 export default {
@@ -70,20 +69,13 @@ export default {
     }
   },
 
-  firebase: function() {
-    return {
-      players: {
-        source: db.ref('players/' + this.current),
-        asObject: true
-      },
-      weapons: db.ref('players/' + this.current + '/inventory/weapons'),
-      armorInv: db.ref('players/' + this.current + '/inventory/armor'),
-    }
+  props: {
+    characteristics: {},
   },
 
   computed: {
     hasForce() {
-      return this.players.hasForce;
+      return this.characteristics.hasForce;
     }
   },
 
@@ -95,7 +87,7 @@ export default {
         bus.$emit('showChar', e.target.parentNode.childNodes[0].innerHTML);
       }
     }
-  }
+  },
 }
 </script>
 

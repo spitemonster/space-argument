@@ -29,8 +29,8 @@ export default {
     }
   },
   methods: {
+    //this will eventually all get deleted; don't want anyone unwelcome making an account and making fuck of the whole thing, this is just the easiest way for me to create each player
     createUser () {
-
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
       .then( e => {
           let playerID = firebase.auth().currentUser.uid
@@ -44,7 +44,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import '../assets/css/_variables.scss';
 

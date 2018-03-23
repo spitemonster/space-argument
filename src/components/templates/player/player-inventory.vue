@@ -1,73 +1,60 @@
 <template>
   <div id="inventory">
-
+    <ul>
+      <li v-for="shooster in this.shoosters">
+        {{ shooster.name }}
+        <ul>
+          <li>{{ shooster.damage }}</li>
+          <li>{{ shooster.crit }}</li>
+          <li>{{ shooster.encumberance }}</li>
+        </ul>
+      </li>
+    </ul>
+    <ul>
+      <li v-for="arm in this.armor">
+        {{ arm.name }}
+        <ul>
+          <li>{{ arm.defense }}</li>
+          <li>{{ arm.soak }}</li>
+          <li>{{ arm.encumberance }}</li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import db from '../../../assets/js/firebaseConfig.js'
 import { bus } from '../../../bus.js'
 
 export default {
-  name: 'player-stats',
+  name: 'player-inventory',
   data() {
     return {
-      current: firebase.auth().currentUser.uid,
       inventory: false
     }
   },
-  firebase: function() {
-    return {
-      players: {
-        source: db.ref('players/' + this.current),
-        asObject: true
-      },
-      weapons: db.ref('players/' + this.current + '/inventory/weapons'),
-      armorInv: db.ref('players/' + this.current + '/inventory/armor')
-    }
+
+  props: {
+    shoosters: {},
+    armor: {}
   },
+
   computed: {
-    hasForce() {
-      return this.players.hasForce
-    }
   },
+
   created() {
-    bus.$on('showChar', data => {
-      if (this[data]) {
-        ;(this.brawn = false),
-          (this.agility = false),
-          (this.intellect = false),
-          (this.cunning = false),
-          (this.willpower = false),
-          (this.presence = false),
-          (this.force = false),
-          (this.inventory = false)
-        this[data] = false
-      } else if (!this[data]) {
-        ;(this.brawn = false),
-          (this.agility = false),
-          (this.intellect = false),
-          (this.cunning = false),
-          (this.willpower = false),
-          (this.presence = false),
-          (this.force = false),
-          (this.inventory = false)
-        this[data] = true
-      }
-    })
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 @import '../../../assets/css/_variables.scss';
-#stats {
-  color: rgb(99, 99, 99);
-  font-weight: 100;
-  text-transform: uppercase;
-}
 
-#stats h3 {
-  font-weight: 100;
+#inventory {
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
 }
 </style>

@@ -49,11 +49,12 @@ export default {
       viewBriefs: false,
       viewParty: false,
       userType: this.type,
-      // current: firebase.auth().currentUser.uid
     }
   },
 
   computed: {
+    //using just data did not behave how i wanted, especially with regard to passing data via props, so here we are
+
     type() {
       return this.player.type;
     },
@@ -63,6 +64,7 @@ export default {
   },
 
   methods: {
+    //logout and redirect to login page. this will probably, eventually, be moved to nav.
     logOut() {
       firebase
         .auth()
@@ -98,6 +100,9 @@ export default {
         this.viewParty = true;
       }
     });
+  },
+
+  mounted() {
   }
 }
 </script>

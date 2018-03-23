@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import db from '../../../assets/js/firebaseConfig.js'
 import { bus } from '../../../bus.js'
 
 export default {
@@ -14,16 +13,11 @@ export default {
 
   data () {
     return {
-      brief: {}
     }
   },
 
-  firebase: function() {
-    return {
-      briefs: {
-        source: db.ref('briefs/')
-      }
-    }
+  props: {
+    briefs: {}
   },
 
   computed: {
@@ -35,7 +29,6 @@ export default {
   },
 
   methods: {
-
   },
 
   created() {
