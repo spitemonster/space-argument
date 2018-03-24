@@ -88,6 +88,20 @@ export default {
       }
     }
   },
+
+  mounted() {
+    let chars = document.getElementById('characteristics');
+
+    chars.addEventListener('click', (e) => {
+      let activeCards = document.getElementsByClassName('activeCard');
+
+      for (let i = 0; i < activeCards.length; i++) {
+        activeCards[i].classList.remove('activeCard');
+      }
+
+      e.target.parentNode.classList.toggle('activeCard');
+    });
+  }
 }
 </script>
 
@@ -160,6 +174,17 @@ export default {
         font-size: 0.8rem;
       }
     }
+
+    * {
+      -webkit-user-select: none;  /* Chrome all / Safari all */
+         -moz-user-select: none;     /* Firefox all */
+          -ms-user-select: none;      /* IE 10+ */
+              user-select: none;
+    }
+  }
+
+  .activeCard {
+    background: $black;
   }
 
   .charRank {

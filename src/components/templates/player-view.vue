@@ -1,25 +1,31 @@
 <!-- What players see -->
 <template>
   <div class="character" >
-    <section v-if="dashboard">
-      <player-info :player="players"
-                   :weapons="weapons"
-                   :armor="armor"></player-info>
+    <keep-alive>
+      <section v-if="dashboard">
+        <player-info :player="player"
+                     :weapons="weapons"
+                     :armor="armor"></player-info>
 
-      <player-characteristics :characteristics="players"></player-characteristics>
+        <player-characteristics :characteristics="player"></player-characteristics>
 
-      <div id="invButton" @click="inventory = !inventory">
-        <h3>INVENTORY</h3>
-      </div>
+        <div id="invButton" @click="inventory = !inventory">
+          <h3>INVENTORY</h3>
+        </div>
 
-      <player-stats :skills="players.skills"></player-stats>
+        <player-stats :skills="player.skills"></player-stats>
 
-      <player-inventory v-if="inventory"
-                        :shoosters="weapons"
-                        :armor="armorInv"></player-inventory>
-    </section>
+        <player-inventory v-if="inventory"
+                          :shoosters="weapons"
+                          :armor="armorInv"></player-inventory>
+      </section>
+    </keep-alive>
     <section v-if="brief">
-      <single-brief v-if="brief" :briefs="briefs"></single-brief>
+      <single-brief :briefs="briefs"></single-brief>
+    </section>
+    <section v-if="party">
+      <party :party="team"
+             :current="current"></party>
     </section>
   </div>
 </template>
@@ -34,6 +40,7 @@ import playerStats from './player/player-stats.vue'
 import singleBrief from './player/single-brief.vue'
 import playerInventory from './player/player-inventory.vue'
 import playerInfo from './player/player-info.vue'
+import party from './party.vue'
 
 export default {
   name: 'player-view',
@@ -56,12 +63,17 @@ export default {
     playerStats,
     singleBrief,
     playerInventory,
-    playerInfo
+    playerInfo,
+    party
   },
 
   firebase: function() {
     return {
-      players: {
+      team: {
+        source: db.ref('players/'),
+        asObject: true
+      },
+      player: {
         source: db.ref('players/' + this.current),
         asObject: true
       },
@@ -108,46 +120,6 @@ export default {
   min-height: 100%;
   margin: 0 auto;
   padding: 2rem 1rem;
-}
-
-#characterName {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  text-transform: uppercase;
-  font-weight: 700;
-  margin-bottom: 2rem;
-}
-
-.bar {
-  // border-radius: 2px;
-  color: $white;
-  padding-left: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-content: center;
-  align-items: center;
-  width: 100%;
-  font-family: 'Open Mono', monospace;
-}
-
-#healthBar {
-  height: 40px;
-  background: $healthRed;
-}
-
-#forceBar {
-  height: 20px;
-  background: $forceBlue;
-  margin-top: 0.5rem;
-}
-
-#encBar {
-  height: 20px;
-  background: $encGreen;
-  margin-top: 0.5rem;
 }
 
 #invButton {

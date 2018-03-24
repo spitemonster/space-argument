@@ -32,6 +32,10 @@ export default {
       let total = 0
 
       return total;
+    },
+
+    hasForce() {
+      return this.player.hasForce;
     }
   },
 
@@ -44,10 +48,6 @@ export default {
   methods: {
     currentHealth() {
       return this.player.skills.astrogation - this.player.skills.athletics
-    },
-
-    hasForce() {
-      return this.player.hasForce
     }
   },
 
@@ -57,4 +57,44 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../../assets/css/_variables.scss';
+#characterName {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.bar {
+  // border-radius: 2px;
+  color: $white;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  font-family: 'Open Mono', monospace;
+}
+
+#healthBar {
+  height: 40px;
+  background: $healthRed;
+}
+
+#forceBar {
+  height: 20px;
+  background: $forceBlue;
+  margin-top: 0.5rem;
+}
+
+#encBar {
+  height: 20px;
+  background: $encGreen;
+  margin-top: 0.5rem;
+}
 </style>

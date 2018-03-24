@@ -30,7 +30,7 @@ export default {
   components: {
     navMenu,
     playerView,
-    adminView
+    adminView,
   },
 
   firebase: function() {
