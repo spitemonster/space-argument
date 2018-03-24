@@ -17,7 +17,7 @@ export default {
   },
 
   props: {
-    dashboard: false,
+    dashboard: true,
     brief: false,
     party: false
   },
@@ -44,7 +44,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.$firebaseRefs);
   }
 }
 </script>

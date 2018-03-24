@@ -44,11 +44,12 @@ export default {
 
   data() {
     return {
-      viewDashboard: false,
+      viewDashboard: true,
       writeBrief: false,
       viewBriefs: false,
       viewParty: false,
       userType: this.type,
+      current: firebase.auth().currentUser.uid
     }
   },
 
@@ -57,9 +58,6 @@ export default {
 
     type() {
       return this.player.type;
-    },
-    current() {
-      return firebase.auth().currentUser.uid;
     }
   },
 

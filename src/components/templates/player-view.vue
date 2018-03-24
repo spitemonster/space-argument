@@ -1,35 +1,26 @@
 <!-- What players see -->
 <template>
   <div class="character" >
+    <section v-if="dashboard">
+      <player-info :player="players"
+                   :weapons="weapons"
+                   :armor="armor"></player-info>
 
-    <div id="characterName">
-      <h1>{{ players.name }}</h1><h3>{{ players.species }}</h3>
-    </div>
-    <div id="healthBar" class="bar">
-      {{ players.woundCurrent }} / {{ players.woundThresh }}
-    </div>
+      <player-characteristics :characteristics="players"></player-characteristics>
 
-    <div id="forceBar" class="bar" v-if="hasForce">
-      {{ players.forceCommit }} / {{ players.forceAvail}}
-    </div>
+      <div id="invButton" @click="inventory = !inventory">
+        <h3>INVENTORY</h3>
+      </div>
 
-    <div id="encBar" class="bar">
-      {{ this.encumberance }} / {{ players.encThresh }}
-    </div>
+      <player-stats :skills="players.skills"></player-stats>
 
-    <player-characteristics :characteristics="players"></player-characteristics>
-
-    <div id="invButton" @click="inventory = !inventory">
-      <h3>INVENTORY</h3>
-    </div>
-
-    <player-stats :skills="players.skills"></player-stats>
-
-    <player-inventory v-if="inventory"
-                      :shoosters="weapons"
-                      :armor="armorInv"></player-inventory>
-
-    <single-brief v-if="brief" :briefs="briefs"></single-brief>
+      <player-inventory v-if="inventory"
+                        :shoosters="weapons"
+                        :armor="armorInv"></player-inventory>
+    </section>
+    <section v-if="brief">
+      <single-brief v-if="brief" :briefs="briefs"></single-brief>
+    </section>
   </div>
 </template>
 
@@ -42,6 +33,7 @@ import playerCharacteristics from './player/player-characteristics.vue'
 import playerStats from './player/player-stats.vue'
 import singleBrief from './player/single-brief.vue'
 import playerInventory from './player/player-inventory.vue'
+import playerInfo from './player/player-info.vue'
 
 export default {
   name: 'player-view',
@@ -54,7 +46,7 @@ export default {
   },
 
   props: {
-    dashboard: false,
+    dashboard: true,
     brief: false,
     party: false
   },
@@ -63,7 +55,8 @@ export default {
     playerCharacteristics,
     playerStats,
     singleBrief,
-    playerInventory
+    playerInventory,
+    playerInfo
   },
 
   firebase: function() {
@@ -81,14 +74,6 @@ export default {
   },
 
   computed: {
-    currentHealth() {
-      return this.players.skills.astrogation - this.players.skills.athletics
-    },
-
-    hasForce() {
-      return this.players.hasForce
-    },
-
     shoosters() {
       let arr = []
 
@@ -108,28 +93,10 @@ export default {
 
       return arr
     },
-
-    encumberance() {
-      let total = 0
-
-      for (let i = 0; i < this.weapons.length; i++) {
-        if (this.weapons[i].encumberance) {
-          total += parseInt(this.weapons[i].encumberance)
-        }
-      }
-
-      for (let i = 0; i < this.armor.length; i++) {
-        if (this.armor[i].encumberance) {
-          total += parseInt(this.armor[i].encumberance)
-        }
-      }
-
-      return total
-    }
   },
 
   methods: {
-  },
+  }
 }
 </script>
 
