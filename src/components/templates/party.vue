@@ -5,9 +5,18 @@
         <h2>{{ member.name }}</h2><h4>{{ member.species }}</h4>
       </div>
 
-      <h4>WOUND</h4>
-      <div id="healthBar" class="bar">
-        {{ member.woundCurrent }} / {{ member.woundThresh }}
+      <span class="split">
+        <h4>WOUND</h4>
+        <h4>SOAK</h4>
+      </span>
+
+      <div id="woundSoak">
+        <div id="healthBar" class="bar">
+          {{ member.woundCurrent }} / {{ member.woundThresh }}
+        </div>
+        <div id="soak">
+          {{ calcSoak(member) }}
+        </div>
       </div>
 
       <template v-if="member.hasForce">
@@ -27,7 +36,7 @@
       <div id="invRow">
         <div v-for="cat in member.inventory.weapons" v-if="cat.equipped == 'true'" class="itemCard">
           <h4>{{ cat.name }}</h4>
-          Damage: {{ cat.damage }} | Crit: {{ cat.crit }} | Skill: {{ cat.skill }}
+          Damage: {{ cat.damage }} | Crit: {{ cat.crit }} | Skill: {{ cat.skill }} | Rank: {{ getWeaponRank(cat.skill, member) }}
         </div>
         <div v-for="arm in member.inventory.armor" v-if="arm.equipped == 'true'" class="itemCard">
           <h4>{{ arm.name }}</h4>
@@ -70,6 +79,37 @@ export default {
   },
 
   methods: {
+    calcSoak(data, ) {
+      let armorInv = data.inventory.armor;
+      let armorSoak = '';
+
+      for (let arm in armorInv) {
+        if (armorInv[arm].equipped) {
+          armorSoak = parseInt(armorInv[arm].soak);
+        }
+      }
+
+      return data.soakThresh + armorSoak;
+    },
+
+    getWeaponRank(data, player) {
+      let rank = '';
+      let letters = data.split('');
+      let first = letters.shift().toLowerCase();
+      let matches = '';
+
+      letters.unshift(first);
+
+      for (let i = 0; i < letters.length; i++) {
+        let letter = letters[i];
+
+        if (letter != '(' && letter != ')' && letter != ' ') {
+          matches += letter;
+        }
+      }
+
+      return player['skills'][matches];
+    }
   },
 
   created() {
@@ -105,7 +145,6 @@ export default {
 }
 
 .bar {
-  // border-radius: 2px;
   color: $white;
   padding-left: 10px;
   display: flex;
@@ -165,7 +204,21 @@ export default {
   }
 }
 
+#invRow {
+  margin-top: 1rem;
+}
+
 .itemCard {
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
+}
+
+.split {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  h4:nth-of-type(2) {
+    padding-right: 2.5%;
+  }
 }
 </style>

@@ -56,6 +56,7 @@ export default {
   computed: {
   },
 
+  //brought firebase in on this one because i needed to be able to changed the equipped weapon reactively, can't do that with props
   firebase: function() {
     return {
       shoosters: db.ref('players/' + this.current + '/inventory/weapons'),
@@ -188,7 +189,19 @@ export default {
 
 .equipped,
 .equippedArmor {
-  border: 5px solid red;
+  display: block;
+  position: relative;
+  border: 1px solid $black;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+
+  }
 }
 
 </style>

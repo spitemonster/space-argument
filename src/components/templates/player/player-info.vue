@@ -3,8 +3,14 @@
     <div id="characterName">
       <h1>{{ player.name }}</h1><h3>{{ player.species }}</h3>
     </div>
-    <div id="healthBar" class="bar">
-      {{ player.woundCurrent }} / {{ player.woundThresh }}
+
+    <div id="woundSoak">
+      <div id="healthBar" class="bar">
+        {{ player.woundCurrent }} / {{ player.woundThresh }}
+      </div>
+      <div id="soak">
+        {{ calcSoak }}
+      </div>
     </div>
 
     <div id="forceBar" class="bar" v-if="hasForce">
@@ -36,6 +42,19 @@ export default {
 
     hasForce() {
       return this.player.hasForce;
+    },
+
+    calcSoak() {
+      let armorInv = this.player.inventory.armor;
+      let armorSoak = '';
+
+      for (let arm in armorInv) {
+        if (armorInv[arm].equipped) {
+          armorSoak = parseInt(armorInv[arm].soak);
+        }
+      }
+
+      return this.player.soakThresh + armorSoak;
     }
   },
 
@@ -52,6 +71,7 @@ export default {
   },
 
   mounted() {
+
   }
 }
 </script>
@@ -96,5 +116,22 @@ export default {
   height: 20px;
   background: $encGreen;
   margin-top: 0.5rem;
+}
+
+#woundSoak {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+#soak {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Open Mono', monospace;
+  background: #FF5000;
+  color: $white;
+  min-width: 30px;
 }
 </style>
