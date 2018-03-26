@@ -2,8 +2,7 @@
   <div class="admin">
     <brief-editor v-if="brief" :briefs="briefs" :refs="$firebaseRefs"></brief-editor>
     <section v-if="party">
-      <party :party="team"
-             :current="current"></party>
+      <party :party="team"></party>
     </section>
   </div>
 </template>
@@ -33,10 +32,7 @@ export default {
       briefs: {
         source: db.ref('briefs/')
       },
-      team: {
-        source: db.ref('players/'),
-        asObject: true
-      }
+      team: db.ref('players/')
     }
   },
 
@@ -46,7 +42,7 @@ export default {
   },
 
   computed: {
-   },
+  },
 
   methods: {
   },
@@ -55,6 +51,7 @@ export default {
   },
 
   mounted() {
+    // console.log(this.team);
   }
 }
 </script>

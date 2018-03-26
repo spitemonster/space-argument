@@ -11,7 +11,7 @@
       :dashboard="viewDashboard"
       :brief="writeBrief"
       :party="viewParty" ></admin-view>
-    <button type="button" name="button" @click="logOut" class="log-out">Log Out</button>
+    <!-- <button type="button" name="button" @click="logOut" class="log-out">Log Out</button> -->
   </div>
 </template>
 

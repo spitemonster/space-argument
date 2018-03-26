@@ -4,6 +4,7 @@
     <li v-if="isAdmin()" @click="setFocus">write brief</li>
     <li v-else @click="setFocus">briefs</li>
     <li @click="setFocus">party</li>
+    <li @click="logOut">logout</li>
   </ul>
 </template>
 
@@ -34,6 +35,15 @@ export default {
 
     setFocus(e) {
       bus.$emit('setFocus', e.target.textContent);
+    },
+
+    logOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(e => {
+          this.$router.replace('login')
+        })
     }
   },
 

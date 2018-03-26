@@ -3,49 +3,49 @@
     <div class="charCard" @click="showThis">
       <h4>brawn</h4>
       <div class="charRank">
-        {{ characteristics.brawn }}
+        {{ characteristics.br }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>agility</h4>
       <div class="charRank">
-        {{ characteristics.agility }}
+        {{ characteristics.ag }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>intellect</h4>
       <div class="charRank">
-        {{ characteristics.intellect }}
+        {{ characteristics.int }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>cunning</h4>
       <div class="charRank">
-        {{ characteristics.cunning }}
+        {{ characteristics.cun }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>willpower</h4>
       <div class="charRank">
-        {{ characteristics.willpower }}
+        {{ characteristics.will }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>presence</h4>
       <div class="charRank">
-        {{ characteristics.presence }}
+        {{ characteristics.pres }}
       </div>
     </div>
 
     <div v-if="hasForce" class="charCard">
       <h4>force</h4>
       <div class="charRank">
-        {{ characteristics.forceRank }}
+        {{ characteristics.force}}
       </div>
     </div>
   </div>
@@ -93,6 +93,7 @@ export default {
     let chars = document.getElementById('characteristics');
 
     chars.addEventListener('click', (e) => {
+
       let activeCards = document.getElementsByClassName('activeCard');
 
       for (let i = 0; i < activeCards.length; i++) {

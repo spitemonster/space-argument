@@ -1,13 +1,14 @@
 <!-- What players see -->
 <template>
   <div class="character" >
+
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
                      :weapons="weapons"
                      :armor="armor"></player-info>
 
-        <player-characteristics :characteristics="player"></player-characteristics>
+        <player-characteristics :characteristics="player.characteristics"></player-characteristics>
 
         <div id="invButton" @click="inventory = !inventory">
           <h3>INVENTORY</h3>
@@ -69,10 +70,7 @@ export default {
 
   firebase: function() {
     return {
-      team: {
-        source: db.ref('players/'),
-        asObject: true
-      },
+      team: db.ref('players/'),
       player: {
         source: db.ref('players/' + this.current),
         asObject: true
@@ -108,6 +106,18 @@ export default {
   },
 
   methods: {
+
+    // update() {
+    //   this.$firebaseRefs.player.child('characteristics').set({
+    //     br: 0,
+    //     ag: 0,
+    //     int: 0,
+    //     cun: 0,
+    //     will: 0,
+    //     pres: 0,
+    //     force: 0
+    //   })
+    // }
   }
 }
 </script>
