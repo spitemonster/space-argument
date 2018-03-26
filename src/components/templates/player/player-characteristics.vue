@@ -81,27 +81,48 @@ export default {
 
   methods: {
     showThis(e) {
+      let activeCards = document.getElementsByClassName('activeCard');
+
+      //
+
       if (e.target.tagName == 'H4') {
+        let card = e.target.parentNode.childNodes[2]
         bus.$emit('showChar', e.target.innerHTML);
+
+        if (!card.classList.contains('activeCard')) {
+          for (let i = 0; i < activeCards.length; i++) {
+            activeCards[i].classList.remove('activeCard');
+          }
+          card.classList.add('activeCard');
+        } else if (card.classList.contains('activeCard')) {
+          card.classList.remove('activeCard');
+        }
       } else if (e.target.parentNode.childNodes[0].tagName == 'H4') {
+        let card = e.target.parentNode.childNodes[2];
         bus.$emit('showChar', e.target.parentNode.childNodes[0].innerHTML);
+
+        if (!card.classList.contains('activeCard')) {
+          for (let i = 0; i < activeCards.length; i++) {
+            activeCards[i].classList.remove('activeCard');
+          }
+          
+          card.classList.add('activeCard');
+        } else if (card.classList.contains('activeCard')) {
+          card.classList.remove('activeCard');
+        }
       }
     }
   },
 
   mounted() {
-    let chars = document.getElementById('characteristics');
-
-    chars.addEventListener('click', (e) => {
-
-      let activeCards = document.getElementsByClassName('activeCard');
-
-      for (let i = 0; i < activeCards.length; i++) {
-        activeCards[i].classList.remove('activeCard');
-      }
-
-      e.target.parentNode.classList.toggle('activeCard');
-    });
+    // let chars = document.getElementById('characteristics');
+    //
+    // chars.addEventListener('click', (e) => {
+    //
+    //
+    //
+    //   e.target.parentNode.classList.toggle('activeCard');
+    // });
   }
 }
 </script>
