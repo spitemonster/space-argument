@@ -2,7 +2,7 @@
   <div class="admin">
     <brief-editor v-if="brief" :briefs="briefs" :refs="$firebaseRefs"></brief-editor>
     <section v-if="party">
-      <party :party="team"></party>
+      <party></party>
     </section>
   </div>
 </template>
@@ -69,6 +69,12 @@ export default {
 }
 
 section {
-  width: 50%;
+  @media (min-width: 767px) {
+    width: 50%;
+  }
+
+  @media (max-width: 766px) {
+    width: 80%;
+  }
 }
 </style>

@@ -1,29 +1,39 @@
 <template>
   <div id="inventory">
+    <h3>Weapons</h3>
     <ul>
-      <li v-for="shooster in this.shoosters">
-        {{ shooster.name }}
+      <li class="weapon"
+          v-for="shooster in this.shoosters"
+          :data-gun="shooster['.key']"
+          @click="equipWeapon"
+          v-bind:class="isEquipped(shooster)">
+
+        <h4>{{ shooster.name }} - {{ shooster.skill}}</h4>
+
         <ul>
-          <li>{{ shooster.damage }}</li>
-          <li>{{ shooster.crit }}</li>
-          <li>{{ shooster.encumberance }}</li>
+          <li>Damage: {{ shooster.damage }}</li>
+          <li>Crit: {{ shooster.crit }}</li>
+          <li>Enc: {{ shooster.encumberance }}</li>
         </ul>
+
       </li>
     </ul>
+    <!-- <h3>Armor</h3>
     <ul>
       <li v-for="arm in this.armor">
-        {{ arm.name }}
+        <h4>{{ arm.name }}</h4>
         <ul>
-          <li>{{ arm.defense }}</li>
-          <li>{{ arm.soak }}</li>
-          <li>{{ arm.encumberance }}</li>
+          <li>Def: {{ arm.defense }}</li>
+          <li>Soak: {{ arm.soak }}</li>
+          <li>Enc: {{ arm.encumberance }}</li>
         </ul>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
 <script>
+import db from '../../../assets/js/firebaseConfig.js'
 import { bus } from '../../../bus.js'
 
 export default {
@@ -35,14 +45,82 @@ export default {
   },
 
   props: {
-    shoosters: {},
-    armor: {}
+    current: ''
   },
 
   computed: {
   },
 
+  firebase: function() {
+    return {
+      shoosters: db.ref('players/' + this.current + '/inventory/weapons'),
+      armor: db.ref('players/' + this.current + '/inventory/armor'),
+    }
+  },
+
+  methods: {
+    //determine if item is equipped
+    isEquipped(input) {
+      let eq = '';
+
+      if (input.equipped == 'true') {
+        eq = 'equipped';
+      }
+
+      return eq;
+    },
+
+    //set clicked item to equipped
+    equipWeapon(e) {
+      //set up vars. bf...was random.
+      let bf = e.target;
+      let gun = '';
+      let weapons = document.getElementsByClassName('weapon');
+      let targetClass = 'equipped';
+      let target = document.getElementsByClassName(targetClass);
+
+      //make sure we're getting the key. not sure of a better way to do this.
+      if (bf.getAttribute('data-gun')) {
+        gun = bf.getAttribute('data-gun');
+        for (let i = 0; i < target.length; i++) {
+          target[i].classList.remove(targetClass);
+        }
+        bf.classList.add('equipped');
+      } else if (bf.parentNode.getAttribute('data-gun')) {
+        gun = bf.parentNode.getAttribute('data-gun');
+        for (let i = 0; i < target.length; i++) {
+          target[i].classList.remove(targetClass);
+        }
+        bf.parentNode.classList.add('equipped');
+      } else if (bf.parentNode.parentNode.getAttribute('data-gun')) {
+        gun = bf.parentNode.parentNode.getAttribute('data-gun');
+        for (let i = 0; i < target.length; i++) {
+          target[i].classList.remove(targetClass);
+        }
+        bf.parentNode.parentNode.classList.add('equipped');
+      } else {
+        console.log('uh oh, you clicked on something dumb');
+      }
+
+      //set all of the items to unequipped
+      for (let i = 0; i < this.shoosters.length; i++) {
+        this.$firebaseRefs.shoosters.child(this.shoosters[i]['.key']).child('equipped').set('false');
+      }
+
+      //equip target item
+      this.$firebaseRefs.shoosters.child(gun).child('equipped').set('true');
+    }
+  },
+
   created() {
+  },
+
+  mounted() {
+    // console.log(this.shoosters[0]['.key']);
+    // //tidy up list of weapons
+    // for (let i = 0; i < this.shoosters.length; i++) {
+    //
+    // }
   }
 }
 </script>
@@ -51,10 +129,24 @@ export default {
 @import '../../../assets/css/_variables.scss';
 
 #inventory {
+  margin-top: 2rem;
+
   ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    list-style: none;
   }
+
+  & > ul > li {
+    margin-bottom: 1rem;
+
+    li {
+      margin-left: 1rem;
+      margin-bottom: .5rem;
+      display: inline-flex;
+    }
+  }
+}
+
+.equipped {
+  border: 5px solid red;
 }
 </style>

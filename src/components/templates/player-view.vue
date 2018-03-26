@@ -2,6 +2,7 @@
 <template>
   <div class="character" >
 
+    <button @click="update">UPDATE</button>
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
@@ -17,7 +18,7 @@
         <player-stats :skills="player.skills"></player-stats>
 
         <player-inventory v-if="inventory"
-                          :shoosters="weapons"
+                          :current="current"
                           :armor="armorInv"></player-inventory>
       </section>
     </keep-alive>
@@ -75,7 +76,10 @@ export default {
         source: db.ref('players/' + this.current),
         asObject: true
       },
-      weapons: db.ref('players/' + this.current + '/inventory/weapons'),
+      weapons: {
+        source: db.ref('players/' + this.current + '/inventory/weapons'),
+        asObject: true
+      },
       armorInv: db.ref('players/' + this.current + '/inventory/armor'),
       briefs: {
         source: db.ref('briefs/')
@@ -107,17 +111,18 @@ export default {
 
   methods: {
 
-    // update() {
-    //   this.$firebaseRefs.player.child('characteristics').set({
-    //     br: 0,
-    //     ag: 0,
-    //     int: 0,
-    //     cun: 0,
-    //     will: 0,
-    //     pres: 0,
-    //     force: 0
-    //   })
-    // }
+    update() {
+      let test = "Blaster Rifle";
+
+      this.$firebaseRefs.player.child('inventory').child('weapons').push({
+        equipped: true,
+        damage: 8,
+        crit: 4,
+        enc: 4,
+        skill: 'Ranged (Heavy)',
+        name: test
+      });;
+    }
   }
 }
 </script>

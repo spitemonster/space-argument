@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <div class="playerCard" v-for="member in team">
+    <div class="playerCard" v-for="member in party" v-if="member.name">
       <div id="characterName">
         <h2>{{ member.name }}</h2><h4>{{ member.species }}</h4>
       </div>
@@ -19,11 +19,20 @@
           <p>{{ characteristic }}</p>
         </div>
       </div>
+
+      <div id="invRow">
+        <div v-for="(cat, catID) in member.inventory.weapons" v-if="cat.equipped == 'true'" class="itemCard">
+          <h4>{{ cat.name }}</h4>
+          Damage: {{ cat.damage }} | Crit: {{ cat.crit }} | Skill: {{ cat.skill }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import db from '../../assets/js/firebaseConfig.js'
+
 export default {
   name: 'party',
 
@@ -37,12 +46,18 @@ export default {
 
   },
 
+  firebase() {
+    return {
+      party: db.ref('players/')
+    }
+  },
+
   watch: {
 
   },
 
   props: {
-    party: {},
+    // party: {},
     current: ''
   },
 
@@ -50,16 +65,16 @@ export default {
   },
 
   created() {
+    //iterate through and remove admin and empty DB entry, as well as
     for (let i = 0; i < this.party.length; i++) {
       if (this.party[i].name && this.party[i]['.key'] != this.current) {
         this.team[this.party[i].name] = this.party[i];
-        // console.log(this.party[i]['.key']);
       }
     }
   },
 
   mounted() {
-    // console.log(this.team);
+    // console.log(this.party);
   }
 }
 </script>
