@@ -18,9 +18,14 @@
 
       </li>
     </ul>
-    <!-- <h3>Armor</h3>
+    <h3>Armor</h3>
     <ul>
-      <li v-for="arm in this.armor">
+      <li class="armor"
+          v-for="arm in this.armor"
+          :data-armor="arm['.key']"
+          @click="equipArmor"
+          v-bind:class="isEquipped(arm)">
+
         <h4>{{ arm.name }}</h4>
         <ul>
           <li>Def: {{ arm.defense }}</li>
@@ -28,7 +33,7 @@
           <li>Enc: {{ arm.encumberance }}</li>
         </ul>
       </li>
-    </ul> -->
+    </ul>
   </div>
 </template>
 
@@ -64,7 +69,7 @@ export default {
       let eq = '';
 
       if (input.equipped == 'true') {
-        eq = 'equipped';
+        eq = 'equippedArmor';
       }
 
       return eq;
@@ -109,6 +114,46 @@ export default {
 
       //equip target item
       this.$firebaseRefs.shoosters.child(gun).child('equipped').set('true');
+    },
+
+    equipArmor(e) {
+      //set up vars. bf...was random.
+      let bf = e.target;
+      let armor = '';
+      let armors = document.getElementsByClassName('armor');
+      let targetClass = 'equippedArmor';
+      let target = document.getElementsByClassName(targetClass);
+
+      //make sure we're getting the key. not sure of a better way to do this.
+      if (bf.getAttribute('data-armor')) {
+        armor = bf.getAttribute('data-armor');
+        for (let i = 0; i < target.length; i++) {
+          target[i].classList.remove(targetClass);
+        }
+        bf.classList.add('equippedArmor');
+      } else if (bf.parentNode.getAttribute('data-armor')) {
+        armor = bf.parentNode.getAttribute('data-armor');
+        for (let i = 0; i < target.length; i++) {
+          target[i].classList.remove(targetClass);
+        }
+        bf.parentNode.classList.add('equippedArmor');
+      } else if (bf.parentNode.parentNode.getAttribute('data-armor')) {
+        armor = bf.parentNode.parentNode.getAttribute('data-armor');
+        for (let i = 0; i < target.length; i++) {
+          target[i].classList.remove(targetClass);
+        }
+        bf.parentNode.parentNode.classList.add('equippedArmor');
+      } else {
+        console.log('uh oh, you clicked on something dumb');
+      }
+
+      //set all of the items to unequipped
+      for (let i = 0; i < this.armor.length; i++) {
+        this.$firebaseRefs.armor.child(this.armor[i]['.key']).child('equipped').set('false');
+      }
+
+      //equip target item
+      this.$firebaseRefs.armor.child(armor).child('equipped').set('true');
     }
   },
 
@@ -116,11 +161,6 @@ export default {
   },
 
   mounted() {
-    // console.log(this.shoosters[0]['.key']);
-    // //tidy up list of weapons
-    // for (let i = 0; i < this.shoosters.length; i++) {
-    //
-    // }
   }
 }
 </script>
@@ -146,7 +186,9 @@ export default {
   }
 }
 
-.equipped {
+.equipped,
+.equippedArmor {
   border: 5px solid red;
 }
+
 </style>

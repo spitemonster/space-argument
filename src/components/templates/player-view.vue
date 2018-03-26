@@ -2,7 +2,7 @@
 <template>
   <div class="character" >
 
-    <button @click="update">UPDATE</button>
+    <!-- <button @click="update">UPDATE</button> -->
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"

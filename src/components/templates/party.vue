@@ -5,13 +5,17 @@
         <h2>{{ member.name }}</h2><h4>{{ member.species }}</h4>
       </div>
 
+      <h4>WOUND</h4>
       <div id="healthBar" class="bar">
         {{ member.woundCurrent }} / {{ member.woundThresh }}
       </div>
 
-      <div id="forceBar" class="bar" v-if="member.hasForce">
-        {{ member.forceCommit }} / {{ member.forceAvail}}
-      </div>
+      <template v-if="member.hasForce">
+        <h4>FORCE</h4>
+        <div id="forceBar" class="bar">
+          {{ member.forceCommit }} / {{ member.forceAvail}}
+        </div>
+      </template>
 
       <div id="charRow">
         <div v-for="(characteristic, characteristicID) in member.characteristics">
@@ -21,9 +25,13 @@
       </div>
 
       <div id="invRow">
-        <div v-for="(cat, catID) in member.inventory.weapons" v-if="cat.equipped == 'true'" class="itemCard">
+        <div v-for="cat in member.inventory.weapons" v-if="cat.equipped == 'true'" class="itemCard">
           <h4>{{ cat.name }}</h4>
           Damage: {{ cat.damage }} | Crit: {{ cat.crit }} | Skill: {{ cat.skill }}
+        </div>
+        <div v-for="arm in member.inventory.armor" v-if="arm.equipped == 'true'" class="itemCard">
+          <h4>{{ arm.name }}</h4>
+          Defense: {{ arm.defense }} | Soak: {{ arm.soak }}
         </div>
       </div>
     </div>
@@ -117,7 +125,6 @@ export default {
 #forceBar {
   height: 15px;
   background: $forceBlue;
-  margin-top: 0.5rem;
 }
 
 #encBar {
@@ -156,5 +163,9 @@ export default {
       font-size: 1.75rem;
     }
   }
+}
+
+.itemCard {
+  margin-bottom: 1rem;
 }
 </style>
