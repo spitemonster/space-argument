@@ -45,11 +45,13 @@ export default {
     },
 
     calcSoak() {
+      //calculates player's soak based on base soak and armor soak
       let armorInv = this.player.inventory.armor;
       let armorSoak = '';
 
       for (let arm in armorInv) {
         if (armorInv[arm].equipped) {
+          //if armor is equipped, set armorSoak to integer of the armor's soak
           armorSoak = parseInt(armorInv[arm].soak);
         }
       }
@@ -60,8 +62,7 @@ export default {
 
   props: {
     player: {},
-    weapons: {},
-    armor: {}
+    weapons: {}
   },
 
   methods: {
@@ -89,7 +90,6 @@ export default {
 }
 
 .bar {
-  // border-radius: 2px;
   color: $white;
   padding-left: 10px;
   display: flex;

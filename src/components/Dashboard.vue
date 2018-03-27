@@ -33,7 +33,7 @@ export default {
     adminView,
   },
 
-  firebase: function() {
+  firebase() {
     return {
       player: {
         source: db.ref('players/' + this.current),
@@ -55,7 +55,6 @@ export default {
 
   computed: {
     //using just data did not behave how i wanted, especially with regard to passing data via props, so here we are
-
     type() {
       return this.player.type;
     }

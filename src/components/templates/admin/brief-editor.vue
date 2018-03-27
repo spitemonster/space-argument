@@ -8,6 +8,8 @@
     </div>
     <div class="briefEditor" v-if="!posted">
       <input id="briefTitle" type="text" placeholder="title" v-model="title" required>
+      <input id="briefWorld" type="text" placeholder="Current World" v-model="currentWorld" required>
+      <input id="briefGoal" type="text" placeholder="Current Goal" v-model="currentGoal" required>
       <div id="editor">
       </div>
       <button type="button" name="post" id="postButton" @click="post">POST</button>
@@ -31,6 +33,8 @@ export default {
       posted: false,
       title: '',
       content: '',
+      currentWorld: '',
+      currentGoal: '',
       titleError: false,
       contentError: false
     }
@@ -46,6 +50,7 @@ export default {
 
   methods: {
     success() {
+      //if no problem with post, set this.posted to true and then after 3 seconds redirect to dashboard and reset this.posted to be used again
       this.posted = true;
 
       setTimeout(() => {
@@ -55,6 +60,7 @@ export default {
     },
 
     failure() {
+      //if problem with post, stupidly figure out what the problem is, add error state and announce problem
       document.getElementById('briefTitle').classList.add('invalid');
       document.getElementById('editor').classList.add('invalid');
 
@@ -73,6 +79,7 @@ export default {
     },
 
     post() {
+      //as long as the post has content and a title, push the post to the list of posts in FB
       if (this.content != '' && this.title != '') {
         this.refs.briefs.push({
           title: this.title,
@@ -83,14 +90,10 @@ export default {
         this.failure();
       }
     },
-
-    editorFunctions() {
-    }
   },
   mounted() {
     // Initialize pell on an HTMLElement
     pell.init({
-      // <HTMLElement>, required
       element: document.getElementById('editor'),
       onChange: html => {
         this.content = html;

@@ -59,70 +59,61 @@ export default {
 
   data () {
     return {
-      current: firebase.auth().currentUser.uid,
-      brawn: false,
-      agility: false,
-      int: false,
-      cun: false,
-      willpower: false,
-      pres: false
     }
   },
 
   props: {
     characteristics: {},
+    current: ''
   },
 
   computed: {
     hasForce() {
-      return this.characteristics.hasForce;
+      //is true if force exists in the list of characteristics
+      return (this.characteristics.force > -1 ? true : false);
     }
   },
 
   methods: {
+    //gets inner HTML to determine which characteristic has been selected, emits it on the bus which gets picked up elsewhere. also removes/adds 'activeCard' class
     showThis(e) {
       let activeCards = document.getElementsByClassName('activeCard');
+      let card = e.target.parentNode.childNodes[2];
 
-      //
+      function removeClass() {
+        //loop through all of the active cards and remove the active card class
+        for (let i = 0; i < activeCards.length; i++) {
+          activeCards[i].classList.remove('activeCard');
+        }
+      }
 
+      function cycle(target) {
+        //emit target innerHTML that tells which char was selected on the bus to fux wit elsewhere
+        bus.$emit('showChar', target.innerHTML);
+        if (!card.classList.contains('activeCard')) {
+          //if the target 'charCard' is not the 'activeCard'
+          removeClass();
+          //add activeCard class to target
+          card.classList.add('activeCard');
+        } else if (card.classList.contains('activeCard')) {
+          // if target card DOES have 'activeCard' class, remove it
+          card.classList.remove('activeCard');
+        }
+      }
+
+      //do the stuff
       if (e.target.tagName == 'H4') {
-        let card = e.target.parentNode.childNodes[2]
-        bus.$emit('showChar', e.target.innerHTML);
-
-        if (!card.classList.contains('activeCard')) {
-          for (let i = 0; i < activeCards.length; i++) {
-            activeCards[i].classList.remove('activeCard');
-          }
-          card.classList.add('activeCard');
-        } else if (card.classList.contains('activeCard')) {
-          card.classList.remove('activeCard');
-        }
+        //if user clicks on the h4, sends content of h4
+        cycle(e.target);
       } else if (e.target.parentNode.childNodes[0].tagName == 'H4') {
-        let card = e.target.parentNode.childNodes[2];
-        bus.$emit('showChar', e.target.parentNode.childNodes[0].innerHTML);
-
-        if (!card.classList.contains('activeCard')) {
-          for (let i = 0; i < activeCards.length; i++) {
-            activeCards[i].classList.remove('activeCard');
-          }
-          
-          card.classList.add('activeCard');
-        } else if (card.classList.contains('activeCard')) {
-          card.classList.remove('activeCard');
-        }
+        //if they click on the sibling of the h4, sends content of h4
+        cycle(e.target.parentNode.childNodes[0])
       }
     }
   },
 
   mounted() {
-    // let chars = document.getElementById('characteristics');
-    //
-    // chars.addEventListener('click', (e) => {
-    //
-    //
-    //
-    //   e.target.parentNode.classList.toggle('activeCard');
-    // });
+
   }
 }
 </script>
@@ -150,7 +141,6 @@ export default {
     background: $gray;
     height: 100px;
     text-align: center;
-    // border: 1px solid $white;
     cursor: pointer;
 
     @media (min-width: 1024px) {

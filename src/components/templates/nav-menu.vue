@@ -24,16 +24,12 @@ export default {
 
   methods: {
     isAdmin() {
-      let admin = false;
-
-      if (this.type == 'Admin') {
-        admin = true;
-      }
-
-      return admin;
+      //didn't work as a computed property
+      return (this.type == 'Admin' ? true : false);
     },
 
     setFocus(e) {
+      //nav menu focus etc
       bus.$emit('setFocus', e.target.textContent);
     },
 
@@ -49,6 +45,7 @@ export default {
 
   created() {
     bus.$on('setFocus', (data) => {
+      //takes 'setFocus' data, parses it to a string, then finds matching view. straightforward.
       let target = data.toString();
       let links = document.getElementsByTagName('li');
 

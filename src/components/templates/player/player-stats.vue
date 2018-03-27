@@ -90,27 +90,30 @@ export default {
 
   },
   created() {
+    //when user taps characteristic in characteristic row, take data, set it to true and set others to false;
+    let self = this;
+
+    //set all to false
+    function hideAll() {
+      self.brawn = false,
+      self.agility = false,
+      self.intellect = false,
+      self.cunning = false,
+      self.willpower = false,
+      self.presence = false,
+      self.force = false,
+      self.inventory = false
+    }
+
     bus.$on('showChar', data => {
-      if (this[data]) {
-        ;(this.brawn = false),
-          (this.agility = false),
-          (this.intellect = false),
-          (this.cunning = false),
-          (this.willpower = false),
-          (this.presence = false),
-          (this.force = false),
-          (this.inventory = false)
-        this[data] = false
-      } else if (!this[data]) {
-        ;(this.brawn = false),
-          (this.agility = false),
-          (this.intellect = false),
-          (this.cunning = false),
-          (this.willpower = false),
-          (this.presence = false),
-          (this.force = false),
-          (this.inventory = false)
-        this[data] = true
+      if (self[data]) {
+        //if skills are already visible, hide them when char is clicked again
+        hideAll();
+        self[data] = false
+      } else if (!self[data]) {
+        //otherwise show them
+        hideAll();
+        self[data] = true
       }
     })
   },

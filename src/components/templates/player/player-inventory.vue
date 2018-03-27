@@ -57,7 +57,7 @@ export default {
   },
 
   //brought firebase in on this one because i needed to be able to changed the equipped weapon reactively, can't do that with props
-  firebase: function() {
+  firebase() {
     return {
       shoosters: db.ref('players/' + this.current + '/inventory/weapons'),
       armor: db.ref('players/' + this.current + '/inventory/armor'),
@@ -76,7 +76,7 @@ export default {
       return eq;
     },
 
-    //set clicked item to equipped
+    //set clicked item to equipped. will try to refactor at some point since this and the armor function are essentially the same
     equipWeapon(e) {
       //set up vars. bf...was random.
       let bf = e.target;

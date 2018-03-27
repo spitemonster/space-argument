@@ -6,10 +6,10 @@
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
-                     :weapons="weapons"
-                     :armor="armor"></player-info>
+                     :weapons="weapons"></player-info>
 
-        <player-characteristics :characteristics="player.characteristics"></player-characteristics>
+        <player-characteristics :characteristics="player.characteristics"
+                                :current="current"></player-characteristics>
 
         <div id="invButton" @click="inventory = !inventory">
           <h3>INVENTORY</h3>
@@ -69,7 +69,7 @@ export default {
     party
   },
 
-  firebase: function() {
+  firebase() {
     return {
       team: db.ref('players/'),
       player: {
@@ -88,29 +88,9 @@ export default {
   },
 
   computed: {
-    shoosters() {
-      let arr = []
-
-      for (let i = 0; i < this.weapons.length; i++) {
-        arr.push(this.weapons[i])
-      }
-
-      return arr
-    },
-
-    armor() {
-      let arr = []
-
-      for (let i = 0; i < this.armorInv.length; i++) {
-        arr.push(this.armorInv[i])
-      }
-
-      return arr
-    },
   },
 
   methods: {
-
     update() {
       let test = "Blaster Rifle";
 
@@ -123,6 +103,9 @@ export default {
         name: test
       });;
     }
+  },
+
+  created() {
   }
 }
 </script>
