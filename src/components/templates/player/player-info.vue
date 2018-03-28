@@ -21,6 +21,15 @@
     <!-- <div id="encBar" class="bar">
       {{ encumberance }} / {{ player.encThresh }}
     </div> -->
+
+    <div id="moneyExp">
+      <span>
+        <h3>CREDITS: <span>{{ player.credits }}</span></h3>
+      </span>
+      <span>
+        <h3>EXP: <span>{{ player.availableXP }}</span></h3>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -67,9 +76,6 @@ export default {
   },
 
   methods: {
-    currentHealth() {
-      return this.player.skills.astrogation - this.player.skills.athletics
-    }
   },
 
   updated() {
@@ -121,7 +127,7 @@ export default {
   height: 40px;
   background: darken($healthRed, 20%);
   width: calc(100% - 50px);
-  
+
   #healthActual {
     position: absolute;
     top: 0;
@@ -165,5 +171,19 @@ export default {
   background: #FF5000;
   color: $white;
   width: 50px;
+}
+
+#moneyExp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin-top: 1rem;
+
+  h3 {
+    span {
+      font-weight: 100;
+    }
+  }
 }
 </style>

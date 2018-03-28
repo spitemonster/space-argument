@@ -6,6 +6,7 @@
     <!-- <button @click="updateArmor">UPDATE ARMOR</button> -->
     <!-- <button @click="updateSkills">UPDATE SKILLS</button> -->
     <!-- <button @click="updateChars">UPDATE SKILLS</button> -->
+    <!-- <button @click="updateKnow">UPDATE SKILLS</button> -->
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
@@ -20,7 +21,8 @@
 
         <player-stats :characteristics="player.characteristics"
                       :refs="$firebaseRefs.player"
-                      :exp="player.availableXP"></player-stats>
+                      :exp="player.availableXP"
+                      :know="player.knowledge"></player-stats>
 
         <player-inventory v-if="inventory"
                           :current="current"
@@ -406,6 +408,50 @@ export default {
           val: 0
         }
       })
+    },
+
+    updateKnow() {
+      // <!-- <h3 :class="{spec: skills.coreWorlds.spec}">Core Worlds <span>{{ skills.coreWorlds.value }}</span></h3>
+      // <h3 :class="{spec: skills.education.spec}">Education: <span>{{ skills.education.value }}</span></h3>
+      // <h3 :class="{spec: skills.lore.spec}">Lore: <span>{{ skills.lore.value }}</span></h3>
+      // <h3 :class="{spec: skills.outerRim.spec}">Outer Rim: <span>{{ skills.outerRim.value }}</span></h3>
+      // <h3 :class="{spec: skills.underworld.spec}">Underworld: <span>{{ skills.underworld.value }}</span></h3>
+      // <h3 :class="{spec: skills.warfare.spec}">Warfare: <span>{{ skills.warfare.value }}</span></h3>
+      // <h3 :class="{spec: skills.xenology.spec}">Xenology: <span>{{ skills.xenology.value }}</span></h3> -->
+      this.$firebaseRefs.player.child('knowledge').set({
+        coreWorlds: {
+          spec: false,
+          val: 0
+        },
+        education: {
+          spec: false,
+          val: 0
+        },
+        lore: {
+          spec: false,
+          val: 0
+        },
+        lore: {
+          spec: false,
+          val: 0
+        },
+        outerRim: {
+          spec: false,
+          val: 0
+        },
+        underworld: {
+          spec: false,
+          val: 0
+        },
+        warfare: {
+          spec: false,
+          val: 0
+        },
+        xeonology: {
+          spec: false,
+          val: 0
+        }
+      });
     }
   },
 

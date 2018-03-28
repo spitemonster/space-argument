@@ -85,9 +85,12 @@ export default {
 
     giveExp() {
       for (let member in this.team) {
-        this.$firebaseRefs.party.child(member).child('availableXP').set(this.exp);
+        let currentExp = this.party[member].availableXP;
+        let totalExp = parseInt(currentExp) + parseInt(this.exp);
 
-        this.exp = 0;
+        this.$firebaseRefs.party.child(member).child('availableXP').set(totalExp).then(() => {
+          this.exp = 0;
+        });
       }
     },
 
