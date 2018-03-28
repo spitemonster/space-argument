@@ -1,22 +1,25 @@
 <template>
   <div id="stats">
     <div class="statSection" v-if="brawn">
+      <div v-if="skillError" id="skillError">
+        <p>You don't have enough experience points</p>
+      </div>
       <div class="statsGrid">
         <h3 v-for="(skill, key) in characteristics.br.skills"
-            :class="{spec: skill.spec}">{{ getName(key) }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key)">+</span></span></h3>
+            :class="{spec: skill.spec}">{{ getName(key) }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key, 'br')">+</span></span></h3>
       </div>
     </div>
     <div class="statSection" v-if="agility">
       <div class="statsGrid">
         <h3 v-for="(skill, key) in characteristics.ag.skills"
-            :class="{spec: skill.spec}">{{ getName(key) }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key)">+</span></span></h3>
+            :class="{spec: skill.spec}">{{ getName(key) }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key, 'ag')">+</span></span></h3>
       </div>
     </div>
     <div class="statSection" v-if="intellect">
       <div class="statsGrid">
         <div class="statsGrid">
           <h3 v-for="(skill, key) in characteristics.int.skills"
-              :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key)">+</span></span></h3>
+              :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key, 'int')">+</span></span></h3>
         </div>
 
         <h2>Knowledge</h2>
@@ -34,7 +37,7 @@
       <div class="statsGrid">
         <div class="statsGrid">
           <h3 v-for="(skill, key) in characteristics.cun.skills"
-              :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key)">+</span></span></h3>
+              :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key, 'cun')">+</span></span></h3>
         </div>
       </div>
     </div>
@@ -42,7 +45,7 @@
       <div class="statsGrid">
         <div class="statsGrid">
           <h3 v-for="(skill, key) in characteristics.will.skills"
-              :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key)">+</span></span></h3>
+              :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key, 'will')">+</span></span></h3>
         </div>
       </div>
     </div>
@@ -50,7 +53,7 @@
       <div class="statsGrid">
         <div class="statsGrid">
           <h3 v-for="(skill, key) in characteristics.pres.skills"
-              :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key)">+</span></span></h3>
+              :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key, 'pres')">+</span></span></h3>
         </div>
       </div>
     </div>
@@ -72,12 +75,14 @@ export default {
       presence: false,
       force: false,
       inventory: false,
+      skillError: false
     }
   },
 
   props: {
     characteristics: {},
-    refs: {}
+    refs: {},
+    exp: null
   },
 
   computed: {
@@ -110,11 +115,36 @@ export default {
         self[data] = true
       }
     });
+
+    bus.$on('skillError', () => {
+      this.skillError = true;
+
+      setTimeout(() => {
+        this.skillError = false;
+      }, 3000)
+    });
   },
 
   methods: {
-    rankUp(data) {
+    rankUp(skill, char) {
+      let exp = this.exp;
+      let skillName = this.characteristics[char].skills[skill];
+      let currentRank = skillName.val;
+      let oneUp = currentRank + 1;
+      let isSpec = skillName.spec;
+      let cost = null;
 
+      if (isSpec) {
+        cost = 5 * oneUp;
+      } else if (!isSpec) {
+        cost = 5 * oneUp + 5;
+      }
+
+      if (exp - cost >= 0) {
+        this.refs.child('characteristics').child(char).child('skills').child(skill).set({val: 0, spec: false});
+      } else {
+        bus.$emit('skillError');
+      }
     },
 
     getName(data) {
@@ -151,6 +181,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/css/_variables.scss';
+
+.statsGrid {
+  h3 {
+    padding-right: 0 !important;
+  }
+}
 #stats {
   color: rgb(99, 99, 99);
   font-weight: 100;
@@ -163,5 +200,28 @@ export default {
 
 .spec {
   font-weight: bold !important;
+}
+
+#skillError {
+  width: 100%;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid $healthRed;
+  color: $healthRed;
+  padding: 2rem;
+}
+
+.rankUp {
+  color: $black;
+  font-weight: bold;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 100ms linear;
+
+  &:hover {
+    color: $gray;
+  }
 }
 </style>

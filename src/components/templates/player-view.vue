@@ -5,7 +5,7 @@
     <!-- <button @click="updateWeapon">UPDATE WEAPON</button> -->
     <!-- <button @click="updateArmor">UPDATE ARMOR</button> -->
     <!-- <button @click="updateSkills">UPDATE SKILLS</button> -->
-    <button @click="updateChars">UPDATE SKILLS</button>
+    <!-- <button @click="updateChars">UPDATE SKILLS</button> -->
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
@@ -19,7 +19,8 @@
         </div>
 
         <player-stats :characteristics="player.characteristics"
-                      :refs="$firebaseRefs.player"></player-stats>
+                      :refs="$firebaseRefs.player"
+                      :exp="player.availableXP"></player-stats>
 
         <player-inventory v-if="inventory"
                           :current="current"

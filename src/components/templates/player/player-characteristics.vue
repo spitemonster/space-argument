@@ -70,7 +70,7 @@ export default {
   computed: {
     hasForce() {
       //is true if force exists in the list of characteristics
-      return (this.characteristics.force > -1 ? true : false);
+      return (this.characteristics.force.val > -1 ? true : false);
     }
   },
 

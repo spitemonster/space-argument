@@ -112,7 +112,6 @@ export default {
   justify-content: flex-start;
   align-content: center;
   align-items: center;
-  width: calc(100% - 50px);
   font-family: 'Open Mono', monospace;
 }
 
@@ -121,7 +120,8 @@ export default {
   z-index: 2;
   height: 40px;
   background: darken($healthRed, 20%);
-
+  width: calc(100% - 50px);
+  
   #healthActual {
     position: absolute;
     top: 0;
