@@ -10,7 +10,9 @@
       v-if="type == 'Admin'"
       :dashboard="viewDashboard"
       :brief="writeBrief"
-      :party="viewParty" ></admin-view>
+      :party="viewParty"
+      :util="viewUtil"
+      :isAdmin="type" ></admin-view>
     <!-- <button type="button" name="button" @click="logOut" class="log-out">Log Out</button> -->
   </div>
 </template>
@@ -48,6 +50,7 @@ export default {
       writeBrief: false,
       viewBriefs: false,
       viewParty: false,
+      viewUtil: false,
       userType: this.type,
       current: firebase.auth().currentUser.uid
     }
@@ -80,21 +83,31 @@ export default {
         this.writeBrief = false;
         this.viewBriefs = false;
         this.viewParty = false;
+        this.viewUtil = false;
       } else if (data == 'write brief') {
         this.viewDashboard = false;
         this.writeBrief = true;
         this.viewBriefs = false;
         this.viewParty = false;
+        this.viewUtil = false;
       } else if (data == 'briefs') {
         this.viewDashboard = false;
         this.writeBrief = false;
         this.viewBriefs = true;
         this.viewParty = false;
+        this.viewUtil = false;
       } else if (data == 'party') {
         this.viewDashboard = false;
         this.writeBrief = false;
         this.viewBriefs = false;
         this.viewParty = true;
+        this.viewUtil = false;
+      } else if (data == 'utilities') {
+        this.viewDashboard = false;
+        this.writeBrief = false;
+        this.viewBriefs = false;
+        this.viewParty = false;
+        this.viewUtil = true;
       }
     });
   },

@@ -6,7 +6,8 @@
 
     <div id="woundSoak">
       <div id="healthBar" class="bar">
-        {{ player.woundCurrent }} / {{ player.woundThresh }}
+        <p>{{ player.woundCurrent }} / {{ player.woundThresh }}</p>
+        <div id="healthActual"></div>
       </div>
       <div id="soak">
         {{ calcSoak }}
@@ -17,9 +18,9 @@
       {{ player.forceCommit }} / {{ player.forceAvail}}
     </div>
 
-    <div id="encBar" class="bar">
+    <!-- <div id="encBar" class="bar">
       {{ encumberance }} / {{ player.encThresh }}
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -71,8 +72,24 @@ export default {
     }
   },
 
-  mounted() {
+  updated() {
+    let ha = document.getElementById('healthActual');
+    let hs = 100 / this.player.woundThresh;
+    let th = hs * this.player.woundCurrent;
+    let fh = th + '%';
+    console.log(th);
 
+    ha.style.width = fh;
+  },
+
+  mounted() {
+    let ha = document.getElementById('healthActual');
+    let hs = 100 / this.player.woundThresh;
+    let th = hs * this.player.woundCurrent;
+    let fh = th + '%';
+    console.log(fh);
+
+    ha.style.width = fh;
   }
 }
 </script>
@@ -97,13 +114,31 @@ export default {
   justify-content: flex-start;
   align-content: center;
   align-items: center;
-  width: 100%;
+  width: calc(100% - 50px);
   font-family: 'Open Mono', monospace;
 }
 
 #healthBar {
+  position: relative;
+  z-index: 2;
   height: 40px;
-  background: $healthRed;
+  background: darken($healthRed, 20%);
+
+  #healthActual {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: $healthRed;
+    z-index: 5;
+    transition: all 250ms linear;
+  }
+
+  p {
+    position: relative;
+    z-index: 10;
+  }
 }
 
 #forceBar {
@@ -125,13 +160,12 @@ export default {
 }
 
 #soak {
-  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Open Mono', monospace;
   background: #FF5000;
   color: $white;
-  min-width: 30px;
+  width: 50px;
 }
 </style>

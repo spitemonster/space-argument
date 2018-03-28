@@ -83,7 +83,9 @@ export default {
       if (this.content != '' && this.title != '') {
         this.refs.briefs.push({
           title: this.title,
-          content: this.content
+          content: this.content,
+          currentWorld: this.currentWorld,
+          currentGoal: this.currentGoal
         });
         this.success()
       } else {
@@ -178,6 +180,11 @@ export default {
   align-self: center;
   border: 1px solid red;
   padding: 1rem;
+}
+
+.success {
+  width: 200px;
+  margin: 0 auto;
 }
 
 @keyframes shake {

@@ -2,7 +2,8 @@
 <template>
   <div class="character" >
 
-    <!-- <button @click="update">UPDATE</button> -->
+    <!-- <button @click="updateWeapon">UPDATE WEAPON</button>
+    <button @click="updateArmor">UPDATE ARMOR</button> -->
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
@@ -91,18 +92,31 @@ export default {
   },
 
   methods: {
-    update() {
-      let test = "Blaster Rifle";
+    updateWeapon() {
+      let test = "Boonta Blaster";
 
       this.$firebaseRefs.player.child('inventory').child('weapons').push({
-        equipped: true,
-        damage: 8,
-        crit: 4,
-        enc: 4,
-        skill: 'Ranged (Heavy)',
-        name: test
+        equipped: false,
+        damage: 6,
+        crit: 3,
+        enc: 0,
+        skill: 'Ranged (Light)',
+        name: test,
+        range: 'Short',
+        Other: 'Stun'
       });;
-    }
+    },
+
+    updateArmor() {
+      let test = "Heavy Clothing";
+
+      this.$firebaseRefs.player.child('inventory').child('armor').push({
+        equipped: true,
+        soak: 1,
+        name: test,
+
+      });;
+    },
   },
 
   created() {

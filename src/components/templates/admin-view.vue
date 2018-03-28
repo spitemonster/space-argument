@@ -1,9 +1,14 @@
 <template>
   <div class="admin">
-    <brief-editor v-if="brief" :briefs="briefs" :refs="$firebaseRefs"></brief-editor>
-    <section v-if="party">
-      <party></party>
+    <brief-editor v-if="brief"
+                  :briefs="briefs"
+                  :refs="$firebaseRefs"></brief-editor>
+    <section v-if="dashboard">
+      <party :isAdmin="isAdmin"></party>
+      <h1 class="divider">Brief</h1>
+      <single-brief :briefs="briefs" class="brief"></single-brief>
     </section>
+    <admin-utilities v-if="util"></admin-utilities>
   </div>
 </template>
 
@@ -12,6 +17,8 @@ import db from '../../assets/js/firebaseConfig.js'
 import { bus } from '../../bus.js'
 import briefEditor from './admin/brief-editor.vue'
 import party from './party.vue'
+import adminUtilities from './admin/admin-utilities'
+import singleBrief from './player/single-brief.vue'
 
 export default {
   name: 'admin-view',
@@ -24,7 +31,9 @@ export default {
   props: {
     dashboard: true,
     brief: false,
-    party: false
+    party: false,
+    util: false,
+    isAdmin: ''
   },
 
   firebase: function() {
@@ -38,7 +47,9 @@ export default {
 
   components: {
     briefEditor,
-    party
+    party,
+    adminUtilities,
+    singleBrief
   },
 
   computed: {
@@ -62,9 +73,21 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 3rem;
 }
+
 .party {
   color: black;
+}
+
+.divider {
+  width: 100%;
+  border-bottom: 1px solid $black;
+  margin-bottom: 2rem;
+}
+
+.brief {
+  margin-bottom: 3rem;
 }
 
 section {

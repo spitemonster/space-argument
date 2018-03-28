@@ -13,7 +13,7 @@
         <ul>
           <li>Damage: {{ shooster.damage }}</li>
           <li>Crit: {{ shooster.crit }}</li>
-          <li>Enc: {{ shooster.encumberance }}</li>
+          <!-- <li>Enc: {{ shooster.encumberance }}</li> -->
         </ul>
 
       </li>
@@ -30,7 +30,7 @@
         <ul>
           <li>Def: {{ arm.defense }}</li>
           <li>Soak: {{ arm.soak }}</li>
-          <li>Enc: {{ arm.encumberance }}</li>
+          <!-- <li>Enc: {{ arm.encumberance }}</li> -->
         </ul>
       </li>
     </ul>

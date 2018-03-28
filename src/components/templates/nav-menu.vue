@@ -3,7 +3,8 @@
     <li class="selected" @click="setFocus">dashboard</li>
     <li v-if="isAdmin()" @click="setFocus">write brief</li>
     <li v-else @click="setFocus">briefs</li>
-    <li @click="setFocus">party</li>
+    <li v-if="isAdmin()" @click="setFocus">utilities</li>
+    <li v-if="!isAdmin()" @click="setFocus">party</li>
     <li @click="logOut">logout</li>
   </ul>
 </template>
@@ -73,6 +74,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 
   li {
     display: inline-flex;

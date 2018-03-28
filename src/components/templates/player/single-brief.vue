@@ -1,7 +1,9 @@
 <template lang="html">
   <div class="single-brief">
-    <h3>{{ latestBrief.title }}</h3>
-    <div v-html="latestBrief.content"></div>
+    <h3 class="title">{{ latestBrief.title }}</h3>
+    <h4 class="current">Current World: {{ latestBrief.currentWorld }}</h4>
+    <h4 class="current">Current Goal: {{ latestBrief.currentGoal }}</h4>
+    <div class="content" v-html="latestBrief.content"></div>
   </div>
 </template>
 
@@ -38,4 +40,13 @@ export default {
 
 <style lang="scss">
 @import '../../../assets/css/_variables.scss';
+
+.title,
+.current {
+  margin-bottom: .5rem;
+}
+
+.content {
+  margin-top: 1rem;
+}
 </style>

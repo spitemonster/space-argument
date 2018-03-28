@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <div class="playerCard" v-for="member in party" v-if="member.name">
+    <div class="playerCard" v-for="member in team" v-if="member.name">
       <div id="characterName">
         <h2>{{ member.name }}</h2><h4>{{ member.species }}</h4>
       </div>
@@ -12,7 +12,9 @@
 
       <div id="woundSoak">
         <div id="healthBar" class="bar">
-          {{ member.woundCurrent }} / {{ member.woundThresh }}
+          <p>{{ member.woundCurrent }} / {{ member.woundThresh }}</p>
+          <div id="healthActual" :style="{ width: calcWidth(member) }">
+          </div>
         </div>
         <div id="soak">
           {{ calcSoak(member) }}
@@ -47,6 +49,10 @@
           Defense: {{ arm.defense }} | Soak: {{ arm.soak }}
         </div>
       </div>
+
+      <div v-if="isAdmin == 'Admin'" class="wound">
+        <button @click="doAnHurt(member)" class="woundButton">WOUND</button>
+      </div>
     </div>
   </div>
 </template>
@@ -59,16 +65,32 @@ export default {
 
   data() {
     return {
-      team: {}
+      // team: {},
+      wound: ''
     }
   },
 
   computed: {
+    team() {
+      let tempObject = {};
+
+      for (let member in this.party) {
+        if (this.party[member].name) {
+          tempObject[member] = this.party[member];
+          tempObject[member].key = member;
+        }
+      }
+
+      return tempObject;
+    }
   },
 
   firebase() {
     return {
-      party: db.ref('players/')
+      party: {
+        source: db.ref('players/'),
+        asObject: true
+      }
     }
   },
 
@@ -76,7 +98,8 @@ export default {
   },
 
   props: {
-    current: ''
+    current: '',
+    isAdmin: ''
   },
 
   methods: {
@@ -140,24 +163,39 @@ export default {
       }
       //should only return one item, but won't break if it returns multiples
       return equipped;
+    },
+
+    calcWidth(data) {
+      let hs = 100 / data.woundThresh;
+      let th = hs * data.woundCurrent;
+      let fh = th + '%';
+
+      return fh;
+    },
+
+    doAnHurt(data) {
+      let member = data.name;
+      let currentHealth = this.team[data.key].woundCurrent;
+      let healthResult = currentHealth - 1;
+
+      // console.log(this.team[data.key].woundCurrent);
+      this.$firebaseRefs.party.child(data.key).child('woundCurrent').set(healthResult);
+      // console.log(data.woundCurrent);
     }
   },
 
   created() {
     //iterate through and remove admin and empty DB entry
-    for (let i = 0; i < this.party.length; i++) {
-      if (this.party[i].name && this.party[i]['.key'] != this.current) {
-        this.team[this.party[i].name] = this.party[i];
-      }
-    }
+
   },
 
   mounted() {
+    // console.log(this.isAdmin)
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../../assets/css/_variables.scss';
 
 .playerCard {
@@ -188,7 +226,25 @@ export default {
 
 #healthBar {
   height: 30px;
-  background: $healthRed;
+  width: calc(100% - 30px);
+  background: darken($healthRed, 20%);
+  position: relative;
+
+  #healthActual {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: $healthRed;
+    z-index: 5;
+    transition: all 250ms linear;
+  }
+
+  p {
+    position: relative;
+    z-index: 10;
+  }
 }
 
 #forceBar {
@@ -242,13 +298,30 @@ export default {
   margin-bottom: .5rem;
 }
 
+#woundSoak {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
 .split {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
 
-  h4:nth-of-type(2) {
-    padding-right: 2.5%;
-  }
+#soak {
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Open Mono', monospace;
+  background: #FF5000;
+  color: $white;
+}
+
+.woundButton {
+  width: 100%;
+  padding: 2rem 3rem;
 }
 </style>
