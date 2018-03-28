@@ -77,7 +77,6 @@ export default {
     let hs = 100 / this.player.woundThresh;
     let th = hs * this.player.woundCurrent;
     let fh = th + '%';
-    console.log(th);
 
     ha.style.width = fh;
   },
@@ -87,7 +86,6 @@ export default {
     let hs = 100 / this.player.woundThresh;
     let th = hs * this.player.woundCurrent;
     let fh = th + '%';
-    console.log(fh);
 
     ha.style.width = fh;
   }

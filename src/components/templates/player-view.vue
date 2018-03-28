@@ -2,8 +2,9 @@
 <template>
   <div class="character" >
 
-    <!-- <button @click="updateWeapon">UPDATE WEAPON</button>
-    <button @click="updateArmor">UPDATE ARMOR</button> -->
+    <!-- <button @click="updateWeapon">UPDATE WEAPON</button> -->
+    <!-- <button @click="updateArmor">UPDATE ARMOR</button> -->
+    <!-- <button @click="updateSkills">UPDATE SKILLS</button> -->
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
@@ -117,6 +118,151 @@ export default {
 
       });;
     },
+
+    updateSkills() {
+      this.$firebaseRefs.player.child('skills').set({
+        astrogation: {
+          value: 0,
+          spec: false
+        },
+        athletics: {
+          value: 0,
+          spec: false
+        },
+        brawl: {
+          value: 0,
+          spec: false
+        },
+        charm: {
+          value: 0,
+          spec: false
+        },
+        coercion: {
+          value: 0,
+          spec: false
+        },
+        computers: {
+          value: 0,
+          spec: false
+        },
+        cool: {
+          value: 1,
+          spec: false
+        },
+        coordination: {
+          value: 0,
+          spec: false
+        },
+        coreWorlds: {
+          value: 0,
+          spec: false
+        },
+        deception: {
+          value: 4,
+          spec: false
+        },
+        discipline: {
+          value: 0,
+          spec: false
+        },
+        education: {
+          value: 0,
+          spec: false
+        },
+        gunnery: {
+          value: 0,
+          spec: false
+        },
+        leadership: {
+          value: 0,
+          spec: false
+        },
+        lightsaber: {
+          value: 0,
+          spec: false
+        },
+        lore: {
+          value: 0,
+          spec: false
+        },
+        mechanics: {
+          value: 0,
+          spec: false
+        },
+        medicine: {
+          value: 0,
+          spec: false
+        },
+        melee: {
+          value: 1,
+          spec: false
+        },
+        negotiation: {
+          value: 0,
+          spec: false
+        },
+        outerRim: {
+          value: 0,
+          spec: false
+        },
+        perception: {
+          value: 1,
+          spec: false
+        },
+        pilotingPlanetary: {
+          value: 0,
+          spec: false
+        },
+        pilotingSpace: {
+          value: 0,
+          spec: false
+        },
+        rangedHeavy: {
+          value: 0,
+          spec: true
+        },
+        rangedLight: {
+          value: 1,
+          spec: false
+        },
+        resilience: {
+          value: 0,
+          spec: false
+        },
+        skulduggery: {
+          value: 2,
+          spec: false
+        },
+        stealth: {
+          value: 2,
+          spec: false
+        },
+        streetwise: {
+          value: 1,
+          spec: false
+        },
+        survival: {
+          value: 0,
+          spec: false
+        },
+        underworld: {
+          value: 0,
+          spec: false
+        },
+        vigilance: {
+          value: 2,
+          spec: false
+        },
+        warfare: {
+          value: 0,
+          spec: false
+        },
+        xenology: {
+          value: 0,
+          spec: false
+        }
+      })
+    }
   },
 
   created() {
