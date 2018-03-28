@@ -5,6 +5,7 @@
     <!-- <button @click="updateWeapon">UPDATE WEAPON</button> -->
     <!-- <button @click="updateArmor">UPDATE ARMOR</button> -->
     <!-- <button @click="updateSkills">UPDATE SKILLS</button> -->
+    <button @click="updateChars">UPDATE SKILLS</button>
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
@@ -17,7 +18,8 @@
           <h3>INVENTORY</h3>
         </div>
 
-        <player-stats :skills="player.skills"></player-stats>
+        <player-stats :characteristics="player.characteristics"
+                      :refs="$firebaseRefs.player"></player-stats>
 
         <player-inventory v-if="inventory"
                           :current="current"
@@ -149,10 +151,6 @@ export default {
           value: 1,
           spec: false
         },
-        coordination: {
-          value: 0,
-          spec: false
-        },
         coreWorlds: {
           value: 0,
           spec: false
@@ -260,6 +258,151 @@ export default {
         xenology: {
           value: 0,
           spec: false
+        }
+      })
+    },
+    updateChars() {
+      this.$firebaseRefs.player.child('characteristics').set({
+        ag: {
+          val: 0,
+          skills: {
+            coordination: {
+              val: 0,
+              spec: false
+            },
+            gunnery: {
+              val: 0,
+              spec: false
+            },
+            pilotingSpace: {
+              val: 0,
+              spec: false
+            },
+            pilotingPlanetary: {
+              val: 0,
+              spec: false
+            },
+            rangedLight: {
+              val: 0,
+              spec: false
+            },
+            rangedHeavy: {
+              val: 0,
+              spec: false
+            },
+            stealth: {
+              val: 0,
+              spec: false
+            }
+          }
+        },
+        br: {
+          val: 0,
+          skills: {
+            athletics: {
+              val: 0,
+              spec: false
+            },
+            resilience: {
+              val: 0,
+              spec: false
+            },
+            brawl: {
+              val: 0,
+              spec: false
+            },
+            melee: {
+              val: 0,
+              spec: false
+            },
+          }
+        },
+        int: {
+          val: 0,
+          skills: {
+            astrogation: {
+              val: 0,
+              spec: false
+            },
+            computers: {
+              val: 0,
+              spec: false
+            },
+            mechanics: {
+              val: 0,
+              spec: false,
+            },
+            medicine: {
+              val: 0,
+              spec: false
+            }
+          }
+        },
+        cun: {
+          val: 0,
+          skills: {
+            deception: {
+              val: 0,
+              spec: false
+            },
+            perception: {
+              val: 0,
+              spec: false
+            },
+            skulduggery: {
+              val: 0,
+              spec: false
+            },
+            streetwise: {
+              val: 0,
+              spec: false
+            },
+            survival: {
+              val: 0,
+              spec: false
+            },
+          }
+        },
+        will: {
+          val: 0,
+          skills: {
+            coercion: {
+              val: 0,
+              spec: false
+            },
+            discipline: {
+              val: 0,
+              spec: false
+            },
+            vigilance: {
+              val: 0,
+              spec: 0
+            }
+          }
+        },
+        pres: {
+          val: 0,
+          skills: {
+            charm: {
+              val: 0,
+              spec: false
+            },
+            cool: {
+              val: 0,
+              spec: false
+            },
+            leadership: {
+              val: 0,
+              spec: false
+            },
+            negotiation: {
+              val: 0,
+              spec: false
+            }
+          }
+        },
+        force: {
+          val: 0
         }
       })
     }

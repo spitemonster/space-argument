@@ -3,49 +3,49 @@
     <div class="charCard" @click="showThis">
       <h4>brawn</h4>
       <div class="charRank">
-        {{ characteristics.br }}
+        {{ characteristics.br.val }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>agility</h4>
       <div class="charRank">
-        {{ characteristics.ag }}
+        {{ characteristics.ag.val }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>intellect</h4>
       <div class="charRank">
-        {{ characteristics.int }}
+        {{ characteristics.int.val }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>cunning</h4>
       <div class="charRank">
-        {{ characteristics.cun }}
+        {{ characteristics.cun.val }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>willpower</h4>
       <div class="charRank">
-        {{ characteristics.will }}
+        {{ characteristics.will.val }}
       </div>
     </div>
 
     <div class="charCard" @click="showThis">
       <h4>presence</h4>
       <div class="charRank">
-        {{ characteristics.pres }}
+        {{ characteristics.pres.val }}
       </div>
     </div>
 
     <div v-if="hasForce" class="charCard">
       <h4>force</h4>
       <div class="charRank">
-        {{ characteristics.force}}
+        {{ characteristics.force.val }}
       </div>
     </div>
   </div>

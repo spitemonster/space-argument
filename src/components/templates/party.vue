@@ -29,9 +29,9 @@
       </template>
 
       <div id="charRow">
-        <div v-for="(characteristic, characteristicID) in member.characteristics">
-          <h4>{{ characteristicID }}</h4>
-          <p>{{ characteristic }}</p>
+        <div v-for="(characteristic, key) in member.characteristics">
+          <h4>{{ key }}</h4>
+          <p>{{ characteristic.val }}</p>
         </div>
       </div>
 
@@ -124,6 +124,22 @@ export default {
       //vars
       let rank = '';
       let matches = '';
+      let ag = player.characteristics.ag;
+      let br = player.characteristics.br;
+      let weaponSkills = {};
+
+      //sort through weapon skills and split them into their own object so I can access the values
+      for (let skill in ag.skills) {
+        if (skill == 'rangedLight' || skill == 'rangedHeavy' || skill == 'gunnery') {
+          weaponSkills[skill] = ag.skills[skill]
+        }
+      }
+
+      for (let skill in br.skills) {
+        if (skill == 'brawl' || skill == 'melee') {
+          weaponSkills[skill] = br.skills[skill];
+        }
+      }
 
       //takes data, eg 'Ranged (Heavy)' and splits it into individual characters
       let letters = data.split('');
@@ -143,7 +159,7 @@ export default {
 
       //sorts through player argument (which should be an object), goes to skills and finally appropriate rank
       //should work for all weapons and associated skills
-      return player['skills'][matches];
+      return weaponSkills[matches].val;
     },
 
     getEquippedItem(data, category) {
