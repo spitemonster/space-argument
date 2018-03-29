@@ -1,6 +1,7 @@
 <template lang="html">
   <div>
-    <div class="playerCard" v-for="member in team" v-if="member.name">
+    <div class="playerCard" v-for="member in team"
+                            v-if="member.name">
       <div id="characterName">
         <h2>{{ member.name }}</h2><h4>{{ member.species }}</h4>
       </div>
@@ -51,8 +52,8 @@
         </div>
       </div>
 
-      <div v-if="isAdmin == 'Admin'" class="wound">
-        <button @click="doAnHurt(member)" class="woundButton">WOUND</button>
+      <div class="wound" v-if="isAdmin == 'Admin'" >
+        <button class="woundButton" @click="doAnHurt(member)">WOUND</button>
       </div>
     </div>
   </div>
@@ -64,9 +65,13 @@ import db from '../../assets/js/firebaseConfig.js'
 export default {
   name: 'party',
 
+  props: {
+    current: '',
+    isAdmin: ''
+  },
+
   data() {
     return {
-      // team: {},
       wound: ''
     }
   },
@@ -95,14 +100,6 @@ export default {
     }
   },
 
-  watch: {
-  },
-
-  props: {
-    current: '',
-    isAdmin: ''
-  },
-
   methods: {
     calcSoak(data) {
       //add up soak of equipped armor and player soak
@@ -110,7 +107,7 @@ export default {
       let armorSoak = '';
 
       for (let arm in armorInv) {
-        if (armorInv[arm].equipped) {
+        if (armorInv[arm].equipped == 'true') {
           //if armor is equipped, convert its soak value to a string and assign it to variable
           armorSoak = parseInt(armorInv[arm].soak);
         }
@@ -211,15 +208,6 @@ export default {
       return data.hasForce;
     }
   },
-
-  created() {
-    //iterate through and remove admin and empty DB entry
-
-  },
-
-  mounted() {
-    // console.log(this.isAdmin)
-  }
 }
 </script>
 

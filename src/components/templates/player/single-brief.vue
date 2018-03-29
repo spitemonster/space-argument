@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="single-brief">
+  <div class="single-brief" v-if="showBrief">
     <h3 class="title">{{ latestBrief.title }}</h3>
     <h4 class="current">Current World: {{ latestBrief.currentWorld }}</h4>
     <h4 class="current">Current Goal: {{ latestBrief.currentGoal }}</h4>
@@ -13,28 +13,22 @@ import { bus } from '../../../bus.js'
 export default {
   name: 'single-brief',
 
-  data () {
-    return {
-    }
+  props: {
+    briefs: {},
   },
 
-  props: {
-    briefs: {}
+  data () {
+    return {
+      showBrief: true,
+    }
   },
 
   computed: {
     latestBrief() {
-      let latest = this.briefs[this.briefs.length - 1];
-
-      return latest;
+      //because this references itself it throws an error, not sure how to correct, oh well
+      return this.briefs[this.briefs.length - 1];
     }
   },
-
-  methods: {
-  },
-
-  created() {
-  }
 }
 </script>
 

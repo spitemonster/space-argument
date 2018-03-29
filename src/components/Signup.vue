@@ -17,6 +17,7 @@ import Character from '../assets/js/character';
 
 export default {
   name: 'Signup',
+
   data () {
     return {
       email: '',
@@ -28,6 +29,7 @@ export default {
       character: new Character
     }
   },
+  
   methods: {
     //this will eventually all get deleted; don't want anyone unwelcome making an account and making fuck of the whole thing, this is just the easiest way for me to create each player
     createUser () {

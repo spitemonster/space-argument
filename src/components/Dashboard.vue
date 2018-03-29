@@ -13,7 +13,6 @@
       :party="viewParty"
       :util="viewUtil"
       :isAdmin="type" ></admin-view>
-    <!-- <button type="button" name="button" @click="logOut" class="log-out">Log Out</button> -->
   </div>
 </template>
 
@@ -35,15 +34,6 @@ export default {
     adminView,
   },
 
-  firebase() {
-    return {
-      player: {
-        source: db.ref('players/' + this.current),
-        asObject: true
-      }
-    }
-  },
-
   data() {
     return {
       viewDashboard: true,
@@ -63,15 +53,12 @@ export default {
     }
   },
 
-  methods: {
-    //logout and redirect to login page. this will probably, eventually, be moved to nav.
-    logOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(e => {
-          this.$router.replace('login')
-        })
+  firebase() {
+    return {
+      player: {
+        source: db.ref('players/' + this.current),
+        asObject: true
+      }
     }
   },
 
@@ -112,8 +99,17 @@ export default {
     });
   },
 
-  mounted() {
-  }
+  methods: {
+    //logout and redirect to login page. this will probably, eventually, be moved to nav.
+    logOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(e => {
+          this.$router.replace('login')
+        });
+    }
+  },
 }
 </script>
 

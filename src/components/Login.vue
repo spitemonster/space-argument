@@ -6,7 +6,8 @@
         <span class="animated-border"></span>
       </div>
       <div class="form-group">
-        <input type="password" placeholder="password" v-model="password" @keyup.enter="login" required></input>
+        <input type="password" placeholder="password" v-model="password"
+                                                      @keyup.enter="login" required></input>
         <span class="animated-border"></span>
       </div>
       <button @click="login">Log In</button>
@@ -19,7 +20,7 @@ import db from '../assets/js/firebaseConfig.js'
 
 export default {
   name: 'Login',
-  
+
   data() {
     return {
       email: '',
@@ -52,8 +53,6 @@ export default {
         })
     }
   },
-  created() {
-  }
 }
 </script>
 

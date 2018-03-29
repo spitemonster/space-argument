@@ -5,7 +5,8 @@
     </div>
 
     <div id="woundSoak">
-      <div id="healthBar" class="bar" :class="{danger: inDanger(player.woundCurrent, player.woundThresh)}">
+      <div id="healthBar" class="bar"
+                          :class="{danger: inDanger(player.woundCurrent, player.woundThresh)}">
         <p>{{ player.woundCurrent }} / {{ player.woundThresh }}</p>
         <div id="healthActual"></div>
       </div>
@@ -17,10 +18,6 @@
     <div id="forceBar" class="bar" v-if="hasForce">
       {{ player.forceCommit }} / {{ player.forceAvail}}
     </div>
-
-    <!-- <div id="encBar" class="bar">
-      {{ encumberance }} / {{ player.encThresh }}
-    </div> -->
 
     <div id="moneyExp">
       <span>
@@ -36,6 +33,11 @@
 <script>
 export default {
   name: 'player-info',
+
+  props: {
+    player: {},
+    weapons: {}
+  },
 
   data() {
     return {
@@ -57,10 +59,10 @@ export default {
     calcSoak() {
       //calculates player's soak based on base soak and armor soak
       let armorInv = this.player.inventory.armor;
-      let armorSoak = '';
+      let armorSoak = 0;
 
       for (let arm in armorInv) {
-        if (armorInv[arm].equipped) {
+        if (armorInv[arm].equipped == 'true') {
           //if armor is equipped, set armorSoak to integer of the armor's soak
           armorSoak = parseInt(armorInv[arm].soak);
         }
@@ -70,9 +72,23 @@ export default {
     }
   },
 
-  props: {
-    player: {},
-    weapons: {}
+  mounted() {
+    let ha = document.getElementById('healthActual');
+    let hs = 100 / this.player.woundThresh;
+    let th = hs * this.player.woundCurrent;
+    let fh = th + '%';
+
+    ha.style.width = fh;
+  },
+
+  updated() {
+    //need to dry this out, but basically calculates remaining health and uses it to set the width of the health bar, same as mounted
+    let ha = document.getElementById('healthActual');
+    let hs = 100 / this.player.woundThresh;
+    let th = hs * this.player.woundCurrent;
+    let fh = th + '%';
+
+    ha.style.width = fh;
   },
 
   methods: {
@@ -84,24 +100,6 @@ export default {
       }
     }
   },
-
-  updated() {
-    let ha = document.getElementById('healthActual');
-    let hs = 100 / this.player.woundThresh;
-    let th = hs * this.player.woundCurrent;
-    let fh = th + '%';
-
-    ha.style.width = fh;
-  },
-
-  mounted() {
-    let ha = document.getElementById('healthActual');
-    let hs = 100 / this.player.woundThresh;
-    let th = hs * this.player.woundCurrent;
-    let fh = th + '%';
-
-    ha.style.width = fh;
-  }
 }
 </script>
 

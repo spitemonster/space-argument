@@ -14,13 +14,30 @@ import { bus } from '../../bus.js'
 
 export default {
   name: 'nav-menu',
+
+  props: {
+    type: ''
+  },
+
   data() {
     return {
     }
   },
 
-  props: {
-    type: ''
+  created() {
+    bus.$on('setFocus', (data) => {
+      //takes 'setFocus' data, parses it to a string, then finds matching view. straightforward.
+      let target = data.toString();
+      let links = document.getElementsByTagName('li');
+
+      for (let i = 0; i < links.length; i++) {
+        if (links[i].textContent == target) {
+          links[i].classList.add('selected');
+        } else {
+          links[i].classList.remove('selected');
+        }
+      }
+    });
   },
 
   methods: {
@@ -43,22 +60,6 @@ export default {
         })
     }
   },
-
-  created() {
-    bus.$on('setFocus', (data) => {
-      //takes 'setFocus' data, parses it to a string, then finds matching view. straightforward.
-      let target = data.toString();
-      let links = document.getElementsByTagName('li');
-
-      for (let i = 0; i < links.length; i++) {
-        if (links[i].textContent == target) {
-          links[i].classList.add('selected');
-        } else {
-          links[i].classList.remove('selected');
-        }
-      }
-    });
-  }
 }
 </script>
 

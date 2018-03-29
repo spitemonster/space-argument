@@ -60,23 +60,22 @@ import { bus } from '../../../bus.js'
 export default {
   name: 'player-characteristics',
 
-  data () {
-    return {
-      showAllChars: false
-    }
-  },
-
   props: {
     characteristics: {},
     current: '',
     hasForce: false
   },
 
-  computed: {
-    // hasForce() {
-    //   //is true if force exists in the list of characteristics
-    //   return (this.characteristics.force.val > -1 ? true : false);
-    // }
+  data() {
+    return {
+      showAllChars: false
+    }
+  },
+
+  created() {
+    bus.$on('showAll', () => {
+      this.showAllChars = !this.showAllChars;
+    })
   },
 
   methods: {
@@ -122,6 +121,7 @@ export default {
     },
 
     showAll() {
+      //shows all skills. doesn't work as well as I want but it at least accomplishes the goal
       let activeCards = document.getElementsByClassName('activeCard');
 
       for (let i = 0; i < activeCards.length; i++) {
@@ -131,16 +131,6 @@ export default {
       bus.$emit('showAll');
     }
   },
-
-  created() {
-    bus.$on('showAll', () => {
-      this.showAllChars = !this.showAllChars;
-    })
-  },
-
-  mounted() {
-
-  }
 }
 </script>
 

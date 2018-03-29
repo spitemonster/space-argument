@@ -7,7 +7,8 @@
     <section class="give">
       <section>
         <select v-model="player">
-          <option v-for="member in team" :value="member.key">{{ member.name }}</option>
+          <option v-for="member in team"
+                  :value="member.key">{{ member.name }}</option>
         </select>
         <input v-model="weapon.name" placeholder="Name" required />
         <input v-model="weapon.damage" placeholder="Damage" required />
@@ -24,7 +25,8 @@
 
       <section>
         <select v-model="player">
-          <option v-for="member in team" :value="member.key">{{ member.name }}</option>
+          <option v-for="member in team"
+                  :value="member.key">{{ member.name }}</option>
         </select>
         <input v-model="armor.name" placeholder="Name" required />
         <input v-model="armor.soak" placeholder="Damage" required />
@@ -36,10 +38,14 @@
 </template>
 
 <script>
-import db from '../../../assets/js/firebaseConfig.js'
 
 export default {
   name: 'admin-utilities',
+
+  props: {
+    refs: {},
+    party: {}
+  },
 
   data() {
     return {
@@ -62,40 +68,43 @@ export default {
     }
   },
 
-  firebase() {
-    return {
-      party: {
-        source: db.ref('players/'),
-        asObject: true
+  created() {
+    //filter through 'party' and remove admin and blank accounts and creates 'team' object
+    for (let member in this.party) {
+      // if party character has a name, add character object to team object, then add userID to character object as key
+      if (this.party[member].name) {
+        this.team[member] = this.party[member];
+        this.team[member].key = member;
       }
     }
-  },
-
-  props: {
-
+    console.log(this.team);
   },
 
   methods: {
     healAll() {
+      //iterates through the party and resets their wound
       for (let member in this.team) {
         let fullHealth = this.team[member].woundThresh;
-        this.$firebaseRefs.party.child(member).child('woundCurrent').set(fullHealth);
+        this.refs.child(member).child('woundCurrent').set(fullHealth);
       }
     },
 
     giveExp() {
+      //iterates through party and gives each an amount of xp set by dm
       for (let member in this.team) {
         let currentExp = this.party[member].availableXP;
         let totalExp = parseInt(currentExp) + parseInt(this.exp);
 
-        this.$firebaseRefs.party.child(member).child('availableXP').set(totalExp).then(() => {
+        this.refs.child(member).child('availableXP').set(totalExp).then(() => {
           this.exp = 0;
         });
       }
     },
 
     giveWeapon() {
-      this.$firebaseRefs.party.child(this.player).child('inventory').child('weapons').push(this.weapon);
+      //takes weapon object created by filling in data above and gives it to selected player
+      this.refs.child(this.player).child('inventory').child('weapons').push(this.weapon);
+      //reset weapon info
       this.player = '';
       this.weapon.name = '',
       this.weapon.damage = '',
@@ -105,24 +114,13 @@ export default {
     },
 
     giveArmor() {
-      this.$firebaseRefs.party.child(this.player).child('inventory').child('armor').push(this.armor);
+      //takes armor object created by filling in data above and gives it to selected player
+      this.refs.child(this.player).child('inventory').child('armor').push(this.armor);
+      //resets armor info
       this.player = '';
       this.armor.name = '',
-      this.soak.damage = ''
+      this.armor.soak = ''
     },
-  },
-
-  created() {
-    for (let member in this.party) {
-      if (this.party[member].name) {
-        this.team[member] = this.party[member];
-        this.team[member].key = member;
-      }
-    }
-  },
-
-  mounted() {
-    console.log(this.team);
   }
 }
 </script>

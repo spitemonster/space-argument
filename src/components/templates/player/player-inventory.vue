@@ -3,17 +3,16 @@
     <h3>Weapons</h3>
     <ul>
       <li class="weapon"
-          v-for="shooster in this.shoosters"
+          v-for="shooster in this.weapons"
           :data-gun="shooster['.key']"
-          @click="equipWeapon"
-          v-bind:class="isEquipped(shooster)">
+          :class="isEquipped(shooster)"
+          @click="equipWeapon">
 
         <h4>{{ shooster.name }} - {{ shooster.skill}}</h4>
 
         <ul>
           <li>Damage: {{ shooster.damage }}</li>
           <li>Crit: {{ shooster.crit }}</li>
-          <!-- <li>Enc: {{ shooster.encumberance }}</li> -->
         </ul>
 
       </li>
@@ -23,14 +22,13 @@
       <li class="armor"
           v-for="arm in this.armor"
           :data-armor="arm['.key']"
-          @click="equipArmor"
-          v-bind:class="isEquipped(arm)">
+          :class="isEquipped(arm)"
+          @click="equipArmor">
 
         <h4>{{ arm.name }}</h4>
         <ul>
           <li>Def: {{ arm.defense }}</li>
           <li>Soak: {{ arm.soak }}</li>
-          <!-- <li>Enc: {{ arm.encumberance }}</li> -->
         </ul>
       </li>
     </ul>
@@ -38,29 +36,22 @@
 </template>
 
 <script>
-import db from '../../../assets/js/firebaseConfig.js'
 import { bus } from '../../../bus.js'
 
 export default {
   name: 'player-inventory',
+
+  props: {
+    current: '',
+    weaponRef: {},
+    armorRef: {},
+    weapons: {},
+    armor: {}
+  },
+
   data() {
     return {
       inventory: false
-    }
-  },
-
-  props: {
-    current: ''
-  },
-
-  computed: {
-  },
-
-  //brought firebase in on this one because i needed to be able to changed the equipped weapon reactively, can't do that with props
-  firebase() {
-    return {
-      shoosters: db.ref('players/' + this.current + '/inventory/weapons'),
-      armor: db.ref('players/' + this.current + '/inventory/armor'),
     }
   },
 
@@ -82,7 +73,7 @@ export default {
       let bf = e.target;
       let gun = '';
       let weapons = document.getElementsByClassName('weapon');
-      let targetClass = 'equipped';
+      let targetClass = 'equippedWeapon';
       let target = document.getElementsByClassName(targetClass);
 
       //make sure we're getting the key. not sure of a better way to do this.
@@ -91,30 +82,31 @@ export default {
         for (let i = 0; i < target.length; i++) {
           target[i].classList.remove(targetClass);
         }
-        bf.classList.add('equipped');
+        bf.classList.add('equippedWeapon');
       } else if (bf.parentNode.getAttribute('data-gun')) {
         gun = bf.parentNode.getAttribute('data-gun');
         for (let i = 0; i < target.length; i++) {
           target[i].classList.remove(targetClass);
         }
-        bf.parentNode.classList.add('equipped');
+        bf.parentNode.classList.add('equippedWeapon');
       } else if (bf.parentNode.parentNode.getAttribute('data-gun')) {
         gun = bf.parentNode.parentNode.getAttribute('data-gun');
         for (let i = 0; i < target.length; i++) {
           target[i].classList.remove(targetClass);
         }
-        bf.parentNode.parentNode.classList.add('equipped');
+        bf.parentNode.parentNode.classList.add('equippedWeapon');
       } else {
         console.log('uh oh, you clicked on something dumb');
       }
 
       //set all of the items to unequipped
-      for (let i = 0; i < this.shoosters.length; i++) {
-        this.$firebaseRefs.shoosters.child(this.shoosters[i]['.key']).child('equipped').set('false');
+      for (let i = 0; i < this.weapons.length; i++) {
+        // console.log(this.weapons[i]['.key']);
+        this.weaponRef.child(this.weapons[i]['.key']).child('equipped').set('false');
       }
 
       //equip target item
-      this.$firebaseRefs.shoosters.child(gun).child('equipped').set('true');
+      this.weaponRef.child(gun).child('equipped').set('true');
     },
 
     equipArmor(e) {
@@ -150,19 +142,13 @@ export default {
 
       //set all of the items to unequipped
       for (let i = 0; i < this.armor.length; i++) {
-        this.$firebaseRefs.armor.child(this.armor[i]['.key']).child('equipped').set('false');
+        this.armorRef.child(this.armor[i]['.key']).child('equipped').set('false');
       }
 
       //equip target item
-      this.$firebaseRefs.armor.child(armor).child('equipped').set('true');
+      this.armorRef.child(armor).child('equipped').set('true');
     }
   },
-
-  created() {
-  },
-
-  mounted() {
-  }
 }
 </script>
 
@@ -187,7 +173,7 @@ export default {
   }
 }
 
-.equipped,
+.equippedWeapon,
 .equippedArmor {
   display: block;
   position: relative;

@@ -28,6 +28,11 @@ import pell from 'pell'
 export default {
   name: 'brief-editor',
 
+  props: {
+    briefs: {},
+    refs: {}
+  },
+
   data () {
     return {
       posted: false,
@@ -40,12 +45,32 @@ export default {
     }
   },
 
-  props: {
-    briefs: {},
-    refs: {}
-  },
-
-  computed: {
+  mounted() {
+    // Initialize pell on an HTMLElement
+    pell.init({
+      element: document.getElementById('editor'),
+      onChange: html => {
+        this.content = html;
+      },
+      defaultParagraphSeparator: 'p',
+      styleWithCSS: false,
+      actions: [
+        'bold',
+        {
+          name: 'custom',
+          icon: 'C',
+          title: 'Custom Action',
+          result: () => console.log('Do something!')
+        },
+        'underline'
+      ],
+      classes: {
+        actionbar: 'pell-actionbar',
+        button: 'pell-button',
+        content: 'pell-content',
+        selected: 'pell-button-selected'
+        }
+    })
   },
 
   methods: {
@@ -93,33 +118,6 @@ export default {
       }
     },
   },
-  mounted() {
-    // Initialize pell on an HTMLElement
-    pell.init({
-      element: document.getElementById('editor'),
-      onChange: html => {
-        this.content = html;
-      },
-      defaultParagraphSeparator: 'p',
-      styleWithCSS: false,
-      actions: [
-        'bold',
-        {
-          name: 'custom',
-          icon: 'C',
-          title: 'Custom Action',
-          result: () => console.log('Do something!')
-        },
-        'underline'
-      ],
-      classes: {
-        actionbar: 'pell-actionbar',
-        button: 'pell-button',
-        content: 'pell-content',
-        selected: 'pell-button-selected'
-        }
-    })
-  }
 }
 </script>
 

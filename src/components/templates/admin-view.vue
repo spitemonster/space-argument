@@ -8,7 +8,9 @@
       <h1 class="divider">Brief</h1>
       <single-brief :briefs="briefs" class="brief"></single-brief>
     </section>
-    <admin-utilities v-if="util"></admin-utilities>
+    <admin-utilities v-if="util"
+                     :refs="$firebaseRefs.team"
+                     :party="team"></admin-utilities>
   </div>
 </template>
 
@@ -22,10 +24,12 @@ import singleBrief from './player/single-brief.vue'
 
 export default {
   name: 'admin-view',
-  data () {
-    return {
-      current: null,
-    }
+
+  components: {
+    briefEditor,
+    party,
+    adminUtilities,
+    singleBrief
   },
 
   props: {
@@ -36,33 +40,21 @@ export default {
     isAdmin: ''
   },
 
-  firebase: function() {
+  data () {
     return {
-      briefs: {
-        source: db.ref('briefs/')
-      },
-      team: db.ref('players/')
+      current: null,
     }
   },
 
-  components: {
-    briefEditor,
-    party,
-    adminUtilities,
-    singleBrief
+  firebase() {
+    return {
+      briefs: db.ref('briefs/'),
+      team: {
+        source: db.ref('players/'),
+        asObject: true
+      }
+    }
   },
-
-  computed: {
-  },
-
-  methods: {
-  },
-
-  created() {
-  },
-
-  mounted() {
-  }
 }
 </script>
 

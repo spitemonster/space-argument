@@ -58,6 +58,14 @@ import { bus } from '../../../bus.js'
 
 export default {
   name: 'player-stats',
+
+  props: {
+    characteristics: {},
+    refs: {},
+    exp: null,
+    know: {}
+  },
+
   data() {
     return {
       brawn: false,
@@ -73,16 +81,6 @@ export default {
     }
   },
 
-  props: {
-    characteristics: {},
-    refs: {},
-    exp: null,
-    know: {}
-  },
-
-  computed: {
-
-  },
   created() {
     //when user taps characteristic in characteristic row, take data, set it to true and set others to false;
     let self = this;
@@ -169,8 +167,6 @@ export default {
       } else {
         bus.$emit('skillError');
       }
-
-      console.log(remaining);
     },
 
     rankUpKnow(skill) {
@@ -221,9 +217,6 @@ export default {
       return skill;
     }
   },
-
-  mounted() {
-  }
 }
 </script>
 
