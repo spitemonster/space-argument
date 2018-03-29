@@ -1,12 +1,12 @@
 <template>
   <div>
     <form>
-      <input type="text" placeholder="email" v-model="email"></input>
-      <input type="password" placeholder="password" v-model="password"></input>
-      <input type="text" placeholder="Character Name" v-model="character.name"></input>
-      <input type="text" placeholder="Species" v-model="character.species"></input>
-      <input type="text" placeholder="Career" v-model="character.career"></input>
-      <input type="text" placeholder="Specialization" v-model="character.specialization"></input>
+      <input type="text" placeholder="email" v-model="email" required></input>
+      <input type="password" placeholder="password" v-model="password" required></input>
+      <input type="text" placeholder="Character Name" v-model="character.name" required></input>
+      <input type="text" placeholder="Species" v-model="character.species" required></input>
+      <input type="text" placeholder="Career" v-model="character.career" required></input>
+      <input type="text" placeholder="Specialization" v-model="character.specialization" required></input>
       <button type="button" @click="createUser">Sign Up</button>
     </form>
   </div>

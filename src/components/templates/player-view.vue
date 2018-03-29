@@ -2,8 +2,8 @@
 <template>
   <div class="character" >
 
-    <!-- <button @click="updateWeapon">UPDATE WEAPON</button> -->
-    <!-- <button @click="updateArmor">UPDATE ARMOR</button> -->
+    <!-- <button @click="updateWeapon">UPDATE WEAPON</button>
+    <button @click="updateArmor">UPDATE ARMOR</button> -->
     <!-- <button @click="updateSkills">UPDATE SKILLS</button> -->
     <!-- <button @click="updateChars">UPDATE SKILLS</button> -->
     <!-- <button @click="updateKnow">UPDATE SKILLS</button> -->
