@@ -11,7 +11,8 @@
       </span>
 
       <div id="woundSoak">
-        <div id="healthBar" class="bar">
+        <div id="healthBar" class="bar"
+                            :class="{danger: inDanger(member.woundCurrent, member.woundThresh)}">
           <p>{{ member.woundCurrent }} / {{ member.woundThresh }}</p>
           <div id="healthActual" :style="{ width: calcWidth(member) }">
           </div>
@@ -131,7 +132,7 @@ export default {
       //sort through weapon skills and split them into their own object so I can access the values
       for (let skill in ag.skills) {
         if (skill == 'rangedLight' || skill == 'rangedHeavy' || skill == 'gunnery') {
-          weaponSkills[skill] = ag.skills[skill]
+          weaponSkills[skill] = ag.skills[skill];
         }
       }
 
@@ -156,7 +157,6 @@ export default {
           matches += letter;
         }
       }
-
       //sorts through player argument (which should be an object), goes to skills and finally appropriate rank
       //should work for all weapons and associated skills
       return weaponSkills[matches].val;
@@ -197,6 +197,18 @@ export default {
       // console.log(this.team[data.key].woundCurrent);
       this.$firebaseRefs.party.child(data.key).child('woundCurrent').set(healthResult);
       // console.log(data.woundCurrent);
+    },
+
+    inDanger(current, thresh) {
+      let remainingPercent =  current / thresh;
+
+      if (remainingPercent <= .25) {
+        return true;
+      }
+    },
+
+    hasForce(data) {
+      return data.hasForce;
     }
   },
 
@@ -339,5 +351,23 @@ export default {
 .woundButton {
   width: 100%;
   padding: 2rem 3rem;
+}
+
+.danger {
+  animation: inDanger 2s linear infinite;
+}
+
+@keyframes inDanger {
+  0% {
+    box-shadow: 0px 0px 5px $healthRed;
+  }
+
+  50% {
+    box-shadow: 0px 0px 20px $healthRed;
+  }
+
+  100% {
+    box-shadow: 0px 0px 5px $healthRed;
+  }
 }
 </style>

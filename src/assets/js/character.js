@@ -22,69 +22,187 @@ export default class Character {
 
   //characteristics
   characteristics = {
-    brawn: 0,
-    agility: 0,
-    intellect: 0,
-    cunning: 0,
-    willpower: 0,
-    presence: 0,
-    forceRank: 0
-  }
+    ag: {
+      val: 0,
+      skills: {
+        coordination: {
+          val: 0,
+          spec: false
+        },
+        gunnery: {
+          val: 0,
+          spec: false
+        },
+        pilotingSpace: {
+          val: 0,
+          spec: false
+        },
+        pilotingPlanetary: {
+          val: 0,
+          spec: false
+        },
+        rangedLight: {
+          val: 0,
+          spec: false
+        },
+        rangedHeavy: {
+          val: 0,
+          spec: false
+        },
+        stealth: {
+          val: 0,
+          spec: false
+        }
+      }
+    },
+    br: {
+      val: 0,
+      skills: {
+        athletics: {
+          val: 0,
+          spec: false
+        },
+        resilience: {
+          val: 0,
+          spec: false
+        },
+        brawl: {
+          val: 0,
+          spec: false
+        },
+        melee: {
+          val: 0,
+          spec: false
+        },
+      }
+    },
+    int: {
+      val: 0,
+      skills: {
+        astrogation: {
+          val: 0,
+          spec: false
+        },
+        computers: {
+          val: 0,
+          spec: false
+        },
+        mechanics: {
+          val: 0,
+          spec: false,
+        },
+        medicine: {
+          val: 0,
+          spec: false
+        }
+      }
+    },
+    cun: {
+      val: 0,
+      skills: {
+        deception: {
+          val: 0,
+          spec: false
+        },
+        perception: {
+          val: 0,
+          spec: false
+        },
+        skulduggery: {
+          val: 0,
+          spec: false
+        },
+        streetwise: {
+          val: 0,
+          spec: false
+        },
+        survival: {
+          val: 0,
+          spec: false
+        },
+      }
+    },
+    will: {
+      val: 0,
+      skills: {
+        coercion: {
+          val: 0,
+          spec: false
+        },
+        discipline: {
+          val: 0,
+          spec: false
+        },
+        vigilance: {
+          val: 0,
+          spec: 0
+        }
+      }
+    },
+    pres: {
+      val: 0,
+      skills: {
+        charm: {
+          val: 0,
+          spec: false
+        },
+        cool: {
+          val: 0,
+          spec: false
+        },
+        leadership: {
+          val: 0,
+          spec: false
+        },
+        negotiation: {
+          val: 0,
+          spec: false
+        }
+      }
+    },
+    force: {
+      val: 0
+    }
+  };
 
-  //skills
-  skills = {
-    astrogation: 0,
-    athletics: 0,
-    charm: 0,
-    coercion: 0,
-    computers: 0,
-    cool: 0,
-    coordination: 0,
-    deception: 0,
-    discipline: 0,
-    leadership: 0,
-    mechanics: 0,
-    medicine: 0,
-    negotiation: 0,
-    perception: 0,
-    pilotingPlanetary: 0,
-    pilotingSpace: 0,
-    resilience: 0,
-    skulduggery: 0,
-    stealth: 0,
-    streetwise: 0,
-    survival: 0,
-    vigilance: 0,
-
-    //weapons
-    brawl: 0,
-    melee: 0,
-    lightsaber: 0,
-    rangedLight: 0,
-    rangedHeavy: 0,
-    gunnery: 0,
-
-    //knowledge
-    coreWorlds: 0,
-    education: 0,
-    lore: 0,
-    outerRim: 0,
-    underworld: 0,
-    warfare: 0,
-    xenology: 0
-  }
+  knowledge = {
+    coreWorlds: {
+      spec: false,
+      val: 0
+    },
+    education: {
+      spec: false,
+      val: 0
+    },
+    lore: {
+      spec: false,
+      val: 0
+    },
+    lore: {
+      spec: false,
+      val: 0
+    },
+    outerRim: {
+      spec: false,
+      val: 0
+    },
+    underworld: {
+      spec: false,
+      val: 0
+    },
+    warfare: {
+      spec: false,
+      val: 0
+    },
+    xeonology: {
+      spec: false,
+      val: 0
+    }
+  };
 
   //inventory
   inventory = {
-    weapons: {
-      'Blaster Rifle': {
-        class: 'Ranged Heavy',
-        damage: 13
-      }
-    },
-
-    armor: {
-    }
+    
   }
 
   //etc

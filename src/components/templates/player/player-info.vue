@@ -5,7 +5,7 @@
     </div>
 
     <div id="woundSoak">
-      <div id="healthBar" class="bar">
+      <div id="healthBar" class="bar" :class="{danger: inDanger(player.woundCurrent, player.woundThresh)}">
         <p>{{ player.woundCurrent }} / {{ player.woundThresh }}</p>
         <div id="healthActual"></div>
       </div>
@@ -76,6 +76,13 @@ export default {
   },
 
   methods: {
+    inDanger(current, thresh) {
+      let remainingPercent =  current / thresh;
+
+      if (remainingPercent <= .25) {
+        return true;
+      }
+    }
   },
 
   updated() {
@@ -184,6 +191,24 @@ export default {
     span {
       font-weight: 100;
     }
+  }
+}
+
+.danger {
+  animation: inDanger 2s linear infinite;
+}
+
+@keyframes inDanger {
+  0% {
+    box-shadow: 0px 0px 5px $healthRed;
+  }
+
+  50% {
+    box-shadow: 0px 0px 20px $healthRed;
+  }
+
+  100% {
+    box-shadow: 0px 0px 5px $healthRed;
   }
 }
 </style>

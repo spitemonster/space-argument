@@ -192,6 +192,7 @@ export default {
   display: block;
   position: relative;
   border: 1px solid $black;
+  padding: 1rem;
 
   &:after {
     content: "";

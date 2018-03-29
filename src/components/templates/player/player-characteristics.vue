@@ -1,53 +1,56 @@
 <template>
-  <div id="characteristics">
-    <div class="charCard" @click="showThis">
-      <h4>brawn</h4>
-      <div class="charRank">
-        {{ characteristics.br.val }}
+  <div>
+    <div id="characteristics">
+      <div class="charCard" @click="showThis">
+        <h4>brawn</h4>
+        <div class="charRank">
+          {{ characteristics.br.val }}
+        </div>
       </div>
-    </div>
 
-    <div class="charCard" @click="showThis">
-      <h4>agility</h4>
-      <div class="charRank">
-        {{ characteristics.ag.val }}
+      <div class="charCard" @click="showThis">
+        <h4>agility</h4>
+        <div class="charRank">
+          {{ characteristics.ag.val }}
+        </div>
       </div>
-    </div>
 
-    <div class="charCard" @click="showThis">
-      <h4>intellect</h4>
-      <div class="charRank">
-        {{ characteristics.int.val }}
+      <div class="charCard" @click="showThis">
+        <h4>intellect</h4>
+        <div class="charRank">
+          {{ characteristics.int.val }}
+        </div>
       </div>
-    </div>
 
-    <div class="charCard" @click="showThis">
-      <h4>cunning</h4>
-      <div class="charRank">
-        {{ characteristics.cun.val }}
+      <div class="charCard" @click="showThis">
+        <h4>cunning</h4>
+        <div class="charRank">
+          {{ characteristics.cun.val }}
+        </div>
       </div>
-    </div>
 
-    <div class="charCard" @click="showThis">
-      <h4>willpower</h4>
-      <div class="charRank">
-        {{ characteristics.will.val }}
+      <div class="charCard" @click="showThis">
+        <h4>willpower</h4>
+        <div class="charRank">
+          {{ characteristics.will.val }}
+        </div>
       </div>
-    </div>
 
-    <div class="charCard" @click="showThis">
-      <h4>presence</h4>
-      <div class="charRank">
-        {{ characteristics.pres.val }}
+      <div class="charCard" @click="showThis">
+        <h4>presence</h4>
+        <div class="charRank">
+          {{ characteristics.pres.val }}
+        </div>
       </div>
-    </div>
 
-    <div v-if="hasForce" class="charCard">
-      <h4>force</h4>
-      <div class="charRank">
-        {{ characteristics.force.val }}
+      <div v-if="hasForce" class="charCard">
+        <h4>force</h4>
+        <div class="charRank">
+          {{ characteristics.force.val }}
+        </div>
       </div>
     </div>
+    <button @click="showAll" id="showAll">SHOW ALL</button>
   </div>
 </template>
 
@@ -59,19 +62,21 @@ export default {
 
   data () {
     return {
+      showAllChars: false
     }
   },
 
   props: {
     characteristics: {},
-    current: ''
+    current: '',
+    hasForce: false
   },
 
   computed: {
-    hasForce() {
-      //is true if force exists in the list of characteristics
-      return (this.characteristics.force.val > -1 ? true : false);
-    }
+    // hasForce() {
+    //   //is true if force exists in the list of characteristics
+    //   return (this.characteristics.force.val > -1 ? true : false);
+    // }
   },
 
   methods: {
@@ -79,6 +84,7 @@ export default {
     showThis(e) {
       let activeCards = document.getElementsByClassName('activeCard');
       let card = e.target.parentNode.childNodes[2];
+      console.log(this.showAllChars);
 
       function removeClass() {
         //loop through all of the active cards and remove the active card class
@@ -98,6 +104,10 @@ export default {
         } else if (card.classList.contains('activeCard')) {
           // if target card DOES have 'activeCard' class, remove it
           card.classList.remove('activeCard');
+        } else if (card.classList.contains('activeCard') && this.showAll) {
+          //if the target 'charCard' is not the 'activeCard'
+          //add activeCard class to target
+          card.classList.add('activeCard');
         }
       }
 
@@ -109,7 +119,23 @@ export default {
         //if they click on the sibling of the h4, sends content of h4
         cycle(e.target.parentNode.childNodes[0])
       }
+    },
+
+    showAll() {
+      let activeCards = document.getElementsByClassName('activeCard');
+
+      for (let i = 0; i < activeCards.length; i++) {
+        activeCards[i].classList.remove('activeCard');
+      }
+
+      bus.$emit('showAll');
     }
+  },
+
+  created() {
+    bus.$on('showAll', () => {
+      this.showAllChars = !this.showAllChars;
+    })
   },
 
   mounted() {
@@ -211,6 +237,23 @@ export default {
     -ms-flex-pack: center;
     justify-content: center;
     font-size: 64px;
+  }
+}
+
+#showAll {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: $gray;
+  margin-top: 1rem;
+
+  &:hover {
+    color: $white;
+
+    &:before {
+      background: $gray;
+    }
   }
 }
 </style>

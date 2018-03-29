@@ -24,14 +24,6 @@
 
         <h2>Knowledge</h2>
         <h3 v-for="(k, key) in know">{{ key }} <span>{{ k.val }}<span class="rankUp" @click="rankUpKnow(key)">+</span></span></h3>
-
-        <!-- <h3 :class="{spec: skills.coreWorlds.spec}">Core Worlds <span>{{ skills.coreWorlds.value }}</span></h3>
-        <h3 :class="{spec: skills.education.spec}">Education: <span>{{ skills.education.value }}</span></h3>
-        <h3 :class="{spec: skills.lore.spec}">Lore: <span>{{ skills.lore.value }}</span></h3>
-        <h3 :class="{spec: skills.outerRim.spec}">Outer Rim: <span>{{ skills.outerRim.value }}</span></h3>
-        <h3 :class="{spec: skills.underworld.spec}">Underworld: <span>{{ skills.underworld.value }}</span></h3>
-        <h3 :class="{spec: skills.warfare.spec}">Warfare: <span>{{ skills.warfare.value }}</span></h3>
-        <h3 :class="{spec: skills.xenology.spec}">Xenology: <span>{{ skills.xenology.value }}</span></h3> -->
       </div>
     </div>
     <div class="statSection" v-if="cunning">
@@ -76,7 +68,8 @@ export default {
       presence: false,
       force: false,
       inventory: false,
-      skillError: false
+      skillError: false,
+      showAll: false
     }
   },
 
@@ -115,6 +108,10 @@ export default {
         //otherwise show them
         hideAll();
         self[data] = true
+      } else if (self[data] && self.showAll) {
+        hideAll();
+        console.log('test');
+        self[data] = true;
       }
     });
 
@@ -124,6 +121,28 @@ export default {
       setTimeout(() => {
         this.skillError = false;
       }, 3000)
+    });
+
+    bus.$on('showAll', () => {
+      if (!self.showAll) {
+        self.brawn = true,
+        self.agility = true,
+        self.intellect = true,
+        self.cunning = true,
+        self.willpower = true,
+        self.presence = true,
+        self.force = true,
+        self.showAll = true
+      } else if (self.showAll) {
+        self.brawn = false,
+        self.agility = false,
+        self.intellect = false,
+        self.cunning = false,
+        self.willpower = false,
+        self.presence = false,
+        self.force = false,
+        self.showAll = false
+      }
     });
   },
 
@@ -135,6 +154,7 @@ export default {
       let oneUp = currentRank + 1;
       let isSpec = skillName.spec;
       let cost = null;
+      let remaining = null;
 
       if (isSpec) {
         cost = 5 * oneUp;
@@ -143,10 +163,14 @@ export default {
       }
 
       if (exp - cost >= 0) {
-        this.refs.child('characteristics').child(char).child('skills').child(skill).set({val: 0, spec: false});
+        remaining = exp - cost;
+        this.refs.child('characteristics').child(char).child('skills').child(skill).set({val: oneUp, spec: isSpec});
+        this.refs.child('availableXP').set(remaining);
       } else {
         bus.$emit('skillError');
       }
+
+      console.log(remaining);
     },
 
     rankUpKnow(skill) {
@@ -228,8 +252,8 @@ export default {
 #skillError {
   width: 100%;
   text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   border: 1px solid $healthRed;
   color: $healthRed;
   padding: 2rem;
