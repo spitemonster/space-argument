@@ -32,6 +32,11 @@
         </ul>
       </li>
     </ul>
+    <h3>Medical</h3>
+    <ul>
+      <li class="medical"
+          v-for=""></li>
+    </ul>
   </div>
 </template>
 
@@ -46,7 +51,11 @@ export default {
     weaponRef: {},
     armorRef: {},
     weapons: {},
-    armor: {}
+    armor: {},
+    team: {},
+    teamRef: {},
+    medical: {},
+    medicalRef: {}
   },
 
   data() {

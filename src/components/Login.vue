@@ -66,10 +66,17 @@ export default {
 
 .login-form {
   margin: 0 auto;
-  width: 50%;
   height: 250px;
   position: relative;
   top: 20vh;
+
+  @media (min-width: 960px) {
+    width: 50%;
+  }
+
+  @media (max-width: 959px) {
+    width: 80%;
+  }
 
   button {
     width: 100%;

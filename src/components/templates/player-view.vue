@@ -6,7 +6,8 @@
     <button @click="updateArmor">UPDATE ARMOR</button> -->
     <!-- <button @click="updateSkills">UPDATE SKILLS</button> -->
     <!-- <button @click="updateChars">UPDATE SKILLS</button> -->
-    <!-- <button @click="updateKnow">UPDATE SKILLS</button> -->
+    <!-- <button @click="updateKnow">UPDATE KNOWLEDGE</button> -->
+    <button @click="updateMedpac">UPDATE MEDPACK</button>
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
@@ -30,7 +31,11 @@
                           :weapons="weapons"
                           :armor="armorInv"
                           :weaponRef="$firebaseRefs.weapons"
-                          :armorRef="$firebaseRefs.armorInv"></player-inventory>
+                          :armorRef="$firebaseRefs.armorInv"
+                          :team="team"
+                          :teamRef="$firebaseRefs.team"
+                          :medical="medical"
+                          :medicalRef="$firebaseRefs.team"></player-inventory>
       </section>
     </keep-alive>
     <section v-if="brief">
@@ -89,6 +94,7 @@ export default {
       },
       weapons: db.ref('players/' + this.current + '/inventory/weapons'),
       armorInv: db.ref('players/' + this.current + '/inventory/armor'),
+      medical: db.ref('players/' + this.current + '/inventory/medical'),
       briefs: {
         source: db.ref('briefs/')
       }
@@ -96,7 +102,7 @@ export default {
   },
 
   //these only exist in development for debugging and quick editing of a character in bulk
-  // methods: {
+  methods: {
   //   updateWeapon() {
   //     let test = "Boonta Blaster";
   //
@@ -305,7 +311,14 @@ export default {
   //       }
   //     });
   //   }
-  // },
+    updateMedpac() {
+      this.$firebaseRefs.player.child('inventory').child('medical').set({
+        Medpac: {
+          Uses: 5
+        }
+      })
+    }
+  },
 }
 </script>
 
