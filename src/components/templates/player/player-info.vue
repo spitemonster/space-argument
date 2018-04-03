@@ -68,7 +68,7 @@ export default {
         }
       }
 
-      return this.player.soakThresh + armorSoak;
+      return parseInt(this.player.soakThresh) + armorSoak;
     }
   },
 

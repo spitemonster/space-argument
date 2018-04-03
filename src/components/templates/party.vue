@@ -149,7 +149,6 @@ export default {
       //loop through 'letters' array, if letter isn't a parenthese or a space, concatenate it to the 'matches' variable
       for (let i = 0; i < letters.length; i++) {
         let letter = letters[i];
-
         if (letter != '(' && letter != ')' && letter != ' ') {
           matches += letter;
         }

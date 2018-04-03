@@ -23,12 +23,13 @@ button {
   transition: all 100ms linear;
 
   &:hover {
-    border-color: $black;
+    border-color: $gray;
     color: $white;
 
     &::before {
       left: 0;
       width: 100%;
+      background: $gray;
     }
   }
 
@@ -41,7 +42,7 @@ button {
     height: 100%;
     -webkit-transition: all 100ms ease-out;
     transition: all 100ms ease-out;
-    background: $black;
+    background: $gray;
     z-index: -1;
   }
 }

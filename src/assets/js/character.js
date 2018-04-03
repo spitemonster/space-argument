@@ -1,26 +1,49 @@
 export default class Character {
-  //basic info
-  name = '';
-  species = '';
-  career = '';
-  specializations = '';
-  type = 'Player';
-  //stats
-  soakThresh = 0;
-  soakCurrent = 0;
-  defenseRNG = 0;
-  defenseMEL = 0;
-  encThresh = 0;
-  encCurrent = 0;
-  woundThresh = 0;
-  woundCurrent = 0;
-  strainThresh = 0;
-  strainCurrent = 0;
-  hasForce = false;
-  forceAvail = 0;
-  forceCommit = 0;
+  constructor(
+    name,
+    species,
+    career,
+    soak,
+    woundThresh,
+    specialization,
+    characteristics,
+    hasForce,
+    force,
+    availableXP
+  ) {
+    this.name = name
+    this.species = species
+    this.career = career
+    this.soakThresh = soak
+    this.woundThresh = woundThresh
+    this.woundCurrent = woundThresh
+    this.specialization = specialization
+    this.characteristics = characteristics
+    this.hasForce = force
+    this.characteristics.force.val = force
+    this.availableXP = availableXP
+  }
+  // basic info
+  name = ''
+  species = ''
+  career = ''
+  specialization = ''
+  type = 'Player'
+  // stats
+  soakThresh = 0
+  defenseRNG = 0
+  defenseMEL = 0
+  encThresh = 0
+  encCurrent = 0
+  woundThresh = 0
+  woundCurrent = 0
+  strainThresh = 0
+  strainCurrent = 0
+  hasForce = false
+  forceAvail = 0
+  forceCommit = 0
 
-  //characteristics
+  // characteristics
   characteristics = {
     ag: {
       val: 0,
@@ -73,7 +96,7 @@ export default class Character {
         melee: {
           val: 0,
           spec: false
-        },
+        }
       }
     },
     int: {
@@ -89,7 +112,7 @@ export default class Character {
         },
         mechanics: {
           val: 0,
-          spec: false,
+          spec: false
         },
         medicine: {
           val: 0,
@@ -119,7 +142,7 @@ export default class Character {
         survival: {
           val: 0,
           spec: false
-        },
+        }
       }
     },
     will: {
@@ -163,7 +186,7 @@ export default class Character {
     force: {
       val: 0
     }
-  };
+  }
 
   knowledge = {
     coreWorlds: {
@@ -198,15 +221,13 @@ export default class Character {
       spec: false,
       val: 0
     }
-  };
-
-  //inventory
-  inventory = {
-    
   }
 
-  //etc
-  credits = 0;
-  totalXP = 0;
+  // inventory
+  inventory = {}
+
+  // etc
+  credits = 0
+  totalXP = 0
   availableXP = 0
 }

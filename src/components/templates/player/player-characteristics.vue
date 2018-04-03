@@ -51,6 +51,7 @@
       </div>
     </div>
     <button @click="showAll" id="showAll">SHOW ALL</button>
+    <button @click="showKnowledge" id="showKnowledge">SHOW KNOWLEDGE</button>
   </div>
 </template>
 
@@ -129,6 +130,10 @@ export default {
       }
 
       bus.$emit('showAll');
+    },
+
+    showKnowledge() {
+      bus.$emit('showKnowledge');
     }
   },
 }
@@ -230,7 +235,8 @@ export default {
   }
 }
 
-#showAll {
+#showAll,
+#showKnowledge {
   width: 100%;
   padding: 1rem;
   font-size: 1.2rem;

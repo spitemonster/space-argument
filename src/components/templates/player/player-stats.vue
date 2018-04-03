@@ -21,9 +21,6 @@
           <h3 v-for="(skill, key) in characteristics.int.skills"
               :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key, 'int')">+</span></span></h3>
         </div>
-
-        <h2>Knowledge</h2>
-        <h3 v-for="(k, key) in know">{{ key }} <span>{{ k.val }}<span class="rankUp" @click="rankUpKnow(key)">+</span></span></h3>
       </div>
     </div>
     <div class="statSection" v-if="cunning">
@@ -48,6 +45,12 @@
           <h3 v-for="(skill, key) in characteristics.pres.skills"
               :class="{spec: skill.spec}">{{ key }} <span>{{ skill.val }}<span class="rankUp" @click="rankUp(key, 'pres')">+</span></span></h3>
         </div>
+      </div>
+    </div>
+    <div class="statSection" v-if="knowledge">
+      <div class="statsGrid">
+        <h2>Knowledge</h2>
+        <h3 v-for="(k, key) in know">{{ key }} <span>{{ k.val }}<span class="rankUp" @click="rankUpKnow(key)">+</span></span></h3>
       </div>
     </div>
   </div>
@@ -77,7 +80,8 @@ export default {
       force: false,
       inventory: false,
       skillError: false,
-      showAll: false
+      showAll: false,
+      knowledge: false
     }
   },
 
@@ -142,6 +146,10 @@ export default {
         self.showAll = false
       }
     });
+
+    bus.$on('showKnowledge', () => {
+      this.knowledge = !this.knowledge;
+    })
   },
 
   methods: {

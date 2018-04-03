@@ -13,6 +13,7 @@
       :party="viewParty"
       :util="viewUtil"
       :isAdmin="type" ></admin-view>
+    <character-creation v-if="type == 'new'"></character-creation>
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import { bus } from '../bus.js'
 import navMenu from './templates/nav-menu.vue'
 import playerView from './templates/player-view.vue'
 import adminView from './templates/admin-view.vue'
+import characterCreation from './templates/character-creation.vue'
 
 export default {
   name: 'Dashboard',
@@ -32,6 +34,7 @@ export default {
     navMenu,
     playerView,
     adminView,
+    characterCreation
   },
 
   data() {
@@ -49,7 +52,7 @@ export default {
   computed: {
     //using just data did not behave how i wanted, especially with regard to passing data via props, so here we are
     type() {
-      return this.player.type;
+      return this.player.type
     }
   },
 
@@ -64,39 +67,39 @@ export default {
 
   created() {
     //will probably comeback and try to rewrite this. sets which view will be active, whether it's player or admin
-    bus.$on('setFocus', (data) => {
+    bus.$on('setFocus', data => {
       if (data == 'dashboard') {
-        this.viewDashboard = true;
-        this.writeBrief = false;
-        this.viewBriefs = false;
-        this.viewParty = false;
-        this.viewUtil = false;
+        this.viewDashboard = true
+        this.writeBrief = false
+        this.viewBriefs = false
+        this.viewParty = false
+        this.viewUtil = false
       } else if (data == 'write brief') {
-        this.viewDashboard = false;
-        this.writeBrief = true;
-        this.viewBriefs = false;
-        this.viewParty = false;
-        this.viewUtil = false;
+        this.viewDashboard = false
+        this.writeBrief = true
+        this.viewBriefs = false
+        this.viewParty = false
+        this.viewUtil = false
       } else if (data == 'briefs') {
-        this.viewDashboard = false;
-        this.writeBrief = false;
-        this.viewBriefs = true;
-        this.viewParty = false;
-        this.viewUtil = false;
+        this.viewDashboard = false
+        this.writeBrief = false
+        this.viewBriefs = true
+        this.viewParty = false
+        this.viewUtil = false
       } else if (data == 'party') {
-        this.viewDashboard = false;
-        this.writeBrief = false;
-        this.viewBriefs = false;
-        this.viewParty = true;
-        this.viewUtil = false;
+        this.viewDashboard = false
+        this.writeBrief = false
+        this.viewBriefs = false
+        this.viewParty = true
+        this.viewUtil = false
       } else if (data == 'utilities') {
-        this.viewDashboard = false;
-        this.writeBrief = false;
-        this.viewBriefs = false;
-        this.viewParty = false;
-        this.viewUtil = true;
+        this.viewDashboard = false
+        this.writeBrief = false
+        this.viewBriefs = false
+        this.viewParty = false
+        this.viewUtil = true
       }
-    });
+    })
   },
 
   methods: {
@@ -107,19 +110,19 @@ export default {
         .signOut()
         .then(e => {
           this.$router.replace('login')
-        });
+        })
     }
-  },
+  }
 }
 </script>
 
 <style lang="scss">
 @import '../assets/css/_variables.scss';
-  .dashboard {
-    height: 100%;
-  }
+.dashboard {
+  height: 100%;
+}
 
-  .log-out {
-    padding: 1rem;
-  }
+.log-out {
+  padding: 1rem;
+}
 </style>
