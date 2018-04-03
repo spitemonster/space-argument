@@ -32,11 +32,11 @@
         </ul>
       </li>
     </ul>
-    <h3>Medical</h3>
-    <ul>
+    <!-- <h3>Medical</h3> -->
+    <!-- <ul>
       <li class="medical"
           v-for=""></li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
