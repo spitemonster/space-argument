@@ -37,3 +37,4 @@ ehthumbs.db
 Thumbs.db
 
 /src/assets/js/firebaseConfig.js
+/dist
