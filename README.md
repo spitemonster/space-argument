@@ -31,63 +31,12 @@ I'll go ahead and say I'm finished with v1. List of features:
 
 * On briefs screen, read latest brief written by DM.
 
-## Roadmap
+New users are able to create characters fairly easily.
 
-I'll try and keep a list of things that I want or will need this to do, which hopefully will keep me focused and help me lay out all of the things I need to learn or implement. This is my first fairly big solo project, as I'm coming from primarily Front-End experience.
+## Overview of Process
 
-### Account Creation and Authentication
+This was built with me knowing essentially nothing about Vue and literally nothing about Firebase, as was intended; I wanted to learn Vue for a long time, and was reading about Firebase Auth when I discovered their 'realtime database,' which clicked in my head combined with Vue's reactivity. Why wouldn't I, I thought, be able to make an app that could talk to Firebase and reactively render upon changes? What sort of app would that be? And from there it turned into this.
 
-~Creation and authentication has been successfully implemented, for the most part. Still experiencing a bug where, upon a refresh, the loss of connection with Firebase fucks up how things display. Easy solution: don't refresh unless I'm logged out. Can't get a grasp of it otherwise. I cheated with creation, mostly because I needed to make it easier on myself making 5 player accounts + 1 admin account.~
+I approached this in probably the least constructive way; I had a long list of features that I wanted, and I knew I wanted to incorporate Firebase's realtime database and auth, so I just kind of went at it scattershot, learning and building Vue while working on the data models for firebase and incorporating auth and understanding how data was going to pass around Vue. Had I been more familiar with any one part of this process, this definitely would have gone a lot smoother. Because I rewrote the player data structure 5-7 times throughout, I also had to rewrite how data was displayed in Vue *and* how that data was handled by JS. In addition to this, I switched the way I did components at least twice in this process, and as such the organization of my project folder affected the code and markup I ended up writing. I use CSS IDs fairly frequently (something for which I am unapologetic), but my casing alternates between camelCase and kebab-case, I'm pretty sure I alternate between arrow functions and not...arrow functions several times.
 
-### Admin/DM Account
-
-* ~Ability for DM to write a brief about where we are in the campaign, what our current objectives are, where we are, etc. Ideally this could/would/should extend into lore/necessary information about the world we're on, etc.~ This has been implemented using Pell and Firebase.
-
-* ~Allow DM to interact with players mid game. The initial thing I wanted to do with this app was just to have our character stats live on screen and our DM to be able to quickly check on our stats or injure us and have those changes reflect in real time on our character screens; for instance, in the middle of a battle if a player takes a couple wound, that number updates in real time and maybe the screen flashes red or something.~
-
-* ~Allow DM to award EXP to players~
-
-* Allow DM to award and take away credits from individual players or whole team.
-
-* Create character, possibly. This will prove complicated because of how character creation works. May not do this.
-
-* Give players items that are not necessarily weapons or armor, such as medpacks/repair kits or quest items.
-
-### Player account
-
-* ~Quick check stats and vitals. Ideally I want necessary stats on hand at all times, everything else is ancillary. This is straightforward enough; each account is tied to a character in the DB with stats.~
-
-* ~Change equipped weapon on the fly and have damage values reflected and available to DM.~
-
-* ~Check DM brief and codex/other information~
-
-* ~Rank up skills. The problem with this is that certain skills that are associated with the player's career and specialization cost less to rank up; and as of right now I have no built in system by which I can identify whether or not the skills in question are specializations, and right now the data structure doesn't...easily allow for this. I'll think of something.~
-
-* Ability to use items that are not necessarily weapons or armor, such as medpacks/repair kits, on themselves OR other players in the team.
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+I did my best to clean up my code and to follow the Vue style guide, but given that I was learning as I was doing, there are a number of things I missed.
