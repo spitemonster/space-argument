@@ -32,36 +32,40 @@
         </ul>
       </li>
     </ul>
-    <h3>Medical</h3>
-    <div class="medical" v-for="(med, k) in meat" v-if="k != '.key'">
-      <div>
-        <h4>{{ k }}</h4>
-        <p>{{ med.uses }}</p>
+    <h3 v-if="hasMedical || hasRepair">Medical</h3>
+      <div v-if="hasMedical">
+        <div class="medical" v-for="(med, k) in meat" v-if="k != '.key'">
+          <div>
+            <h4>{{ k }}</h4>
+            <p>{{ med.uses }}</p>
+          </div>
+          <div>
+            <select v-model="medpacTarget">
+              <option v-for="player in people" :value="player.key">{{ player.name }}</option>
+            </select>
+            <button @click="heal(med.uses, med.lastUsed, 'meat')">
+              HEAL
+            </button>
+          </div>
+        </div>
       </div>
-      <div>
-        <select v-model="medpacTarget">
-          <option v-for="player in people" :value="player.key">{{ player.name }}</option>
-        </select>
-        <button @click="heal(med.uses, med.lastUsed, 'meat')">
-          HEAL
-        </button>
+      <div v-if="hasRepair">
+        <div class="medical" v-for="(med, k) in machine" v-if="k != '.key'">
+          <div>
+            <h4>{{ k }}</h4>
+            <p>{{ med.uses }}</p>
+          </div>
+          <div>
+            <select v-model="repairKitTarget">
+              <option v-for="player in droids" :value="player.key">{{ player.name }}</option>
+            </select>
+            <button @click="heal(med.uses, med.lastUsed, 'machine')">
+              HEAL
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="medical" v-for="(med, k) in machine" v-if="k != '.key'">
-      <div>
-        <h4>{{ k }}</h4>
-        <p>{{ med.uses }}</p>
-      </div>
-      <div>
-        <select v-model="repairKitTarget">
-          <option v-for="player in droids" :value="player.key">{{ player.name }}</option>
-        </select>
-        <button @click="heal(med.uses, med.lastUsed, 'machine')">
-          HEAL
-        </button>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -96,6 +100,23 @@ export default {
     }
   },
 
+  computed: {
+    hasMedical() {
+      if (!this.meat['Medpac']) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    hasRepair() {
+      if(!this.machine['Repair Kit']) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  },
+
   mounted() {
     let party = this.team;
     let now = new Date().getTime();
@@ -118,13 +139,16 @@ export default {
       }
     }
 
+
     //loop through meds; if they haven't been used in 24 hours, reset their uses.
-    for (let i = 0; i < meds.length; i++) {
-      let m = meds[i];
-      for (let med in this[m]) {
-        if (this[m][med].lastUsed) {
-          if (((now - this[m][med].lastUsed) / 3600000) >= 24) {
-            this.medicalRef.child(m).child(med).child('uses').set(5);
+    if (this.hasMedical || this.hasRepair) {
+      for (let i = 0; i < meds.length; i++) {
+        let m = meds[i];
+        for (let med in this[m]) {
+          if (this[m][med].lastUsed) {
+            if (((now - this[m][med].lastUsed) / 3600000) >= 24) {
+              this.medicalRef.child(m).child(med).child('uses').set(5);
+            }
           }
         }
       }
