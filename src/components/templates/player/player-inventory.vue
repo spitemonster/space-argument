@@ -2,10 +2,10 @@
   <div id="inventory">
     <h3>Weapons</h3>
     <ul>
-      <li class="weapon"
+      <li class="weapons"
           v-for="shooster in this.weapons"
           :data-gun="shooster['.key']"
-          :class="isEquipped(shooster)"
+          :class="isEquipped(shooster, 'gun')"
           @click="equip($event, 'weapons')">
 
         <h4>{{ shooster.name }} - {{ shooster.skill}}</h4>
@@ -22,7 +22,7 @@
       <li class="armor"
           v-for="arm in this.armor"
           :data-armor="arm['.key']"
-          :class="isEquipped(arm)"
+          :class="isEquipped(arm, 'armor')"
           @click="equip($event, 'armor')">
 
         <h4>{{ arm.name }}</h4>
@@ -133,10 +133,16 @@ export default {
 
   methods: {
     //determine if item is equipped
-    isEquipped(input) {
+    isEquipped(input, type) {
       let eq = '';
 
-      if (input.equipped == 'true') {
+      if (input.equipped == 'false') {
+        return;
+      }
+
+      if (type == 'gun') {
+        eq = 'equippedWeapon';
+      } else {
         eq = 'equippedArmor';
       }
 
@@ -161,7 +167,7 @@ export default {
         targetClass = 'equippedArmor';
       }
 
-      let target = document.getElementsByClassName(targetClass);
+      let target = document.getElementsByClassName(type);
 
       //make sure we're getting the key. not sure of a better way to do this.
       if (bf.getAttribute(gunArm)) {
@@ -308,7 +314,22 @@ export default {
   }
 
   select {
-    max-width: 300px;
+    width: 160px !important;
+    background: none;
+    border: 1px solid $black;
+    padding: .25rem;
+    font-size: .8rem;
+    box-sizing: border-box;
+    height: 40px;
+    margin-right: 1rem;
+    option {
+      text-transform: uppercase;
+    }
+  }
+
+  button {
+    height: 40px;
+    padding: .5rem;
   }
 }
 </style>
