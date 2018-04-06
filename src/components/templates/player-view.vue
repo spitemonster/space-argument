@@ -7,7 +7,7 @@
     <!-- <button @click="updateSkills">UPDATE SKILLS</button> -->
     <!-- <button @click="updateChars">UPDATE SKILLS</button> -->
     <!-- <button @click="updateKnow">UPDATE KNOWLEDGE</button> -->
-    <!-- <button @click="updateMedpac">UPDATE MEDPACK</button> -->
+    <button @click="updateMedpac">UPDATE MEDPACK</button>
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"
@@ -34,8 +34,9 @@
                           :armorRef="$firebaseRefs.armorInv"
                           :team="team"
                           :teamRef="$firebaseRefs.team"
-                          :medical="medical"
-                          :medicalRef="$firebaseRefs.team"></player-inventory>
+                          :meat="meat"
+                          :machine="machine"
+                          :medicalRef="$firebaseRefs.medical"></player-inventory>
       </section>
     </keep-alive>
     <section v-if="brief">
@@ -94,7 +95,18 @@ export default {
       },
       weapons: db.ref('players/' + this.current + '/inventory/weapons'),
       armorInv: db.ref('players/' + this.current + '/inventory/armor'),
-      medical: db.ref('players/' + this.current + '/inventory/medical'),
+      medical: {
+        source: db.ref('players/' + this.current + '/inventory/medical'),
+        asObject: true
+      },
+      meat: {
+        source: db.ref('players/' + this.current + '/inventory/medical/meat'),
+        asObject: true
+      },
+      machine: {
+        source: db.ref('players/' + this.current + '/inventory/medical/machine'),
+        asObject: true
+      },
       briefs: {
         source: db.ref('briefs/')
       }
@@ -139,8 +151,17 @@ export default {
 
     updateMedpac() {
       this.$firebaseRefs.player.child('inventory').child('medical').set({
-        Medpac: {
-          Uses: 5
+        meat: {
+          Medpac: {
+            uses: 5,
+            lastUsed: 15,
+          }
+        },
+        machine: {
+          'Repair Kit': {
+            uses: 5,
+            lastUsed: 15,
+          }
         }
       })
     }
