@@ -6,7 +6,7 @@
           v-for="shooster in this.weapons"
           :data-gun="shooster['.key']"
           :class="isEquipped(shooster)"
-          @click="equipWeapon">
+          @click="equip($event, 'weapons')">
 
         <h4>{{ shooster.name }} - {{ shooster.skill}}</h4>
 
@@ -23,7 +23,7 @@
           v-for="arm in this.armor"
           :data-armor="arm['.key']"
           :class="isEquipped(arm)"
-          @click="equipArmor">
+          @click="equip($event, 'armor')">
 
         <h4>{{ arm.name }}</h4>
         <ul>
@@ -72,7 +72,7 @@ export default {
 
   props: {
     current: '',
-    weaponRef: {},
+    weaponsRef: {},
     armorRef: {},
     weapons: {},
     armor: {},
@@ -143,86 +143,56 @@ export default {
       return eq;
     },
 
-    //set clicked item to equipped. will try to refactor at some point since this and the armor function are essentially the same
-    equipWeapon(e) {
+    equip(e, type) {
       //set up vars. bf...was random.
       let bf = e.target;
-      let gun = '';
-      let weapons = document.getElementsByClassName('weapon');
-      let targetClass = 'equippedWeapon';
+      let item = '';
+      let items = document.getElementsByClassName(type);
+      let targetClass;
+      let gunArm;
+      let ref = String(type + 'Ref');
+
+
+      if (type == 'weapons') {
+        gunArm = 'data-gun';
+        targetClass = 'equippedWeapon';
+      } else if (type == 'armor') {
+        gunArm = 'data-armor';
+        targetClass = 'equippedArmor';
+      }
+
       let target = document.getElementsByClassName(targetClass);
 
       //make sure we're getting the key. not sure of a better way to do this.
-      if (bf.getAttribute('data-gun')) {
-        gun = bf.getAttribute('data-gun');
+      if (bf.getAttribute(gunArm)) {
+        item = bf.getAttribute(gunArm);
         for (let i = 0; i < target.length; i++) {
           target[i].classList.remove(targetClass);
         }
-        bf.classList.add('equippedWeapon');
-      } else if (bf.parentNode.getAttribute('data-gun')) {
-        gun = bf.parentNode.getAttribute('data-gun');
+        bf.classList.add(targetClass);
+      } else if (bf.parentNode.getAttribute(gunArm)) {
+        item = bf.parentNode.getAttribute(gunArm);
         for (let i = 0; i < target.length; i++) {
           target[i].classList.remove(targetClass);
         }
-        bf.parentNode.classList.add('equippedWeapon');
-      } else if (bf.parentNode.parentNode.getAttribute('data-gun')) {
-        gun = bf.parentNode.parentNode.getAttribute('data-gun');
+        bf.parentNode.classList.add(targetClass);
+      } else if (bf.parentNode.parentNode.getAttribute(gunArm)) {
+        item = bf.parentNode.parentNode.getAttribute(gunArm);
         for (let i = 0; i < target.length; i++) {
           target[i].classList.remove(targetClass);
         }
-        bf.parentNode.parentNode.classList.add('equippedWeapon');
+        bf.parentNode.parentNode.classList.add(targetClass);
       } else {
         console.log('uh oh, you clicked on something dumb');
       }
 
-      //set all of the items to unequipped
-      for (let i = 0; i < this.weapons.length; i++) {
-        // console.log(this.weapons[i]['.key']);
-        this.weaponRef.child(this.weapons[i]['.key']).child('equipped').set('false');
+      // set all of the items to unequipped
+      for (let i = 0; i < this[type].length; i++) {
+        this[ref].child(this[type][i]['.key']).child('equipped').set('false');
       }
 
       //equip target item
-      this.weaponRef.child(gun).child('equipped').set('true');
-    },
-
-    equipArmor(e) {
-      //set up vars. bf...was random.
-      let bf = e.target;
-      let armor = '';
-      let armors = document.getElementsByClassName('armor');
-      let targetClass = 'equippedArmor';
-      let target = document.getElementsByClassName(targetClass);
-
-      //make sure we're getting the key. not sure of a better way to do this.
-      if (bf.getAttribute('data-armor')) {
-        armor = bf.getAttribute('data-armor');
-        for (let i = 0; i < target.length; i++) {
-          target[i].classList.remove(targetClass);
-        }
-        bf.classList.add('equippedArmor');
-      } else if (bf.parentNode.getAttribute('data-armor')) {
-        armor = bf.parentNode.getAttribute('data-armor');
-        for (let i = 0; i < target.length; i++) {
-          target[i].classList.remove(targetClass);
-        }
-        bf.parentNode.classList.add('equippedArmor');
-      } else if (bf.parentNode.parentNode.getAttribute('data-armor')) {
-        armor = bf.parentNode.parentNode.getAttribute('data-armor');
-        for (let i = 0; i < target.length; i++) {
-          target[i].classList.remove(targetClass);
-        }
-        bf.parentNode.parentNode.classList.add('equippedArmor');
-      } else {
-        console.log('uh oh, you clicked on something dumb');
-      }
-
-      //set all of the items to unequipped
-      for (let i = 0; i < this.armor.length; i++) {
-        this.armorRef.child(this.armor[i]['.key']).child('equipped').set('false');
-      }
-
-      //equip target item
-      this.armorRef.child(armor).child('equipped').set('true');
+      this[ref].child(item).child('equipped').set('true');
     },
 
     heal(data, lastUsed, category) {

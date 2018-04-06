@@ -30,7 +30,7 @@
                           :current="current"
                           :weapons="weapons"
                           :armor="armorInv"
-                          :weaponRef="$firebaseRefs.weapons"
+                          :weaponsRef="$firebaseRefs.weapons"
                           :armorRef="$firebaseRefs.armorInv"
                           :team="team"
                           :teamRef="$firebaseRefs.team"
