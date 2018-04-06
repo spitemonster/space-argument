@@ -7,7 +7,7 @@
     <!-- <button @click="updateSkills">UPDATE SKILLS</button> -->
     <!-- <button @click="updateChars">UPDATE SKILLS</button> -->
     <!-- <button @click="updateKnow">UPDATE KNOWLEDGE</button> -->
-    <button @click="updateMedpac">UPDATE MEDPACK</button>
+    <!-- <button @click="updateMedpac">UPDATE MEDPACK</button> -->
     <keep-alive>
       <section v-if="dashboard">
         <player-info :player="player"

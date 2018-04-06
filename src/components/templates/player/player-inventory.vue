@@ -40,9 +40,9 @@
       </div>
       <div>
         <select v-model="medpacTarget">
-          <option v-for="player in players" :value="player.key" v-if="player.species != 'Droid'">{{ player.name }}</option>
+          <option v-for="player in people" :value="player.key">{{ player.name }}</option>
         </select>
-        <button @click="testHeal(med.uses, med.lastUsed)">
+        <button @click="heal(med.uses, med.lastUsed, 'meat')">
           HEAL
         </button>
       </div>
@@ -54,9 +54,9 @@
       </div>
       <div>
         <select v-model="repairKitTarget">
-          <option v-for="player in players" :value="player.key" v-if="player.species == 'Droid'">{{ player.name }}</option>
+          <option v-for="player in droids" :value="player.key">{{ player.name }}</option>
         </select>
-        <button @click="testRepair(med.uses, med.lastUsed)">
+        <button @click="heal(med.uses, med.lastUsed, 'machine')">
           HEAL
         </button>
       </div>
@@ -91,20 +91,42 @@ export default {
       medpacTarget: '',
       repairKitTarget: '',
       meds: {},
+      people: [],
+      droids: []
     }
   },
 
   mounted() {
     let party = this.team;
+    let now = new Date().getTime();
+    let meds = ['meat', 'machine'];
 
-    //build array out of team array for easy sorting
+    //split team into droids and people to minimize code and logic up top
     for (let i = 0; i < party.length; i++) {
       if (party[i].name) {
         let character = {};
         character.name = party[i].name;
         character.key = party[i]['.key'];
         character.species = party[i].species;
-        this.players.push(character);
+
+        //if character is made of meat, add to people array, otherwise add to droids array
+        if (character.species != 'Droid') {
+          this.people.push(character);
+        } else {
+          this.droids.push(character);
+        }
+      }
+    }
+
+    //loop through meds; if they haven't been used in 24 hours, reset their uses.
+    for (let i = 0; i < meds.length; i++) {
+      let m = meds[i];
+      for (let med in this[m]) {
+        if (this[m][med].lastUsed) {
+          if (((now - this[m][med].lastUsed) / 3600000) >= 24) {
+            this.medicalRef.child(m).child(med).child('uses').set(5);
+          }
+        }
       }
     }
   },
@@ -203,21 +225,32 @@ export default {
       this.armorRef.child(armor).child('equipped').set('true');
     },
 
-    //brief aside. these two are exactly the same function except for a couple keywords, and the v-for loops with which they are associated have v-if statements in them, which i know isn't ideal but honestly i was having souble trouble with this and got frustrated and just wanted to be done with it. 
-    testHeal(data, lastUsed) {
+    heal(data, lastUsed, category) {
       let now = new Date().getTime();
       let usesAvailable = data;
+      let healTarget;
+      let implement;
+      let target = category;
+      let remainingUses;
+
+      //get category from arguments, depending on if we're healing a droid or meatbag, we set the healTarget and implement to either a meatbag or a droid and to a medpac or repair kit
+      if (target == 'meat') {
+        healTarget = this.medpacTarget;
+        implement = 'Medpac';
+      } else if (target == 'machine') {
+        healTarget = this.repairKitTarget;
+        implement = 'Repair Kit';
+      }
+
       //check if it's been 24hours since the last use
-      if (((now - lastUsed) / 3600000) < 24 && usesAvailable == 0) {
+      if (((now - lastUsed) / 3600000) < 24 || usesAvailable == 0) {
         return;
-      } else if (((now - lastUsed) / 3600000) >= 24 && usesAvailable == 0) {
-        usesAvailable = 5;
       }
 
       //loop through team array and find the player on whom we'll be using the medpack
       for (let i = 0; i < this.team.length; i++) {
         //once you've found target user, get info and establish wound stats and all that
-        if (this.team[i]['.key'] == this.medpacTarget) {
+        if (this.team[i]['.key'] == healTarget && this.team[i].woundCurrent < this.team[i].woundThresh) {
           let currentHealth = parseInt(this.team[i].woundCurrent);
           let healFactor = parseInt(usesAvailable);
           //calculate the health result, based on current wound, threshold and such
@@ -229,63 +262,23 @@ export default {
             } else if (result <= this.team[i].woundThresh) {
               h = result;
             }
+
+            remainingUses = usesAvailable - 1;
             return h;
           }
 
-          // this.medicalRef.child('Medpac').child('uses').set(remainingUses);
+          //sets target health to the result of resultingHealth(), and sets the remainingUses of whatever healing implement to
+          this.teamRef.child(healTarget).child('woundCurrent').set(resultingHealth());
+          this.medicalRef.child(target).child(implement).child('uses').set(remainingUses);
 
-          let remainingUses = usesAvailable - 1;
-          this.teamRef.child(this.medpacTarget).child('woundCurrent').set(resultingHealth());
-          this.medicalRef.child('meat').child('Medpac').child('uses').set(remainingUses);
-
+          //if this use is the last use, set the lastUsed time so we can keep track of whether or not it's okay to use.
           if (remainingUses == 0) {
             let lastUsed = new Date().getTime();
-            this.medicalRef.child('meat').child('Medpac').child('lastUsed').set(lastUsed);
+            this.medicalRef.child(target).child(implement).child('lastUsed').set(lastUsed);
           }
         }
       }
     },
-    testRepair(data, lastUsed) {
-      let now = new Date().getTime();
-      let usesAvailable = data;
-      //check if it's been 24hours since the last use
-      if (((now - lastUsed) / 3600000) < 24 && usesAvailable == 0) {
-        return;
-      } else if (((now - lastUsed) / 3600000) >= 24 && usesAvailable == 0) {
-        usesAvailable = 5;
-      }
-
-      //loop through team array and find the player on whom we'll be using the medpack
-      for (let i = 0; i < this.team.length; i++) {
-        //once you've found target user, get info and establish wound stats and all that
-        if (this.team[i]['.key'] == this.repairKitTarget) {
-          let currentHealth = parseInt(this.team[i].woundCurrent);
-          let healFactor = parseInt(usesAvailable);
-          //calculate the health result, based on current wound, threshold and such
-          let resultingHealth = () => {
-            let result = currentHealth + healFactor;
-            let h = null;
-            if (result > this.team[i].woundThresh) {
-              h = this.team[i].woundThresh;
-            } else if (result <= this.team[i].woundThresh) {
-              h = result;
-            }
-            return h;
-          }
-
-          // this.medicalRef.child('Medpac').child('uses').set(remainingUses);
-
-          let remainingUses = usesAvailable - 1;
-          this.teamRef.child(this.repairKitTarget).child('woundCurrent').set(resultingHealth());
-          this.medicalRef.child('machine').child('Repair Kit').child('uses').set(remainingUses);
-
-          if (remainingUses == 0) {
-            let lastUsed = new Date().getTime();
-            this.medicalRef.child('machine').child('Repair Kit').child('lastUsed').set(lastUsed);
-          }
-        }
-      }
-    }
   },
 }
 </script>
