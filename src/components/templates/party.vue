@@ -15,7 +15,7 @@
         <div id="healthBar" class="bar"
                             :class="{danger: inDanger(member.woundCurrent, member.woundThresh)}">
           <p>{{ member.woundCurrent }} / {{ member.woundThresh }}</p>
-          <div id="healthActual" :style="{ width: calcWidth(member) }">
+          <div id="healthActual" :style="{ width: healthWidth(member) }">
           </div>
         </div>
         <div id="soak">
@@ -26,7 +26,8 @@
       <template v-if="member.hasForce">
         <h4>FORCE</h4>
         <div id="forceBar" class="bar">
-          {{ member.forceCommit }} / {{ member.forceAvail}}
+          <p>{{ member.forceCommit }} / {{ member.forceAvail}}</p>
+          <div id="forceActual" :style="{ width: forceWidth(member) }"></div>
         </div>
       </template>
 
@@ -177,12 +178,29 @@ export default {
       return equipped;
     },
 
-    calcWidth(data) {
+    calcWidth() {
+      //sets width of health bar
       let hs = 100 / data.woundThresh;
       let th = hs * data.woundCurrent;
       let fh = th + '%';
 
       return fh;
+    },
+
+    healthWidth(data) {
+      let hs = 100 / data.woundThresh;
+      let th = hs * data.woundCurrent;
+      let fh = th + '%';
+
+      return fh;
+    },
+
+    forceWidth(data) {
+      let ft = 100 / data.forceAvail;
+      let fu = ft * data.forceCommit;
+      let ff = fu + '%';
+
+      return ff;
     },
 
     doAnHurt(data) {
@@ -263,8 +281,30 @@ export default {
 }
 
 #forceBar {
+  position: relative;
+  z-index: 2;
   height: 15px;
-  background: $forceBlue;
+  background: darken($forceBlue, 20%);
+  margin-top: 0.5rem;
+
+  #forceActual {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: $forceBlue;
+    z-index: 5;
+    transition: all 250ms linear;
+  }
+
+  p {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 #encBar {

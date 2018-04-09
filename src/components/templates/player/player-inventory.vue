@@ -101,6 +101,7 @@ export default {
   },
 
   computed: {
+    //determine if character has a medpac
     hasMedical() {
       if (!this.meat['Medpac']) {
         return false;
@@ -108,6 +109,7 @@ export default {
         return true;
       }
     },
+    //same with repair kit
     hasRepair() {
       if(!this.machine['Repair Kit']) {
         return false;
@@ -121,6 +123,7 @@ export default {
     let party = this.team;
     let now = new Date().getTime();
     let meds = ['meat', 'machine'];
+    let guns = document.getElementsByClassName('weapons');
 
     //split team into droids and people to minimize code and logic up top
     for (let i = 0; i < party.length; i++) {
@@ -138,7 +141,6 @@ export default {
         }
       }
     }
-
 
     //loop through meds; if they haven't been used in 24 hours, reset their uses.
     if (this.hasMedical || this.hasRepair) {
@@ -160,7 +162,7 @@ export default {
     isEquipped(input, type) {
       let eq = '';
 
-      if (input.equipped == 'false') {
+      if (input.equipped != 'true') {
         return;
       }
 

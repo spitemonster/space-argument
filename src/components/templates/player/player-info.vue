@@ -16,7 +16,8 @@
     </div>
 
     <div id="forceBar" class="bar" v-if="hasForce">
-      {{ player.forceCommit }} / {{ player.forceAvail}}
+      <p>{{ player.forceCommit }} / {{ player.forceAvail}}</p>
+      <div id="forceActual"></div>
     </div>
 
     <div id="moneyExp">
@@ -73,22 +74,13 @@ export default {
   },
 
   mounted() {
-    let ha = document.getElementById('healthActual');
-    let hs = 100 / this.player.woundThresh;
-    let th = hs * this.player.woundCurrent;
-    let fh = th + '%';
-
-    ha.style.width = fh;
+    this.healthWidth();
+    this.forceWidth();
   },
 
   updated() {
-    //need to dry this out, but basically calculates remaining health and uses it to set the width of the health bar, same as mounted
-    let ha = document.getElementById('healthActual');
-    let hs = 100 / this.player.woundThresh;
-    let th = hs * this.player.woundCurrent;
-    let fh = th + '%';
-
-    ha.style.width = fh;
+    this.healthWidth();
+    this.forceWidth();
   },
 
   methods: {
@@ -98,6 +90,24 @@ export default {
       if (remainingPercent <= .25) {
         return true;
       }
+    },
+
+    healthWidth() {
+      let ha = document.getElementById('healthActual');
+      let hs = 100 / this.player.woundThresh;
+      let th = hs * this.player.woundCurrent;
+      let fh = th + '%';
+
+      ha.style.width = fh;
+    },
+
+    forceWidth() {
+      let fa = document.getElementById('forceActual');
+      let ft = 100 / this.player.forceAvail;
+      let fu = ft * this.player.forceCommit;
+      let ff = fu + '%';
+
+      fa.style.width = ff;
     }
   },
 }
@@ -151,9 +161,30 @@ export default {
 }
 
 #forceBar {
+  position: relative;
+  z-index: 2;
   height: 20px;
-  background: $forceBlue;
+  background: darken($forceBlue, 20%);
   margin-top: 0.5rem;
+
+  #forceActual {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: $forceBlue;
+    z-index: 5;
+    transition: all 250ms linear;
+  }
+
+  p {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 #encBar {

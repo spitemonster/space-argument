@@ -25,7 +25,7 @@ export default {
 
   computed: {
     latestBrief() {
-      //because this references itself it throws an error, not sure how to correct, oh well
+      //because this references itself it throws an error, not sure how to correct, oh well, still works
       return this.briefs[this.briefs.length - 1];
     }
   },

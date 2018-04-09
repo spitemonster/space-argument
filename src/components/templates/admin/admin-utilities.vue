@@ -6,32 +6,34 @@
 
     <section class="give">
       <section>
-        <select v-model="player">
+        <select v-model="player" required>
+          <option value="" selected>Select Character</option>
           <option v-for="member in team"
                   :value="member.key">{{ member.name }}</option>
         </select>
-        <input v-model="weapon.name" placeholder="Name" required />
-        <input v-model="weapon.damage" placeholder="Damage" required />
-        <input v-model="weapon.crit" placeholder="Crit" required/>
-        <select v-model="weapon.skill">
+        <input v-model="weapons.name" placeholder="Name" required />
+        <input v-model="weapons.damage" placeholder="Damage" required />
+        <input v-model="weapons.crit" placeholder="Crit" required/>
+        <select v-model="weapons.skill">
           <option value="Ranged (Heavy)">Ranged (Heavy)</option>
           <option value="Ranged (Light)">Ranged (Light)</option>
           <option value="Melee">Melee</option>
         </select>
-        <input v-model="weapon.other" placeholder="Other" required/>
+        <input v-model="weapons.other" placeholder="Other" required/>
 
-        <button @click="giveWeapon">GIVE WEAPON</button>
+        <button @click="giveEquipment('weapons')">GIVE WEAPON</button>
       </section>
 
       <section>
-        <select v-model="player">
+        <select v-model="player" required>
+          <option value="" selected>Select Character</option>
           <option v-for="member in team"
                   :value="member.key">{{ member.name }}</option>
         </select>
         <input v-model="armor.name" placeholder="Name" required />
-        <input v-model="armor.soak" placeholder="Damage" required />
+        <input v-model="armor.soak" placeholder="Soak" required />
 
-        <button @click="giveArmor">GIVE ARMOR</button>
+        <button @click="giveEquipment('armor')">GIVE ARMOR</button>
       </section>
     </section>
   </div>
@@ -51,7 +53,7 @@ export default {
     return {
       team: {},
       exp: 0,
-      weapon: {
+      weapons: {
         name: '',
         damage: '',
         crit: '',
@@ -77,7 +79,6 @@ export default {
         this.team[member].key = member;
       }
     }
-    console.log(this.team);
   },
 
   methods: {
@@ -101,26 +102,16 @@ export default {
       }
     },
 
-    giveWeapon() {
-      //takes weapon object created by filling in data above and gives it to selected player
-      this.refs.child(this.player).child('inventory').child('weapons').push(this.weapon);
-      //reset weapon info
-      this.player = '';
-      this.weapon.name = '',
-      this.weapon.damage = '',
-      this.weapon.crit = '',
-      this.weapon.skill = '',
-      this.weapon.other = ''
-    },
+    giveEquipment(data) {
+      //given 'data' which is either weapons or armor, push this[data] to appropriate inventory category
+      this.refs.child(this.player).child('inventory').child(data).push(this[data]);
 
-    giveArmor() {
-      //takes armor object created by filling in data above and gives it to selected player
-      this.refs.child(this.player).child('inventory').child('armor').push(this.armor);
-      //resets armor info
+      //then reset applicable fields; in the weapon or armor object just iterate through each key and reset after submit
       this.player = '';
-      this.armor.name = '',
-      this.armor.soak = ''
-    },
+      for (let key in this[data]) {
+        this[data][key] = '';
+      }
+    }
   }
 }
 </script>

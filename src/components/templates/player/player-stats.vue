@@ -125,6 +125,7 @@ export default {
       }, 3000)
     });
 
+    //listens for show all on the bus and shows all characteristic skill areas together, kind of clunky
     bus.$on('showAll', () => {
       if (!self.showAll) {
         self.brawn = true,
@@ -153,6 +154,7 @@ export default {
   },
 
   methods: {
+    //calculates cost to rank up a skill, dependent on the current rank and whether or not the skill is specialized, and either ranks it up, or errors if the user doesn't have enough XP to afford the rank up
     rankUp(skill, char) {
       let exp = this.exp;
       let skillName = this.characteristics[char].skills[skill];
@@ -162,12 +164,14 @@ export default {
       let cost = null;
       let remaining = null;
 
+      //if skill is specialized, cost is 5 * whatever the rank you're buying is. if not specialized, cost is 5 * rank + 5.
       if (isSpec) {
         cost = 5 * oneUp;
       } else if (!isSpec) {
         cost = 5 * oneUp + 5;
       }
 
+      //if user has enough XP, up the rank on the skill, otherwise throw an error and display it with the bus
       if (exp - cost >= 0) {
         remaining = exp - cost;
         this.refs.child('characteristics').child(char).child('skills').child(skill).set({val: oneUp, spec: isSpec});
@@ -177,6 +181,7 @@ export default {
       }
     },
 
+    //i don't remember why i did this. maybe because knowledge is different? i don't know. i'll go over otherwise
     rankUpKnow(skill) {
       let exp = this.exp;
       let skillName = this.know[skill];
@@ -192,7 +197,7 @@ export default {
       }
 
       if (exp - cost >= 0) {
-        this.refs.child('knowledge').child(skill).set({val: 5, spec: false});
+        this.refs.child('knowledge').child(skill).set({val: oneUp, spec: false});
       } else {
         bus.$emit('skillError');
       }
@@ -200,28 +205,38 @@ export default {
 
     getName(data) {
       //very clumsily sets skill name to a punctuated, spaced version to make for prettier display
+      //split camelCased skill into letters
       let letters = data.split('');
+      //declare index variable to be used later
       let index = null;
+      //remove first letter to make for capitalizing
       let first = letters.shift();
+      //declare empty skill variable
       let skill = '';
 
+      //sorts through the array of letters, when it finds the uppercase letter, sets that as the index
       for (let i = 0; i < letters.length; i++) {
         if (letters[i] === letters[i].toUpperCase()) {
           index = i;
         }
       }
 
+      //add first letter back after capitalizing it
       letters.unshift(first.toUpperCase());
 
+      //basically, if the array had a capitalized word, add a space before it and wrap the capitalized word in parentheses.
+      // explanation: if the word was camelCased, it means it was a two word title, which broadly meant it was a qualifier such as 'Ranged (Heavy)'. if the word wasn't camelCased, it probably meant it was a single word, and if so (based on the index), this whole part will be skipped
       if (index > 0) {
         letters.splice(index + 1, 0, ' (');
         letters.push(')');
       }
 
+      //reconcatenate the word from the array after the modifications
       for (let i = 0; i < letters.length; i++) {
         skill += letters[i];
       }
 
+      //return the word
       return skill;
     }
   },
