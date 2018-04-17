@@ -58,6 +58,14 @@
         <button class="woundButton" @click="useForce(member)" v-if="member.hasForce">USE FORCE</button>
       </div>
     </div>
+    <div class="partyInv" v-if="party.partyInventory">
+      <h3>Party Inventory</h3>
+      <div v-for="(item, key) in party.partyInventory">
+        <h4>{{key}}</h4>
+        <p>{{item}}</p>
+        <button @click="removeItem(key)" v-if="isAdmin =='Admin'">Remove</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -240,6 +248,10 @@ export default {
 
     hasForce(data) {
       return data.hasForce;
+    },
+
+    removeItem(data) {
+      this.$firebaseRefs.party.child('partyInventory').child(data).remove();
     }
   },
 }
@@ -403,6 +415,16 @@ export default {
 
 .top {
   margin-top: .5rem;
+}
+
+.partyInv {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  min-height: 200px;
+
+  h3 {
+    margin-bottom: 1rem;
+  }
 }
 
 @keyframes inDanger {

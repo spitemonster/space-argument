@@ -6,6 +6,7 @@
 
     <section class="give">
       <section>
+        <h4>WEAPON</h4>
         <select v-model="player" required>
           <option value="" selected>Select Character</option>
           <option v-for="member in team"
@@ -25,6 +26,7 @@
       </section>
 
       <section>
+        <h4>ARMOR</h4>
         <select v-model="player" required>
           <option value="" selected>Select Character</option>
           <option v-for="member in team"
@@ -35,6 +37,31 @@
 
         <button @click="giveEquipment('armor')">GIVE ARMOR</button>
       </section>
+
+      <section>
+        <h4>MEDICAL</h4>
+        <select v-model="player" required>
+          <option value="" selected>Select Character</option>
+          <option v-for="member in team"
+                  :value="member.key">{{ member.name }}</option>
+        </select>
+        <select v-model="medical" required>
+          <option value="">Select Medical</option>
+          <option value="Medpac">Medpac</option>
+          <option value="Repair Kit">Repair Kit</option>
+        </select>
+
+        <button @click="giveMedical()">GIVE MEDICAL</button>
+      </section>
+
+      <section>
+        <h4>PARTY ITEMS</h4>
+        <input v-model="partyItem.name" placeholder="Name" required>
+        <input v-model="partyItem.info" placeholder="Info" required>
+
+        <button @click="givePartyItem()">GIVE PARTY ITEM</button>
+      </section>
+
     </section>
   </div>
 </template>
@@ -66,7 +93,20 @@ export default {
         soak: '',
         enc: 0
       },
-      player: ''
+      player: '',
+      Medpac: {
+        uses: 5,
+        lastUsed: 0
+      },
+      'Repair Kit': {
+        uses: 5,
+        lastUsed: 0
+      },
+      medical: '',
+      partyItem: {
+        name: '',
+        info: ''
+      }
     }
   },
 
@@ -116,6 +156,33 @@ export default {
       for (let key in this[data]) {
         this[data][key] = '';
       }
+    },
+
+    giveMedical() {
+      //similar to above, but because of the structure of medical sitch, have to do things a little differently
+
+      let med = this.medical;
+      let cat;
+      let item = this[this.medical];
+
+      //sets category based on which item is selected
+      if (med == 'Repair Kit') {
+        cat = 'machine'
+      } else if (med == 'Medpac') {
+        cat = 'meat'
+      }
+
+      this.refs.child(this.player).child('inventory').child('medical').child(cat).child(med).set(item).then(() => {
+        this.player = '';
+        this.medical = '';
+      });
+    },
+
+    givePartyItem() {
+      this.refs.child('partyInventory').child(this.partyItem.name).set(this.partyItem.info).then(() => {
+        this.partyItem.name = '';
+        this.partyItem.info = '';
+      })
     }
   }
 }
@@ -142,6 +209,7 @@ input[type=number] {
 .give {
   margin-top: 2rem;
   display: flex;
+  flex-wrap: wrap;
 
   @media (min-width: 960px) {
     flex-direction: row;
@@ -152,8 +220,14 @@ input[type=number] {
   }
 
   section {
+    h4 {
+      margin-bottom: 1rem;
+      width: 100%;
+      align-self: flex-start;
+    }
+
     @media (min-width: 960px) {
-      width: 50%;
+      width: calc(50% - 10px);
     }
 
     @media (max-width: 959px) {
@@ -161,12 +235,20 @@ input[type=number] {
     }
     padding: .5rem;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid lighten($black, 60%);
+    margin: 5px;
+    align-items: flex-end;
+
+    button {
+      height: 100px;
+    }
 
     input,
     select {
       margin-bottom: 1rem;
+      width: 100%;
     }
 
     select {
