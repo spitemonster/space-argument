@@ -24,7 +24,7 @@
       </div>
 
       <template v-if="member.hasForce">
-        <h4>FORCE</h4>
+        <h4 class="top">FORCE</h4>
         <div id="forceBar" class="bar">
           <p>{{ member.forceCommit }} / {{ member.forceAvail}}</p>
           <div id="forceActual" :style="{ width: forceWidth(member) }"></div>
@@ -55,6 +55,7 @@
 
       <div class="wound" v-if="isAdmin == 'Admin'" >
         <button class="woundButton" @click="doAnHurt(member)">WOUND</button>
+        <button class="woundButton" @click="useForce(member)" v-if="member.hasForce">USE FORCE</button>
       </div>
     </div>
   </div>
@@ -206,11 +207,27 @@ export default {
     doAnHurt(data) {
       let member = data.name;
       let currentHealth = this.team[data.key].woundCurrent;
-      let healthResult = currentHealth - 1;
+      let healthResult = 0;
+
+      if (currentHealth - 1 >= 0) {
+        healthResult = currentHealth - 1;
+      }
 
       // console.log(this.team[data.key].woundCurrent);
       this.$firebaseRefs.party.child(data.key).child('woundCurrent').set(healthResult);
       // console.log(data.woundCurrent);
+    },
+
+    useForce(data) {
+      let member = data.key;
+      let currentForce = this.team[member].forceCommit;
+      let forceResult = 0;
+
+      if (currentForce - 1 >= 0) {
+        forceResult = currentForce -1;
+      }
+
+      this.$firebaseRefs.party.child(data.key).child('forceCommit').set(forceResult);
     },
 
     inDanger(current, thresh) {
@@ -285,7 +302,6 @@ export default {
   z-index: 2;
   height: 15px;
   background: darken($forceBlue, 20%);
-  margin-top: 0.5rem;
 
   #forceActual {
     content: "";
@@ -378,10 +394,15 @@ export default {
 .woundButton {
   width: 100%;
   padding: 2rem 3rem;
+  margin-bottom: 1rem;
 }
 
 .danger {
   animation: inDanger 2s linear infinite;
+}
+
+.top {
+  margin-top: .5rem;
 }
 
 @keyframes inDanger {

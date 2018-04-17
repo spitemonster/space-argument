@@ -87,6 +87,11 @@ export default {
       for (let member in this.team) {
         let fullHealth = this.team[member].woundThresh;
         this.refs.child(member).child('woundCurrent').set(fullHealth);
+
+        if (this.team[member].hasForce) {
+          let fullForce = this.team[member].forceAvail;
+          this.refs.child(member).child('forceCommit').set(fullForce);
+        }
       }
     },
 
